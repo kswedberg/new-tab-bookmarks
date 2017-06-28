@@ -1,0 +1,4 @@
+app/browser_action/*
+app/custom-options/js/*
+app/custom-options/lib/*
+public/*

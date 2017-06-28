@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <link rel="stylesheet" href="../../css/override.css">
+</head>
+<body>
+  <div class="Links">
+    <button id="newtab-settings" type="button">Settings</button>
+  </div>
+  <div class="FormGroup">
+    <button id="view-all">View All Bookmarks</button>
+  </div>
+  <div class="FormGroup">
+    <label for="change-folder">Change Folder</label> <select id="change-folder"></select>
+  </div>
+
+  <div class="FormGroup">
+    <label for="search">Filter</label> <input id="search">
+  </div>
+
+  <div id="bookmarks" class="Bookmarks"></div>
+
+  <script src="./js/jquery/jquery.min.js"></script>
+  <script src="./js/jquery.modal.js"></script>
+  <script src="../custom-options/lib/store.js"></script>
+  <script src="./js/build-options.js"></script>
+  <script src="./js/bookmarks.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+:root {
+  --modal-close-width: 24px;
+  --modal-close-halfWidth: 12px;
+}
+
+body {
+  line-height: 1.4;
+}
+h4 {
+  margin: .25em 0 0;
+}
+.Links {
+  position: fixed;
+  right: 0;
+  top: 0;
+  padding: 10px;
+}
+.Bookmarks {
+  margin: 1em 0;
+  padding-top: .5em;
+  border-top: 1px solid #eee;
+  width: 100%;
+
+}
+.Folder {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-top: 2em;
+  margin-bottom: 3em;
+  border: 1px solid #ccc;
+  border-width: 1px 0;
+}
+ul {
+  margin: 0;
+  padding-left: 0;
+}
+ul ul {
+  padding-left: 20px;
+}
+li:first-child > h4 {
+  margin: 0;
+}
+li {
+  list-style-type: none;
+}
+.Bookmark-link {
+  display: inline-block;
+  color: #449;
+  text-decoration: none;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Bookmark-options {
+  padding-left: 12px;
+}
+.Bookmark-options.is-hidden {
+  display: none;
+}
+
+.FormGroup {
+  margin: 1em 0;
+}
+.FormGroup label {
+  font-weight: bold;
+}
+.FormGroup label::after {
+  content: ':';
+}
+.FormGroup input[type=text],
+.FormGroup input[type=url] {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Modal: */
+
+.Modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.6);
+  transition: opacity .4s;
+
+}
+.Modal.is-active {
+  z-index: 1000;
+  opacity: 1;
+}
+
+.Modal-content {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  width: 80%;
+  max-width: 700px;
+  max-height: 80%;
+  margin: 0 auto;
+  overflow: auto;
+}
+.Modal-close {
+  position: relative;
+  width: 80%;
+  max-width: 700px;
+  max-height: 80%;
+  margin: 10% auto 0;
+  padding: 0 20px;
+  z-index: 1001;
+}
+.Modal-closeBtn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--modal-close-width);
+  height: var(--modal-close-width);
+  margin-top: calc(var(--modal-close-halfWidth) * -1);
+  margin-left: calc(var(--modal-close-halfWidth) * -1);
+  border-radius: 50%;
+  border-width: 0;
+  background-color: #fff;
+  font-size: 19px;
+  cursor: pointer;
+  color: #222;
+  padding: 0;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+}
