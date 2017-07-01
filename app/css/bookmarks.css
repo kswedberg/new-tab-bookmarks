@@ -6,6 +6,7 @@
 body {
   line-height: 1.4;
 }
+
 h4 {
   margin: .25em 0 0;
 }
@@ -15,13 +16,16 @@ h4 {
   top: 0;
   padding: 10px;
 }
+
 .Bookmarks {
   margin: 1em 0;
-  padding-top: .5em;
+
+  padding-top: 0.5em;
   border-top: 1px solid #eee;
   width: 100%;
 
 }
+
 .Folder {
   padding-top: 1em;
   padding-bottom: 1em;
@@ -43,8 +47,14 @@ li:first-child > h4 {
 li {
   list-style-type: none;
 }
-.Bookmark-link {
+.Bookmark {
   display: inline-block;
+  height: 22px;
+}
+.Bookmark-link {
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
   color: #449;
   text-decoration: none;
   max-width: 100%;
@@ -55,11 +65,19 @@ li {
 
 .Bookmark-options {
   padding-left: 12px;
+  display: inline-block;
+  vertical-align: middle;
 }
 .Bookmark-options.is-hidden {
   display: none;
 }
 
+.Bookmark-btn {
+  border: 1px solid #555;
+  background: #fff;
+  border-radius: 2px;
+  cursor: pointer;
+}
 .FormGroup {
   margin: 1em 0;
 }

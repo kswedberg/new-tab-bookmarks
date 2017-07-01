@@ -1,7 +1,8 @@
-/* global i18n */
-this.manifest = {
+import {i18n} from '../lib/i18n.js';
+
+export let manifest = {
   name: 'New Tab Bookmarks',
-  icon: 'icon.png',
+  icon: 'icons/icon.png',
   settings: [
     {
       tab: 'Bookmarks',
@@ -18,7 +19,6 @@ this.manifest = {
       label: 'Folder',
       options: [{value: '', text: 'Choose one…'}]
     },
-
     {
       tab: 'Bookmarks',
       group: i18n.get('details'),

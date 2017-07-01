@@ -152,8 +152,9 @@
 
         var $firstFocusable = $modal
         .find('input, select, button')
-        .not('[readonly], [disabled], :hidden, ' + settings.selectors.close)
+        .not('[readonly], [disabled], :hidden, ' + settings.selectors.closeBtn)
         .first();
+
 
         $modal.addClass(settings.classes.active);
 

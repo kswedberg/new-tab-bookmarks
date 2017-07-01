@@ -42,3 +42,5 @@ let buildOptions = {
     return item.join('\n');
   },
 };
+
+export {buildOptions};

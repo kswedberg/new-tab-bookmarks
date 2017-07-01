@@ -1,4 +1,8 @@
-/* global buildOptions, FancySettings */
+/* global FancySettings */
+import {buildOptions} from '../bookmarks/build-options.js';
+import {manifest} from './manifest.js';
+import {FancySettings} from '../classes/fancy-settings.js';
+
 window.addEvent('domready', function() {
   let store = new Store('settings');
 

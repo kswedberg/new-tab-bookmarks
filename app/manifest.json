@@ -1,6 +1,6 @@
 {
   "name": "New Tab Bookmarks",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "manifest_version": 2,
   "description": "Shows bookmarks in the new tab",
   "homepage_url": "http://fusionary.com",
@@ -10,11 +10,10 @@
     "128": "icons/icon128.png"
   },
   "default_locale": "en",
-  "options_page": "custom-options/index.html",
+  "options_page": "custom-options.html",
   "browser_action": {
     "default_icon": "icons/icon19.png",
-    "default_title": "new tab bookmarks",
-    "default_popup": "src/browser_action/browser_action.html"
+    "default_title": "New Tab Bookmarks"
   },
   "chrome_url_overrides": {
     "newtab": "bookmarks.html"
