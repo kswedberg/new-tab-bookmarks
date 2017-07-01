@@ -1,4 +1,3 @@
-app/browser_action/*
-app/custom-options/js/*
-app/custom-options/lib/*
+app/js/classes/*
+app/js/lib/*
 public/*
