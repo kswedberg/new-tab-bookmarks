@@ -1,0 +1,6 @@
+{
+  "release": "true",
+  "extras": [
+    "app/manifest.json"
+  ]
+}
