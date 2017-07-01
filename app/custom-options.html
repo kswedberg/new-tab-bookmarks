@@ -1,39 +1,27 @@
-<!--
-// Copyright (c) 2011 Frank Kohlhepp
-// https://github.com/frankkohlhepp/fancy-settings
-// License: LGPL v2.1
--->
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
-  <title id="title"></title>
+  <title id="title">Options: New Tab Bookmarks</title>
 
-  <!-- Stylesheets -->
-  <link id="favicon" rel="icon" href="">
-  <link rel="stylesheet" href="css/custom-options/blueprint.css" media="screen">
-  <link rel="stylesheet" href="css/custom-options/main.css" media="screen">
-  <link rel="stylesheet" href="css/custom-options/setting.css" media="screen">
-  <link rel="stylesheet" href="css/custom-options/custom.css" media="screen">
-
-  <!-- JavaScripts -->
-  <script src="js/custom-options.js"></script>
+  <link rel="stylesheet" href="css/bookmarks.css" media="screen">
 
 </head>
-<body class="no-select">
-  <div id="sidebar" class="fancy">
-    <img id="icon" src="" alt="">
-    <h1 id="settings-label"></h1>
-    <div id="tab-container">
-      <div id="search-container" class="tab">
-        <input id="search" type="search" placeholder="">
+
+<body>
+  <div class="Container">
+    <h1 class="Icon">Options: New Tab Bookmarks</h1>
+    <p>Choose the folder with bookmarks you would like to appear in the new tab page.</p>
+      <div class="FormField FormField--select">
+        <label class="setting label popup-button">Folder</label>
+        <select data-setting="folderid" class="setting element popup-button"></select>
       </div>
-    </div>
+      <div class="FormField FormField--checkbox">
+        <input id="includeControls" data-setting="includeControls" class="setting element checkbox" type="checkbox" value="true">
+        <label class="setting label checkbox" for="includeControls">Show edit/delete controls on hover</label>
+      </div>
   </div>
-  <div id="content">
-    <div id="search-result-container" class="tab-content">
-      <h2 id="search-label"></h2>
-    </div>
-  </div>
+  <script src="js/custom-options.js"></script>
 </body>
 </html>

@@ -6,21 +6,24 @@
 </head>
 <body>
   <div class="Links">
-    <button id="newtab-settings" type="button">Settings</button>
+    <button id="newtab-settings" type="button">Options</button>
   </div>
-  <div class="FormGroup">
-    <button id="view-all">View All Bookmarks</button>
-  </div>
-  <div class="FormGroup">
-    <label for="change-folder">Change Folder</label> <select id="change-folder"></select>
-  </div>
+  <div class="Container">
+    <div class="FormField">
+      <button id="view-all">View All Bookmarks</button>
+    </div>
+    <div class="FormField FormField--select">
+      <label for="change-folder">Change Folder</label>
+      <select id="change-folder"></select>
+    </div>
 
-  <div class="FormGroup">
-    <label for="search">Filter</label> <input id="search">
+    <div class="FormField FormField--text">
+      <label for="search">Filter</label>
+      <input id="search">
+    </div>
+
+    <div id="bookmarks" class="Bookmarks"></div>
   </div>
-
-  <div id="bookmarks" class="Bookmarks"></div>
-
   <script src="js/bookmarks.js"></script>
 </body>
 </html>

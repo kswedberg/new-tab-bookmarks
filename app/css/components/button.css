@@ -1,0 +1,12 @@
+button {
+  border-radius: 2px;
+  cursor: pointer;
+
+  background-color: #006AA7;
+  color: #fff;
+  border: 1px solid #003A97;
+}
+.Btn--inverse {
+  background-color: #fff;
+  color: #006AA7;
+}

@@ -5,7 +5,6 @@ const cwd = process.cwd();
 
 const toCopy = [
   '_locales',
-  'css',
   'icons',
   'bookmarks.html',
   'browser-action.html',

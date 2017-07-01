@@ -2,26 +2,14 @@ import 'jquery';
 import '../lib/jquery.modal.js';
 import '../lib/store.js';
 import {buildOptions} from './build-options.js';
+import {tmpl} from './templates.js';
 
 let store = new Store('settings');
 let getAllBookmarks = new $.Deferred();
 var $bookmarks = $('#bookmarks');
 
 let controls = function(bookmarkNode) {
-  if (!store.get('includeControls')) {
-    return '';
-  }
 
-  if (bookmarkNode.url) {
-    return `<span class="Bookmark-options is-hidden">
-      <button class="Bookmark-btn" data-action="editlink">Edit</button>
-      <button class="Bookmark-btn" data-action="deletelink">Delete</button>
-    </span>`;
-  } else {
-    return `<span class="Bookmark-options is-hidden">
-      <button class="Bookmark-btn" data-action="addlink">Add</button>
-    </span>`;
-  }
 };
 
 let getSettings = function(items) {
@@ -70,13 +58,13 @@ let buildList = {
       >`);
       item.push(`<span class="Bookmark">
         <a class="Bookmark-link" href="${bookmarkNode.url}">${bookmarkNode.title}</a>
-        ${controls(bookmarkNode)}
+        ${tmpl.controls(bookmarkNode)}
       </span>`);
     } else {
       item.push(`<li data-title="${bookmarkNode.title}" data-folder="${bookmarkNode.id}" data-id="${bookmarkNode.id}">`);
       item.push(`<h4 class="Bookmark">
         ${bookmarkNode.title}
-        ${controls(bookmarkNode)}
+        ${tmpl.controls(bookmarkNode)}
       </h4>`);
     }
 
@@ -112,7 +100,6 @@ let displayBookmarks = function(query = '', folderid = '') {
 
       $list.find('li').not(':has(a)').hide();
 
-      // $('#bookmarks-folder').empty().append($folderList);
       $('#bookmarks').empty().append($list);
     },
     subtree: function(bookmarkTreeNodes) {
@@ -142,26 +129,7 @@ let forms = {
       return previous;
     }, {});
 
-    return `<div class="FormGroup">
-      <label for="updated-parentId">Folder</label>
-      <select id="updated-parentId" data-parent-id="${data.parentId}"></select>
-    </div>
-    <div class="FormGroup">
-      <label for="updated-index">Index</label>
-      <input id="updated-index" type="text" data-index="${data.index}" value="${data.index}">
-    </div>
-    <div class="FormGroup">
-      <label for="updated-url">URL</label>
-      <input id="updated-url" type="url" data-url="${data.url}" value="${data.url}">
-    </div>
-    <div class="FormGroup">
-      <label for="updated-title">Title</label>
-      <input id="updated-title" type="text" data-title="${data.title}" value="${data.title}">
-    </div>
-    <div class="FormGroup">
-      <button id="edit-bookmark" data-id="${data.id}">Update</button>
-      <button id="close-modal">Cancel</button>
-    </div>`;
+    return tmpl.editForm(data);
   },
 
   deletelink: function(el) {
@@ -169,29 +137,14 @@ let forms = {
     let id = $li.data('id');
 
 
-    return `<p>Are you sure you want to delete this bookmark?</p>
-      <div class="FormGroup">
-        <button id="delete-bookmark" data-id="${id}">Delete</button>
-        <button id="close-modal">Cancel</button>
-    </div>`;
+    return tmpl.deleteForm(id);
   },
 
   addlink: function(el) {
     let $li = $(el).closest('li');
     let id = $li.data('id');
 
-    return `<div class="FormGroup">
-      <label for="added-folder">Folder Name</label>
-      <input id="added-folder" type="text" value="">
-    </div>
-    <div class="FormGroup">
-      <label for="added-index">Index</label>
-      <input id="added-index" type="number" value="">
-    </div>
-    <div class="FormGroup">
-      <button id="add-folder" data-parent-id="${id}">Add</button>
-      <button id="close-modal">Cancel</button>
-    </div>`;
+    return tmpl.addForm(id);
   }
 };
 

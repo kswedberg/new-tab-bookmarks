@@ -1,0 +1,36 @@
+.FormField {
+  margin: 1em 0;
+  & label {
+    font-weight: bold;
+    &::after {
+      content: ':';
+    }
+  }
+  & input[type=text],
+  & input[type=url] {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+.FormField--select,
+.FormField--text {
+
+  & label {
+    display: inline-block;
+    min-width: 9em;
+  }
+}
+.FormField--select {
+  & select {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 0;
+    height: 24px;
+  }
+}
+.FormField--text {
+  & input {
+  height: 20px;
+  }
+}

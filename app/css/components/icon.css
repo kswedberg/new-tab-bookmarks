@@ -1,0 +1,11 @@
+.Icon {
+  &:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    height: 30px;
+    width: 30px;
+    background: url(../icons/icon.png) no-repeat;
+  }
+}
