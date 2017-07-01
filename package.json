@@ -8,10 +8,8 @@
     "copy": "node ./scripts/copy.js",
     "js": "webpack --progress --colors",
     "css": "postcss app/css/bookmarks.css -c scripts/postcss.config.js -o public/css/bookmarks.css",
-
     "build": "npm run clean && npm run copy && npm run js && npm run css",
     "release": "NODE_ENV=production npm run build",
-
     "watch:js": "webpack --progress --colors --watch",
     "watch:css": "postcss app/css/bookmarks.css -c scripts/postcss.config.js -o public/css/bookmarks.css --watch"
   },
