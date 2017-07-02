@@ -9,7 +9,6 @@ module.exports = {
   extends: 'kswedberg',
   globals: {
     google: false,
-    Store: false,
     chrome: false,
   },
   rules: {

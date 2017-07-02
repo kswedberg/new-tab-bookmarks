@@ -1,5 +1,4 @@
-
-import './lib/store.js';
+import {Store} from './lib/store.js';
 import {buildOptions} from './bookmarks/build-options.js';
 
 let store = new Store('settings');
@@ -25,6 +24,8 @@ let handle = {
 
       if (el.type === 'checkbox') {
         el.checked = !!val;
+      } else if (el.type === 'radio') {
+        el.checked = el.value === val;
       } else {
         el.value = val;
       }

@@ -1,3 +1,5 @@
+import {Store} from '../lib/store.js';
+
 let store = new Store('settings');
 
 let tmpl = {

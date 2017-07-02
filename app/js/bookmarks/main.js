@@ -1,16 +1,13 @@
 import 'jquery';
 import '../lib/jquery.modal.js';
-import '../lib/store.js';
+import {Store} from '../lib/store.js';
 import {buildOptions} from './build-options.js';
+import {buildList} from './build-list.js';
 import {tmpl} from './templates.js';
 
 let store = new Store('settings');
 let getAllBookmarks = new $.Deferred();
 var $bookmarks = $('#bookmarks');
-
-let controls = function(bookmarkNode) {
-
-};
 
 let getSettings = function(items) {
   let updated;
@@ -36,61 +33,6 @@ let getSettings = function(items) {
   return updated ? updates : false;
 };
 
-let buildList = {
-  node: function(bookmarkNode, query) {
-    var item = [];
-
-    if (query && !bookmarkNode.children) {
-      if ((`${bookmarkNode.title}`).toLowerCase().indexOf(query) === -1) {
-        return '';
-      }
-    }
-
-    if (!bookmarkNode.title) {
-      item.push['<div>'];
-    } else if (bookmarkNode.url) {
-      item.push(`<li
-        data-url="${bookmarkNode.url}"
-        data-title="${bookmarkNode.title}"
-        data-id="${bookmarkNode.id}"
-        data-parent-id="${bookmarkNode.parentId}"
-        data-index="${bookmarkNode.index}"
-      >`);
-      item.push(`<span class="Bookmark">
-        <a class="Bookmark-link" href="${bookmarkNode.url}">${bookmarkNode.title}</a>
-        ${tmpl.controls(bookmarkNode)}
-      </span>`);
-    } else {
-      item.push(`<li data-title="${bookmarkNode.title}" data-folder="${bookmarkNode.id}" data-id="${bookmarkNode.id}">`);
-      item.push(`<h4 class="Bookmark">
-        ${bookmarkNode.title}
-        ${tmpl.controls(bookmarkNode)}
-      </h4>`);
-    }
-
-    if (bookmarkNode.children && bookmarkNode.children.length) {
-      item.push(buildList.tree(bookmarkNode.children, query));
-    }
-
-    item.push(bookmarkNode.title ? '</li>' : '</div>');
-
-    return item.join('');
-  },
-  tree: function(bookmarkNodes, query) {
-    var list = ['<ul>'];
-
-    var i;
-
-    for (i = 0; i < bookmarkNodes.length; i++) {
-      list.push(buildList.node(bookmarkNodes[i], query));
-    }
-    list.push('</ul>');
-
-    return list.join('');
-  }
-};
-
-
 let displayBookmarks = function(query = '', folderid = '') {
   query = query.toLowerCase();
 
@@ -106,7 +48,7 @@ let displayBookmarks = function(query = '', folderid = '') {
       let $list = $(buildList.tree(bookmarkTreeNodes, query));
 
       if (query) {
-        $list.find('li').not(':has(a)').hide();
+        $list.find('li').not(':has(a)').addClass('is-hidden');
       }
 
       $('#bookmarks').empty().append($list);
