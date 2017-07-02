@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    <title id="title">Options: New Tab Bookmarks</title>
+    <link rel="stylesheet" href="css/bookmarks.css" media="screen">
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title id="title">Options: New Tab Bookmarks</title>
-
-  <link rel="stylesheet" href="css/bookmarks.css" media="screen">
-
-</head>
-
-<body>
-  <div class="Container">
-    <h1 class="Icon">Options: New Tab Bookmarks</h1>
-    <p>Choose the folder with bookmarks you would like to appear in the new tab page.</p>
+  <body>
+    <div class="Container">
+      <h1 class="Icon">Options: New Tab Bookmarks</h1>
+      <p>Choose the folder with bookmarks you would like to appear in the new tab page.</p>
       <div class="FormField FormField--select">
-        <label class="setting label popup-button">Folder</label>
+        <label class="FormField-label">Folder</label>
         <select data-setting="folderid" class="setting element popup-button"></select>
       </div>
       <div class="FormField FormField--checkbox">
         <input id="includeControls" data-setting="includeControls" class="setting element checkbox" type="checkbox" value="true">
-        <label class="setting label checkbox" for="includeControls">Show edit/delete controls on hover</label>
+        <label class="FormField-label" for="includeControls">Show edit/delete controls on hover</label>
       </div>
-  </div>
-  <script src="js/custom-options.js"></script>
-</body>
+      <div class="FormGroup FormGroup--radios">
+        <div class="Hdg">View:</div>
+        <div class="FormField FormField--radio">
+          <input type="radio" name="view" value="is-tree" id="view-tree"  data-setting="view">
+          <label for="view-tree">Tree</label>
+        </div>
+        <div class="FormField FormField--radio">
+          <input type="radio" name="view" value="is-grid" id="view-grid" data-setting="view">
+          <label for="view-grid">Grid</label>
+        </div>
+      </div>
+    </div>
+    <script src="js/custom-options.js"></script>
+  </body>
 </html>

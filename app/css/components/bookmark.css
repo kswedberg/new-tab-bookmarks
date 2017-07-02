@@ -1,0 +1,46 @@
+.Bookmark {
+  list-style-type: none;
+  &.is-hidden {
+    display: none;
+  }
+}
+
+.Bookmark--folder > h4 {
+  margin: 0;
+  width: 100%;
+}
+.Bookmark-inner {
+  display: inline-block;
+  height: 22px;
+}
+.Bookmark-link {
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+  text-decoration: none;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.is-grid {
+  & .Bookmark-inner {
+    display: inline-block;
+    height: auto;
+  }
+  & .Bookmark-link {
+
+    white-space: normal;
+    max-width: none;
+    overflow: visible;
+  }
+}
+.Bookmark-options {
+  padding-left: 12px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.Bookmark-options.is-hidden {
+  display: none;
+}

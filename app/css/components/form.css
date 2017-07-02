@@ -2,9 +2,6 @@
   margin: 1em 0;
   & label {
     font-weight: bold;
-    &::after {
-      content: ':';
-    }
   }
   & input[type=text],
   & input[type=url] {
@@ -13,12 +10,21 @@
   }
 }
 
+.FormField.FormField--radio {
+  margin: .2em 0;
+  & label {
+    font-weight: normal;
+  }
+}
 .FormField--select,
 .FormField--text {
 
   & label {
     display: inline-block;
     min-width: 9em;
+    &::after {
+      content: ':';
+    }
   }
 }
 .FormField--select {

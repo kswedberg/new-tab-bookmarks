@@ -1,5 +1,10 @@
 /* Modal: */
 
+:root {
+  --modal-close-width: 24px;
+  --modal-close-halfWidth: 12px;
+}
+
 .Modal {
   position: fixed;
   top: 0;

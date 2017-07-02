@@ -1,15 +1,11 @@
 @import './components/*.css';
 
-:root {
-  --modal-close-width: 24px;
-  --modal-close-halfWidth: 12px;
-}
-
 .Container {
   margin: 0 auto;
   max-width: 1100px;
   padding: 0 20px;
 }
+
 .Links {
   position: fixed;
   right: 0;
@@ -24,56 +20,34 @@
   border-top: 1px solid #eee;
   width: 100%;
 
+  & ul {
+    margin: 0;
+    padding-left: 0;
+    & ul {
+      padding-left: 20px;
+    }
+  }
 }
 
-.Folder {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin-top: 2em;
-  margin-bottom: 3em;
-  border: 1px solid #ccc;
-  border-width: 1px 0;
-}
-ul {
-  margin: 0;
-  padding-left: 0;
-}
-ul ul {
-  padding-left: 20px;
-}
-li:first-child > h4 {
-  margin: 0;
-}
-li {
-  list-style-type: none;
-}
-.Bookmark {
-  display: inline-block;
-  height: 22px;
-}
-.Bookmark-link {
-  line-height: 1;
-  display: inline-block;
-  vertical-align: middle;
-  color: #449;
-  text-decoration: none;
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+.Bookmarks.is-grid {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  & h4 {
+    text-align: left;
+  }
+  & .Bookmark-inner {
+    display: block;
+  }
+  & .Bookmark--folder {
+    width: 100%;
+  }
+  & .Bookmark--item {
+    flex-basis: 11em;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #eee;
+    position: relative;
+  }
 
-.Bookmark-options {
-  padding-left: 12px;
-  display: inline-block;
-  vertical-align: middle;
-}
-.Bookmark-options.is-hidden {
-  display: none;
-}
-
-.Bookmark-btn {
-  border: 1px solid #555;
-  background: #fff;
-  color: #333;
 }
