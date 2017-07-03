@@ -33,25 +33,36 @@ let getSettings = function(items) {
   return updated ? updates : false;
 };
 
+let addClassInsert = function(className, $list) {
+  $('#bookmarks')
+  .addClass(className)
+  .empty()
+  .append($list);
+};
+
 let displayBookmarks = function(query = '', folderid = '') {
+  let className = store.get('layout');
+  let method = className === 'is-grid' ? 'grid' : 'tree';
+
   query = query.toLowerCase();
 
   let callbacks = {
     tree: function(bookmarkTreeNodes) {
-      let $list = $(buildList.tree(bookmarkTreeNodes, query));
 
-      $list.find('li').not(':has(a)').hide();
+      let $list = $(buildList[method](bookmarkTreeNodes, query));
 
-      $('#bookmarks').empty().append($list);
+      $list.find('li').not(':has(a)').addClass('is-hidden');
+
+      addClassInsert(className, $list);
     },
     subtree: function(bookmarkTreeNodes) {
-      let $list = $(buildList.tree(bookmarkTreeNodes, query));
+      let $list = $(buildList[method](bookmarkTreeNodes, query));
 
       if (query) {
         $list.find('li').not(':has(a)').addClass('is-hidden');
       }
 
-      $('#bookmarks').empty().append($list);
+      addClassInsert(className, $list);
     }
   };
 
@@ -205,7 +216,7 @@ $('body')
 
 // OTHER
 $bookmarks.on('mouseenter mouseleave', '.Bookmark', function(event) {
-  $(this).children('.Bookmark-options').toggleClass('is-hidden', event.type === 'mouseleave');
+  $(this).find('.Bookmark-options').toggleClass('is-hidden', event.type === 'mouseleave');
 });
 
 $('#search').on('change', function() {
