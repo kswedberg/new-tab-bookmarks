@@ -44,7 +44,7 @@ let tmpl = {
   },
 
   deleteForm: (id) => {
-    `<p>Are you sure you want to delete this bookmark?</p>
+    return `<p>Are you sure you want to delete this bookmark?</p>
       <div class="FormField">
         <button id="delete-bookmark" data-id="${id}">Delete</button>
         <button id="close-modal" class="Btn Btn--inverse">Cancel</button>
