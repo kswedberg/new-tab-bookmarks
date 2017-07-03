@@ -5,7 +5,9 @@ module.exports = {
   plugins: [
     easyImport,
     cssnext({
-
+      features: {
+        customProperties: false
+      }
     })
   ]
 };
