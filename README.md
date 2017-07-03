@@ -14,7 +14,8 @@ If not, either download from [nodejs.org](https://nodejs.org/en/) or install [nv
 
 1. `git clone https://github.com/kswedberg/new-tab-bookmarks.git`
 2. `cd new-tab-bookmarks`
-3. `npm run release`
+3. `npm install`
+4. `npm run build:production`
 
 ## Install it in the Chrome browser:
 
