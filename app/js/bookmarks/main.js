@@ -34,7 +34,7 @@ let getSettings = function(items) {
 };
 
 let addClassInsert = function(className, $list) {
-  $('#bookmarks')
+  $bookmarks
   .addClass(className)
   .empty()
   .append($list);
@@ -75,9 +75,9 @@ let displayBookmarks = function(query = '', folderid = '') {
 
 let forms = {
   editlink: function(el) {
-    let $li = $(el).closest('li');
+    let $bkmk = $(el).closest('.Bookmark');
     let data = ['url', 'parentId', 'title', 'id', 'index'].reduce((previous, current) => {
-      previous[current] = $li.data(current);
+      previous[current] = $bkmk.data(current);
 
       return previous;
     }, {});
@@ -86,16 +86,17 @@ let forms = {
   },
 
   deletelink: function(el) {
-    let $li = $(el).closest('li');
-    let id = $li.data('id');
+    let $bkmk = $(el).closest('.Bookmark');
+    let id = $bkmk.data('id');
 
+    console.log(id);
 
     return tmpl.deleteForm(id);
   },
 
   addlink: function(el) {
-    let $li = $(el).closest('li');
-    let id = $li.data('id');
+    let $bkmk = $(el).closest('.Bookmark');
+    let id = $bkmk.data('id');
 
     return tmpl.addForm(id);
   }
@@ -110,7 +111,7 @@ let formActions = {
     if (id) {
       id = `${id}`;
       chrome.bookmarks.remove(id, function() {
-        $(`li[data-id="${id}"]`).remove();
+        $(`[data-id="${id}"]`).remove();
       });
     }
   },
@@ -194,9 +195,9 @@ $bookmarks.modal({
       return;
     }
 
-    // Only for editlinkss
+    // Only for editlinks
     getAllBookmarks.then((tree) => {
-      let folderid = `${$(data.openedBy).closest('li').data('parentId')}`;
+      let folderid = `${$(data.openedBy).closest('.Bookmark').data('parentId')}`;
       let options = buildOptions.treeNodes(tree, folderid, -1);
 
       $('#updated-parentId').html(options);
