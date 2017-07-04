@@ -33,11 +33,21 @@ let getSettings = function(items) {
   return updated ? updates : false;
 };
 
-let addClassInsert = function(className, $list) {
+let toggleClassInsert = function(className, $list) {
   $bookmarks
+  .removeClass(className === 'is-grid' ? 'is-tree' : 'is-grid')
   .addClass(className)
   .empty()
   .append($list);
+};
+
+let hideItems = function($list, list) {
+  $list.not(function() {
+    return $(this).hasClass('Bookmark--item') || list.parentIds.has(`${$(this).data('id')}`);
+  }).addClass('is-hidden');
+
+  $list.find('li').not(':has(a)').addClass('is-hidden');
+
 };
 
 let displayBookmarks = function(query = '', folderid = '') {
@@ -48,21 +58,22 @@ let displayBookmarks = function(query = '', folderid = '') {
 
   let callbacks = {
     tree: function(bookmarkTreeNodes) {
+      let list = buildList.get(method, bookmarkTreeNodes, query);
+      let $list = $(list.items);
 
-      let $list = $(buildList[method](bookmarkTreeNodes, query));
-
-      $list.find('li').not(':has(a)').addClass('is-hidden');
-
-      addClassInsert(className, $list);
+      hideItems($list, list);
+      toggleClassInsert(className, $list);
     },
     subtree: function(bookmarkTreeNodes) {
-      let $list = $(buildList[method](bookmarkTreeNodes, query));
+      let list = buildList.get(method, bookmarkTreeNodes, query);
+      let $list = $(list.items);
+
 
       if (query) {
-        $list.find('li').not(':has(a)').addClass('is-hidden');
+        hideItems($list, list);
       }
 
-      addClassInsert(className, $list);
+      toggleClassInsert(className, $list);
     }
   };
 
@@ -74,7 +85,7 @@ let displayBookmarks = function(query = '', folderid = '') {
 };
 
 let forms = {
-  editlink: function(el) {
+  edit: function(el) {
     let $bkmk = $(el).closest('.Bookmark');
     let data = ['url', 'parentId', 'title', 'id', 'index'].reduce((previous, current) => {
       previous[current] = $bkmk.data(current);
@@ -85,7 +96,7 @@ let forms = {
     return tmpl.editForm(data);
   },
 
-  deletelink: function(el) {
+  delete: function(el) {
     let $bkmk = $(el).closest('.Bookmark');
     let id = $bkmk.data('id');
 
@@ -94,16 +105,25 @@ let forms = {
     return tmpl.deleteForm(id);
   },
 
-  addlink: function(el) {
+  add: function(el) {
     let $bkmk = $(el).closest('.Bookmark');
     let id = $bkmk.data('id');
 
     return tmpl.addForm(id);
+  },
+
+  rename: function(el) {
+    let $bkmk = $(el).closest('.Bookmark');
+    let id = $bkmk.data('id');
+    let title = $bkmk.data('title');
+
+    return tmpl.renameForm({id, title});
   }
 };
 
 let formActions = {
-  deleteBookmark: function() {
+  deleteBookmark: function(event) {
+    event.preventDefault();
     let id = $(this).data('id');
 
     $bookmarks.modal('close');
@@ -115,7 +135,9 @@ let formActions = {
       });
     }
   },
-  editBookmark: function() {
+
+  editBookmark: function(event) {
+    event.preventDefault();
     let redump = function() {
       let filter = $('#search').val();
       let folderid = $('#change-folder').val();
@@ -125,6 +147,7 @@ let formActions = {
     let id = $(this).data('id');
 
     $bookmarks.modal('close');
+
     if (id) {
       let moves = getSettings(['parentId', 'index']);
       let updates = getSettings(['title', 'url']);
@@ -143,7 +166,8 @@ let formActions = {
     }
   },
 
-  addFolder: function() {
+  addFolder: function(event) {
+    event.preventDefault();
     let parentId = $(this).data('parentId');
     let addedFolder = $('#added-folder').val().trim();
     let addedIndex = $('#added-index').val().trim();
@@ -170,8 +194,30 @@ let formActions = {
         displayBookmarks(filter, folderid);
       });
     }
-    // chrome.bookmarks.()
-  }
+  },
+  renameFolder: function(event) {
+    event.preventDefault();
+    let id = $(this).data('id');
+    let title = $('#renamed-title').val().trim();
+
+    if (id) {
+      id = `${id}`;
+
+      chrome.bookmarks.update(id, {title}, function() {
+        $(`[data-id="${id}"]`)
+        .data('title', title)
+        .find('h4')
+        .text(title);
+
+        $('option').filter(function() {
+          return this.value === id;
+        })
+        .text(title);
+      });
+    }
+
+    $bookmarks.modal('close');
+  },
 };
 
 // Event handlers:
@@ -191,38 +237,39 @@ $bookmarks.modal({
 
     data.content.empty().append(html);
 
-    if (action !== 'editlink') {
+    if (action !== 'edit') {
       return;
     }
 
-    // Only for editlinks
+    // Only for edits
     getAllBookmarks.then((tree) => {
       let folderid = `${$(data.openedBy).closest('.Bookmark').data('parentId')}`;
       let options = buildOptions.treeNodes(tree, folderid, -1);
 
       $('#updated-parentId').html(options);
     });
-
   }
 });
 
 // FORM ACTIONS
 $('body')
-.on('click', '#delete-bookmark', formActions.deleteBookmark)
-.on('click', '#edit-bookmark', formActions.editBookmark)
-.on('click', '#add-folder', formActions.addFolder)
+.on('submit', '#delete-bookmark', formActions.deleteBookmark)
+.on('submit', '#edit-bookmark', formActions.editBookmark)
+.on('submit', '#add-folder', formActions.addFolder)
+.on('submit', '#rename-folder', formActions.renameFolder)
 .on('click', '#close-modal', function(event) {
   $bookmarks.modal('close');
 });
 
 // OTHER
-$bookmarks.on('mouseenter mouseleave', '.Bookmark', function(event) {
-  $(this).find('.Bookmark-options').toggleClass('is-hidden', event.type === 'mouseleave');
+$bookmarks.on('mouseenter mouseleave', '.Bookmark-inner', function(event) {
+  $(this).children('.Bookmark-options').toggleClass('is-hidden', event.type === 'mouseleave');
 });
 
 $('#search').on('change', function() {
   displayBookmarks($('#search').val(), $('#change-folder').val());
 });
+
 $('#newtab-settings').on('click', function(event) {
   chrome.runtime.openOptionsPage();
 });

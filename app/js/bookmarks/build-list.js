@@ -1,5 +1,7 @@
 import {tmpl} from './templates.js';
 
+let parentIds = new Set();
+
 let buildList = {
   node: function(bookmarkNode, query) {
     var item = [];
@@ -13,6 +15,10 @@ let buildList = {
     if (!bookmarkNode.title) {
       item.push['<div>'];
     } else if (bookmarkNode.url) {
+      if (query) {
+        parentIds.add(bookmarkNode.parentId);
+      }
+
       item.push(`<li
         class="Bookmark Bookmark--item"
         data-url="${bookmarkNode.url}"
@@ -30,7 +36,7 @@ let buildList = {
         class="Bookmark Bookmark--folder"
         data-title="${bookmarkNode.title}"
         data-folder="${bookmarkNode.id}" data-id="${bookmarkNode.id}">`);
-      item.push(`<h4 class="Bookmark">
+      item.push(`<h4 class="Bookmark-inner">
         ${bookmarkNode.title}
         ${tmpl.controls(bookmarkNode)}
       </h4>`);
@@ -44,6 +50,7 @@ let buildList = {
 
     return item.join('');
   },
+
   tree: function(bookmarkNodes, query) {
     var list = ['<ul>'];
 
@@ -56,9 +63,21 @@ let buildList = {
 
     return list.join('');
   },
+
+  get: function(method, bookmarkNodes, query) {
+    parentIds.clear();
+
+    let items = buildList[method](bookmarkNodes, query);
+
+    return {
+      items,
+      parentIds
+    };
+
+
+  },
   grid: function(bookmarkNodes, query) {
     var list = [];
-
     var i;
 
     for (i = 0; i < bookmarkNodes.length; i++) {
@@ -76,36 +95,18 @@ let buildList = {
       }
     }
 
-    if (!bookmarkNode.title) {
-      // item.push['<div>'];
-    } else if (bookmarkNode.url) {
-      item.push(`<div
-        class="Bookmark Bookmark--item"
-        data-url="${bookmarkNode.url}"
-        data-title="${bookmarkNode.title}"
-        data-id="${bookmarkNode.id}"
-        data-parent-id="${bookmarkNode.parentId}"
-        data-index="${bookmarkNode.index}"
-      >`);
-      item.push(`<span class="Bookmark-inner">
-        <a class="Bookmark-link" href="${bookmarkNode.url}">${bookmarkNode.title}</a>
-        ${tmpl.controls(bookmarkNode)}
-      </span>`);
-      item.push('</div>');
-    } else {
-      item.push(`<div
-        class="Bookmark Bookmark--folder"
-        data-title="${bookmarkNode.title}"
-        data-folder="${bookmarkNode.id}" data-id="${bookmarkNode.id}">`);
-      item.push(`<h4 class="Bookmark">
-        ${bookmarkNode.title}
-        ${tmpl.controls(bookmarkNode)}
-      </h4>`);
-      item.push('</div>');
+    if (bookmarkNode.url) {
+      if (query) {
+        parentIds.add(bookmarkNode.parentId);
+      }
+      item.push(tmpl.cellItem(bookmarkNode));
+    } else if (bookmarkNode.title) {
+      item.push(tmpl.cellFolder(bookmarkNode));
     }
 
     if (bookmarkNode.children && bookmarkNode.children.length) {
       item.push(buildList.grid(bookmarkNode.children, query));
+      item.push('<div class="Hr"></div>');
     }
 
     return item.join('');
