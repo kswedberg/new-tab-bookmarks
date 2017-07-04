@@ -1,0 +1,39 @@
+.Bookmarks.is-grid {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+
+  & .Bookmark-inner {
+    display: block;
+    height: 100%;
+  }
+  & .Bookmark--folder {
+    width: 100%;
+    text-align: left;
+  }
+  & .Bookmark-link {
+    display: block;
+    padding: 10px 10px 28px;
+    width: 100%;
+    height: 100%;
+  }
+  & .Bookmark--item {
+    flex-basis: 12em;
+    margin: 10px;
+    border: 1px solid var(--border-color);
+    background-color: var(--cell-background-color);
+    position: relative;
+
+  }
+  & .Bookmark--item:hover {
+    box-shadow: 2px  2px 3px rgba(0, 0, 0, 0.25);
+  }
+  & .Bookmark--item .Bookmark-options {
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    padding-left: 0;
+    width: 100%;
+
+  }
+}

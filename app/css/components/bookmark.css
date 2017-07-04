@@ -3,6 +3,7 @@
   &.is-hidden {
     display: none;
   }
+
 }
 
 .Bookmark--folder > h4 {
@@ -12,9 +13,12 @@
 .Bookmark-inner {
   display: inline-block;
   height: 22px;
+  & h4 {
+    display: inline-block;
+  }
 }
 .Bookmark-link {
-  line-height: 1;
+  line-height: 1.2;
   display: inline-block;
   vertical-align: middle;
   text-decoration: none;
@@ -24,10 +28,7 @@
   text-overflow: ellipsis;
 }
 .is-grid {
-  & .Bookmark-inner {
-    display: inline-block;
-    height: auto;
-  }
+
   & .Bookmark-link {
 
     white-space: normal;

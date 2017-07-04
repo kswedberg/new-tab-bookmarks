@@ -1,12 +1,15 @@
 button {
   border-radius: 2px;
   cursor: pointer;
-
-  background-color: #006AA7;
-  color: #fff;
-  border: 1px solid #003A97;
+  padding: 8px;
+  background-color: var(--button-background-color);
+  color: var(--button-color);
+  border: 1px solid var(--button-background-color);
 }
 .Btn--inverse {
-  background-color: #fff;
-  color: #006AA7;
+  background-color: var(--button-color);
+  color: var(--button-background-color);
 }
+.Btn--bookmark {
+    padding: 1px 3px;
+  }

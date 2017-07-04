@@ -12,14 +12,16 @@
       <p>Choose the folder with bookmarks you would like to appear in the new tab page.</p>
       <div class="FormField FormField--select">
         <label class="FormField-label">Folder</label>
-        <select data-setting="folderid" class="setting element popup-button"></select>
+        <div class="FormField-selectWrap">
+          <select data-setting="folderid" class="setting element popup-button"></select>
+        </div>
       </div>
       <div class="FormField FormField--checkbox">
         <input id="includeControls" data-setting="includeControls" class="setting element checkbox" type="checkbox" value="true">
         <label class="FormField-label" for="includeControls">Show edit/delete controls on hover</label>
       </div>
       <div class="FormGroup FormGroup--radios">
-        <div class="Hdg">View:</div>
+        <div class="Hdg">Layout:</div>
         <div class="FormField FormField--radio">
           <input type="radio" name="layout" value="is-tree" id="layout-tree"  data-setting="layout">
           <label for="layout-tree">Tree</label>

@@ -10,6 +10,26 @@
   }
 }
 
+.FormField-selectWrap {
+  display: inline-block;
+  position: relative;
+  & select {
+    padding-right: 22px;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    right: 6px;
+    top: 8px;
+    height: 0;
+    width: 0;
+    border-style: solid;
+    border-width: 8px 6px;
+    border-color: var(--text-color) transparent transparent;
+    pointer-events: none;
+  }
+}
+
 .FormField.FormField--radio {
   margin: .2em 0;
   & label {
@@ -29,14 +49,14 @@
 }
 .FormField--select {
   & select {
-    border: 1px solid #ccc;
-    background-color: #fff;
+    border: 1px solid var(--border-color);
+    /* background-color: #fff; */
     border-radius: 0;
     height: 24px;
   }
 }
 .FormField--text {
   & input {
-  height: 20px;
+    height: 24px;
   }
 }
