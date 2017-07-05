@@ -42,9 +42,11 @@ let toggleClassInsert = function(className, $list) {
 };
 
 let hideItems = function($list, list) {
-  $list.not(function() {
+  $list
+  .not(function() {
     return $(this).hasClass('Bookmark--item') || list.parentIds.has(`${$(this).data('id')}`);
-  }).addClass('is-hidden');
+  })
+  .addClass('is-hidden');
 
   $list.find('li').not(':has(a)').addClass('is-hidden');
 
@@ -61,7 +63,10 @@ let displayBookmarks = function(query = '', folderid = '') {
       let list = buildList.get(method, bookmarkTreeNodes, query);
       let $list = $(list.items);
 
-      hideItems($list, list);
+      if (query) {
+        hideItems($list, list);
+      }
+
       toggleClassInsert(className, $list);
     },
     subtree: function(bookmarkTreeNodes) {
@@ -274,7 +279,7 @@ $('#newtab-settings').on('click', function(event) {
   chrome.runtime.openOptionsPage();
 });
 $('#change-folder').on('change', function(event) {
-  displayBookmarks('', $(this).val());
+  displayBookmarks($('#search').val(), $(this).val());
 });
 $('#view-all').on('click', function(event) {
   $('#search').val('');
