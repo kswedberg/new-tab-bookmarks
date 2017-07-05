@@ -42,9 +42,6 @@ var webpackConfig = {
   resolve: {
     modules: [
       'node_modules',
-      // path.join(config.paths.srcAssets, 'js'),
-      // config.paths.srcAssets,
-      // path.join(config.paths.src, 'views'),
     ],
   },
   module: {
@@ -52,6 +49,7 @@ var webpackConfig = {
   },
 
   plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.BannerPlugin({
       banner: 'Built by Karl Swedberg (https://karlswedberg.com)',
       entryOnly: true
