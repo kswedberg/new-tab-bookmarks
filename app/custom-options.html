@@ -31,6 +31,81 @@
           <label for="layout-grid">Grid</label>
         </div>
       </div>
+
+      <form id="update-styles" action="" method="post" class="Form--styles">
+        <h3>Styles</h3>
+        <fieldset>
+          <legend>General</legend>
+          <div class="FormField FormField--text">
+            <label for="text-color">Text Color</label>
+            <input id="text-color" type="text" name="text-color" value="">
+            <span data-swatch="text-color"></span>
+          </div>
+          <div class="FormField FormField--text">
+            <label for="background-color">Background Color</label>
+            <input id="background-color" type="text" name="background-color" value="">
+            <span data-swatch="background-color"></span>
+          </div>
+          <div class="FormField FormField--text">
+            <label for="border-color">Border Color</label>
+            <input id="border-color" type="text" name="border-color" value="">
+            <span data-swatch="border-color"></span>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Links</legend>
+          <div class="FormField FormField--text">
+            <label for="link-color">Text Color</label>
+            <input id="link-color" type="text" name="link-color" value="">
+            <span data-swatch="link-color"></span>
+          </div>
+          <div class="FormField FormField--select">
+            <label for="link-text-decoration">Text Decoration</label>
+            <div class="FormField-selectWrap">
+              <select id="link-text-decoration" type="text" name="link-text-decoration">
+                <option value="none">none</option>
+                <option value="underline">underline</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Buttons</legend>
+          <div class="FormField FormField--text">
+            <label for="button-color">Text Color</label>
+            <input id="button-color" type="text" name="button-color" value="">
+            <span data-swatch="button-color"></span>
+          </div>
+          <div class="FormField FormField--text">
+            <label for="button-background-color">Background Color</label>
+            <input id="button-background-color" type="text" name="button-background-color" value="">
+            <span data-swatch="button-background-color"></span>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Grid Layout</legend>
+          <div class="FormField FormField--text">
+            <label for="cell-background-color">Background Color</label>
+            <input id="cell-background-color" type="text" name="cell-background-color" value="">
+            <span data-swatch="cell-background-color"></span>
+          </div>
+        </fieldset>
+        <div class="FormField FormField--button">
+          <button typ="submit" class="Btn">Set Styles</button>
+        </div>
+      </form>
+      <!--
+      background-color: #fff;
+      text-color: #333;
+      border-color: #ddd;
+      link-color: #003A97;
+      button-color: #fff;
+      button-background-color: #006AA7;
+      cell-background-color: #f3f3f3;
+      -->
+
     </div>
     <script src="js/custom-options.js"></script>
   </body>

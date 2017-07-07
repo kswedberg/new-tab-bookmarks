@@ -21,7 +21,7 @@
   line-height: 1.2;
   display: inline-block;
   vertical-align: middle;
-  text-decoration: none;
+  text-decoration: var(--link-text-decoration);
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;

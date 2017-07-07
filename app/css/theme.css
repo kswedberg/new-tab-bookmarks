@@ -3,7 +3,24 @@
   --text-color: #333;
   --border-color: #ddd;
   --link-color: #003A97;
+  --link-text-decoration: none;
   --button-color: #fff;
   --button-background-color: #006AA7;
   --cell-background-color: #f3f3f3;
 }
+
+[data-swatch] {
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #000;
+  height: 24px;
+  width: 24px;
+}
+
+[data-swatch="text-color"] { background-color: var(--text-color) }
+[data-swatch="background-color"] { background-color: var(--background-color) }
+[data-swatch="border-color"] { background-color: var(--border-color) }
+[data-swatch="link-color"] { background-color: var(--link-color) }
+[data-swatch="button-color"] { background-color: var(--button-color) }
+[data-swatch="button-background-color"] { background-color: var(--button-background-color) }
+[data-swatch="cell-background-color"] { background-color: var(--cell-background-color) }
