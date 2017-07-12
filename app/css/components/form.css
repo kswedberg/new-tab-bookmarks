@@ -73,10 +73,13 @@ input[type=checkbox] {
     max-width: 400px;
   }
 }
-.Form--styles .FormField {
-  & input[type=text],
-  & input[type=url] {
-    max-width: 100px;
+.Form--styles {
+  padding-bottom: 50px;
+  & .FormField {
+    & input[type=text],
+    & input[type=url] {
+      max-width: 100px;
+    }
   }
 }
 .FormField-selectWrap {
