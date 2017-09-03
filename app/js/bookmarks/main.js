@@ -41,6 +41,10 @@ let toggleClassInsert = function(className, $list) {
   .append($list);
 };
 
+let toggleDefaultChangedButtons = function() {
+  $('.Btn--defaultChanged').prop({disabled: $('#change-folder').val() === store.get('folderid')});
+};
+
 let hideItems = function($list, list) {
   $list
   .not(function() {
@@ -87,6 +91,8 @@ let displayBookmarks = function(query = '', folderid = '') {
   } else {
     chrome.bookmarks.getTree(callbacks.tree);
   }
+
+  toggleDefaultChangedButtons();
 };
 
 let forms = {
@@ -225,6 +231,12 @@ let formActions = {
   },
 };
 
+let updateButton = function({folderid, prefix, id}) {
+  chrome.bookmarks.get(folderid, function([folder]) {
+    $(id).text(`${prefix} "${folder.title}"`);
+  });
+};
+
 // Event handlers:
 
 // MODALS
@@ -278,17 +290,52 @@ $('#search').on('change', function() {
 $('#newtab-settings').on('click', function(event) {
   chrome.runtime.openOptionsPage();
 });
+
 $('#change-folder').on('change', function(event) {
-  displayBookmarks($('#search').val(), $(this).val());
+  let changedId = $(this).val();
+
+  displayBookmarks($('#search').val(), changedId);
+
+  updateButton({
+    folderid: changedId,
+    id: '#view-save-default',
+    prefix: 'Set default to',
+  });
 });
+
 $('#view-all').on('click', function(event) {
   $('#search').val('');
   $('#change-folder').val('0');
   displayBookmarks();
 });
 
+$('#view-default').on('click', function(event) {
+  const folderId = store.get('folderid');
+
+  $('#change-folder').val(folderId);
+  displayBookmarks($('#search').val(), folderId);
+});
+
+$('#view-save-default').on('click', function() {
+  const folderid = $('#change-folder').val();
+
+  store.set('folderid', folderid);
+  toggleDefaultChangedButtons();
+  updateButton({
+    folderid,
+    id: '#view-default',
+    prefix: 'Reset to',
+  });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   let folderid = store.get('folderid');
+
+  updateButton({
+    folderid,
+    prefix: 'Reset to',
+    id: '#view-default',
+  });
 
   chrome.bookmarks.getTree(function(bookmarkTreeNodes) {
     getAllBookmarks.resolve(bookmarkTreeNodes);
@@ -297,9 +344,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (changeFolder) {
       changeFolder.innerHTML = list;
+      toggleDefaultChangedButtons();
     }
 
   });
 
-  displayBookmarks('', store.get('folderid'));
+  displayBookmarks('', folderid);
 });

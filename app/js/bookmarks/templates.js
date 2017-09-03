@@ -51,7 +51,9 @@ let tmpl = {
     return `<form id="edit-bookmark" data-id="${data.id}">
       <div class="FormField FormField--select">
         <label for="updated-parentId">Folder</label>
-        <select id="updated-parentId" data-parent-id="${data.parentId}"></select>
+        <div class="FormField-selectWrap">
+          <select id="updated-parentId" data-parent-id="${data.parentId}"></select>
+        </div>
       </div>
       <div class="FormField FormField--text">
         <label for="updated-index">Index</label>

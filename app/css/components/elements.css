@@ -3,6 +3,7 @@ body {
   font-size: 90%;
   background-color: var(--background-color);
   color: var(--text-color);
+  font-family: var(--font-family);
 }
 body,
 body * {
@@ -14,4 +15,8 @@ h4 {
 
 a {
   color: var(--link-color);
+}
+&[disabled] {
+  opacity: .45;
+  cursor: default;
 }

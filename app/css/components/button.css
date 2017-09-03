@@ -13,3 +13,8 @@ button {
 .Btn--bookmark {
     padding: 1px 3px;
   }
+.Btn--viewDefault {
+  &[disabled] {
+    display: none;
+  }
+}
