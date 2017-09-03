@@ -5,13 +5,12 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./public/",
-    "copy": "node ./scripts/copy.js",
+    "copy": "node ./scripts/copy.js -- cli",
     "build:js": "webpack --progress --colors",
-    "build:css": "postcss app/css/bookmarks.css -c scripts/postcss.config.js -o public/css/bookmarks.css",
+    "build:css": "node ./scripts/css.js -- cli",
     "build": "npm run clean && npm run copy && npm run build:js && npm run build:css",
     "build:production": "NODE_ENV=production npm run build",
-    "watch:js": "webpack --progress --colors --watch",
-    "watch:css": "postcss app/css/bookmarks.css -c scripts/postcss.config.js -o public/css/bookmarks.css --watch"
+    "watch": "node ./scripts/watch.js"
   },
   "keywords": [],
   "author": "Karl Swedberg <kswedberg@gmail.com>",
@@ -22,6 +21,8 @@
     "babel-preset-env": "^1.5.2",
     "babili-webpack-plugin": "^0.1.2",
     "bluebird": "^3.5.0",
+    "browser-sync": "^2.18.13",
+    "chalk": "^2.1.0",
     "cssnano": "^3.10.0",
     "eslint": "^4.1.1",
     "eslint-config-kswedberg": "^1.4.2",
