@@ -104,8 +104,15 @@ input[type=checkbox] {
 
 .FormField.FormField--radio {
   margin: .2em 0;
+
   & label {
     font-weight: normal;
+  }
+
+  & input,
+  & label,
+  & svg {
+    vertical-align: middle;
   }
 }
 .FormField--select,
@@ -131,5 +138,44 @@ input[type=checkbox] {
   & input {
     height: 24px;
     vertical-align: middle;
+  }
+}
+
+.FormField--radioIcon {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  & input[type="radio"] {
+    opacity: 0;
+    position: absolute;
+  }
+
+  & svg {
+    width: 26px;
+    height: 26px;
+    padding: 3px;
+    border: 1px solid var(--background-color);
+  }
+
+  & path {
+    stroke: var(--text-color);
+    fill: var(--cell-background-color);;
+  }
+
+  & span {
+    position: absolute;
+    left: 110%;
+    top: 100%;
+  }
+}
+
+
+.FormField--radioIcon input:checked + label {
+  & svg {
+    border: 1px solid var(--border-color);
+  }
+  & path {
+    stroke: var(--link-color);
   }
 }
