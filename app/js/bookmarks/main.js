@@ -231,9 +231,11 @@ let formActions = {
   },
 };
 
-let updateButton = function({folderid, prefix, id}) {
+let updateButton = function({folderid, prefix = 'Set default to', buttonId = '#view-save-default'}) {
   chrome.bookmarks.get(folderid, function([folder]) {
-    $(id).text(`${prefix} "${folder.title}"`);
+    const title = folder.title && `"${folder.title}"` || 'all bookmarks';
+
+    $(buttonId).text(`${prefix} ${title}`);
   });
 };
 
@@ -298,15 +300,15 @@ $('#change-folder').on('change', function(event) {
 
   updateButton({
     folderid: changedId,
-    id: '#view-save-default',
-    prefix: 'Set default to',
   });
 });
 
 $('#view-all').on('click', function(event) {
-  $('#search').val('');
   $('#change-folder').val('0');
-  displayBookmarks();
+  displayBookmarks($('#search').val());
+  updateButton({
+    folderid: '0',
+  });
 });
 
 $('#view-default').on('click', function(event) {
@@ -323,7 +325,7 @@ $('#view-save-default').on('click', function() {
   toggleDefaultChangedButtons();
   updateButton({
     folderid,
-    id: '#view-default',
+    buttonId: '#view-default',
     prefix: 'Reset to',
   });
 });
@@ -333,8 +335,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   updateButton({
     folderid,
+    buttonId: '#view-default',
     prefix: 'Reset to',
-    id: '#view-default',
   });
 
   chrome.bookmarks.getTree(function(bookmarkTreeNodes) {
