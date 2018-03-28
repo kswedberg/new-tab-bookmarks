@@ -39,6 +39,7 @@ let tmpl = {
     return `<div
       class="Bookmark Bookmark--folder"
       data-title="${bookmarkNode.title}"
+      data-index="${bookmarkNode.index}"
       data-folder="${bookmarkNode.id}" data-id="${bookmarkNode.id}">
       <span class="Bookmark-inner">
         <h4>${bookmarkNode.title}</h4>
@@ -99,11 +100,16 @@ let tmpl = {
     </form>`;
   },
   renameForm: (data) => {
+    // <div class="FormField FormField--text">
+    //   <label for="renamed-index">Index</label>
+    //   <input id="renamed-index" type="number" value="${data.index}">
+    // </div>
     return `<form id="rename-folder" data-id="${data.id}">
       <div class="FormField FormField--text">
         <label for="renamed-title">Title</label>
         <input id="renamed-title" type="text" value="${data.title}">
       </div>
+
       <div class="FormField">
         <button type="submit">Rename</button>
         <button type="button" id="close-modal" class="Btn Btn--inverse">Cancel</button>

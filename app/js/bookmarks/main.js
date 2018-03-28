@@ -95,23 +95,32 @@ let displayBookmarks = function(query = '', folderid = '') {
   toggleDefaultChangedButtons();
 };
 
+let getData = (el, dataProps = ['url', 'parentId', 'title', 'id', 'index']) => {
+  let $bkmk = $(el).closest('.Bookmark');
+  let data = dataProps.reduce((previous, current) => {
+    let currData = $bkmk.data(current);
+
+    if (currData == null) {
+      return previous;
+    }
+
+    previous[current] = currData;
+
+    return previous;
+  }, {});
+
+  return data;
+};
+
 let forms = {
   edit: function(el) {
-    let $bkmk = $(el).closest('.Bookmark');
-    let data = ['url', 'parentId', 'title', 'id', 'index'].reduce((previous, current) => {
-      previous[current] = $bkmk.data(current);
-
-      return previous;
-    }, {});
+    let data = getData(el);
 
     return tmpl.editForm(data);
   },
 
   delete: function(el) {
-    let $bkmk = $(el).closest('.Bookmark');
-    let id = $bkmk.data('id');
-
-    console.log(id);
+    let {id} = getData(el, ['id']);
 
     return tmpl.deleteForm(id);
   },
@@ -124,11 +133,9 @@ let forms = {
   },
 
   rename: function(el) {
-    let $bkmk = $(el).closest('.Bookmark');
-    let id = $bkmk.data('id');
-    let title = $bkmk.data('title');
+    let data = getData(el, ['id', 'title', 'index']);
 
-    return tmpl.renameForm({id, title});
+    return tmpl.renameForm(data);
   }
 };
 
@@ -210,6 +217,7 @@ let formActions = {
     event.preventDefault();
     let id = $(this).data('id');
     let title = $('#renamed-title').val().trim();
+    // let index = $('#renamed-index').val().trim() * 1;
 
     if (id) {
       id = `${id}`;
