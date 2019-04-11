@@ -1,6 +1,6 @@
 {
   "release": "true",
   "extras": [
-    "app/manifest.json"
+    "src/manifest.js"
   ]
 }

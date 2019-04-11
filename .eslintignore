@@ -1,3 +1,1 @@
-app/js/classes/*
-app/js/lib/*
-public/*
+dist/*.js

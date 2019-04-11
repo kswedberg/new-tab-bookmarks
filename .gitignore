@@ -1,3 +1,12 @@
-public/*
+# IDE
+.vscode
+
+# dependencies
 node_modules
-!public/.gitkeep
+
+# logs
+npm-debug.log
+
+# Backpack build
+dist
+extension.zip

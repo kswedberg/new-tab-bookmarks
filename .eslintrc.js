@@ -1,26 +1,32 @@
-/*
-  * Disabling rules in a file:
-  * multiple lines: /* eslint-disable no-alert, no-console *\/ (unescaped)
-  * re-enable lines: /* eslint-enable *\/ (unescaped)
-  * same line: // eslint-disable-line camelcase
-  * next line: // eslint-disable-next-line
-*/
+// https://eslint.org/docs/user-guide/configuring
+
 module.exports = {
-  extends: 'kswedberg',
+  root: true,
+  // parser: 'babel-eslint',
+  // parserOptions: {
+  //   sourceType: 'module'
+  // },
   globals: {
-    google: false,
-    chrome: false,
+     "chrome": true
+    // chrome: true
   },
-  rules: {
-    'no-underscore-dangle': [
-      'off'
-    ],
-    indent: [
-      'warn',
-      2,
-      {
-        MemberExpression: 'off'
-      }
-    ],
+  env: {
+    browser: true,
+  },
+  // https://github.com/standard/standard/blob/master/docs/RULES-en.md
+  extends: 'kswedberg/vue',
+  // required to lint *.vue files
+  plugins: [
+    'vue'
+  ],
+  // add your custom rules here
+  'rules': {
+    // allow paren-less arrow functions
+    // 'arrow-body-style': ['off'],
+
+    // allow async-await
+    'generator-star-spacing': 0,
+    // allow debugger during development
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   }
-};
+}
