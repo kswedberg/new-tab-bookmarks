@@ -12,9 +12,9 @@ let buildOptions = {
     return text + title;
   },
   treeNodes: function(bookmarkNodes, query = '', level) {
-    var list = [];
+    let list = [];
 
-    var i;
+    let i;
 
     for (i = 0; i < bookmarkNodes.length; i++) {
       list.push(buildOptions.node(bookmarkNodes[i], query, level));
@@ -23,7 +23,7 @@ let buildOptions = {
     return list.join('');
   },
   node: function(bookmarkNode, query, level) {
-    var item = [];
+    let item = [];
 
     if (!bookmarkNode.children) {
       return '';

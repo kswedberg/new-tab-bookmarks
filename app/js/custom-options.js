@@ -8,7 +8,7 @@ let storedStyles = new Store('styles');
 let dumpFolders = function(id) {
   let folderid = storedSettings.get(id);
 
-  chrome.bookmarks.getTree(function(bookmarkTreeNodes) {
+  chrome.bookmarks.getTree((bookmarkTreeNodes) => {
     let list = buildOptions.treeNodes(bookmarkTreeNodes, folderid, -1);
 
     document.querySelector(`[data-setting="${id}"]`).innerHTML = list;

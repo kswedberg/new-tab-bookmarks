@@ -4,7 +4,7 @@ let parentIds = new Set();
 
 let buildList = {
   node: function(bookmarkNode, query) {
-    var item = [];
+    let item = [];
 
     if (query && !bookmarkNode.children) {
       if ((`${bookmarkNode.title}`).toLowerCase().indexOf(query) === -1) {
@@ -13,7 +13,7 @@ let buildList = {
     }
 
     if (!bookmarkNode.title) {
-      item.push['<div>'];
+      item.push('<div>');
     } else if (bookmarkNode.url) {
       if (query) {
         parentIds.add(bookmarkNode.parentId);
@@ -52,9 +52,9 @@ let buildList = {
   },
 
   tree: function(bookmarkNodes, query) {
-    var list = ['<ul>'];
+    let list = ['<ul>'];
 
-    var i;
+    let i;
 
     for (i = 0; i < bookmarkNodes.length; i++) {
       list.push(buildList.node(bookmarkNodes[i], query));
@@ -77,8 +77,8 @@ let buildList = {
 
   },
   grid: function(bookmarkNodes, query) {
-    var list = [];
-    var i;
+    let list = [];
+    let i;
 
     for (i = 0; i < bookmarkNodes.length; i++) {
       list.push(buildList.cell(bookmarkNodes[i], query));
@@ -87,7 +87,7 @@ let buildList = {
     return list.join('');
   },
   cell: function(bookmarkNode, query) {
-    var item = [];
+    let item = [];
 
     if (query && !bookmarkNode.children) {
       if ((`${bookmarkNode.title}`).toLowerCase().indexOf(query) === -1) {
