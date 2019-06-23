@@ -12,16 +12,16 @@ const title2Text = (bookmark, withSpaces) => {
   return leadingSpaces ? leadingSpaces[0] + bookmark.title : bookmark.title;
 };
 
-const filterResults = function filterResults(nodes, filter) {
+const filterResults = function filterResults(nodes, filters) {
   const results = nodes.filter((node) => {
     const lowerTitle = node.title.toLowerCase();
 
-    if (lowerTitle.includes(filter)) {
+    if (filters.every((filter) => lowerTitle.includes(filter))) {
       return true;
     }
 
     if (node.children && node.children.length) {
-      node.children = filterResults(node.children, filter);
+      node.children = filterResults(node.children, filters);
 
       return true;
     }
@@ -44,7 +44,7 @@ const filterResults = function filterResults(nodes, filter) {
   // return results;
 };
 
-const chromeStoreItems = ['defaultFolder', 'expandedFolders', 'asideClosed'];
+const chromeStoreItems = ['defaultFolder', 'expandedFolders', 'asideClosed', 'searchAll'];
 const bookmarks = {
   strict: true,
   namespaced: true,
@@ -133,16 +133,21 @@ const bookmarks = {
     getResults({commit, getters}) {
       const folderId = getters.searchInFolder;
       const filter = getters.searchFilter;
+      const filters = filter ? filter.split(/\s+/) : [];
 
       return getSubTree(folderId).then((tree) => {
-        const results = filter ? filterResults(tree, filter) : tree;
+        const results = filter ? filterResults(tree, filters) : tree;
 
         commit('setState', {name: 'results', value: results});
       });
     },
     getEditing({commit}, id) {
       getBookmark(id)
-      .then(([value]) => {
+      .then(async([value]) => {
+        const [parent] = await getSubTree(value.parentId);
+
+        value.len = value.url ? parent.children.filter((item) => item.url).length : parent.children.length;
+        value.indexOffset = parent.children.length - value.len;
         commit('setState', {name: 'editing', value});
       });
     },
@@ -154,9 +159,10 @@ const bookmarks = {
         dispatch('getResults');
       });
     },
-    move({dispatch}, {id, parentId}) {
-      return move(id, {parentId})
-      .then(() => {
+    move({dispatch}, {id, parentId, index}) {
+      return move(id, {parentId, index})
+      .then((result) => {
+        console.log('moved', result);
         dispatch('getResults');
       });
     },
@@ -164,6 +170,16 @@ const bookmarks = {
       return remove(id)
       .then(() => {
         dispatch('getResults');
+      });
+    },
+    setCurrentFolderFromId({state, commit}, newId) {
+      const {id, title, text} = newId === '0' ?
+        {id: 'All', title: ''} :
+        state.folders.find((folder) => folder && folder.id === newId);
+
+      commit('setStateAndStore', {
+        name: 'currentFolder',
+        value: {id, title, text},
       });
     },
 
