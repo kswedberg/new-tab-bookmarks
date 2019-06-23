@@ -30,6 +30,7 @@
           <el-button
             @click="$emit('update', 'resetDefault')"
             id="view-default"
+            :title="defaultFolder.text ? `Reset folder to ${defaultFolder.text.trim()}` : ''"
             :disabled="foldersMatch"
             :class="{'is-textHidden': asideClosed}"
             icon="el-icon-back"
@@ -41,6 +42,7 @@
           <el-button
             @click="setDefaultToCurrent"
             id="view-save-default"
+            :title="currentFolder && currentFolder.text ? `Set ${currentFolder.text.trim()} as default folder` : ''"
             :disabled="foldersMatch"
             :class="{'is-textHidden': asideClosed}"
             icon="el-icon-check"
@@ -89,40 +91,34 @@ export default {
         });
       },
     },
-    currentFolder: {
-      get() {
-        return this.$store.state.bookmarks.currentFolder;
-      },
-      set(value) {
-        const {id, title, text} = value;
-
-        this.$store.commit('bookmarks/setStateAndStore', {
-          name: 'currentFolder',
-          value: {id, title, text},
-        });
-      },
+    currentFolder() {
+      return this.$store.state.bookmarks.currentFolder;
     },
-  },
+    // currentFolder: {
+    //   get() {
+    //     return this.$store.state.bookmarks.currentFolder;
+    //   },
+    //   set(value) {
+    //     const {id, title, text} = value;
 
-  // created() {
-  //   this.$store.dispatch('bookmarks/getFolders');
-  // },
+    //     this.$store.commit('bookmarks/setStateAndStore', {
+    //       name: 'currentFolder',
+    //       value: {id, title, text},
+    //     });
+    //   },
+    // },
+  },
 
   methods: {
     setDefaultToCurrent() {
       this.defaultFolder = Object.assign({}, this.currentFolder);
     },
-    getFolder(id) {
-      const folder =
-        id === '0'
-          ? {id: 'All', title: ''}
-          : this.folders.find((folder) => folder.id === id);
 
-      return Object.assign({}, folder);
-    },
     folderChanged(id) {
-      this.currentFolder = this.getFolder(id);
-      this.$store.dispatch('bookmarks/getResults');
+      this.$store.dispatch('bookmarks/setCurrentFolderFromId', id)
+      .then(() => {
+        this.$store.dispatch('bookmarks/getResults');
+      });
     },
   },
 };

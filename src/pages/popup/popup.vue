@@ -89,8 +89,11 @@ export default {
         ([{url, title}]) => {
           this.title = title;
           this.url = url;
-          search({url}).then(([bookmark = {}]) => {
+
+          search({url})
+          .then(([bookmark = {}]) => {
             this.bookmark = bookmark;
+            this.title = this.bookmark.title || title;
 
             if (bookmark.parentId) {
               this.folderId = bookmark.parentId;

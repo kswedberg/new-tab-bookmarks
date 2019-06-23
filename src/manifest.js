@@ -19,11 +19,10 @@ module.exports = {
   permissions: [
     'chrome://favicon/',
     'tabs',
-    // 'background',
+    'background',
     // 'contextMenus',
     'bookmarks',
     'storage', // https://developer.chrome.com/extensions/storage
-    // 'topSites', // https://developer.chrome.com/extensions/topSites
   ],
   chrome_url_overrides: {
     newtab: 'pages/app.html',
@@ -33,15 +32,25 @@ module.exports = {
     default_title: 'New Tab Bookmarks',
     default_popup: 'pages/popup.html',
   },
-
+  commands: {
+    _execute_browser_action: {
+      suggested_key: {
+        windows: 'Ctrl+Shift+S',
+        mac: 'Command+Shift+S',
+        chromeos: 'Ctrl+Shift+S',
+        linux: 'Ctrl+Shift+S',
+      },
+      description: 'Save Bookmark',
+    },
+  },
   options_page: 'pages/options.html',
   // options_ui: {
   //   page: 'pages/options.html',
   //   open_in_tab: false,
   // },
-  // background: {
-  //   scripts: ['js/background.js'],
-  // },
+  background: {
+    scripts: ['js/background.js'],
+  },
   manifest_version: 2,
   content_security_policy: 'script-src \'self\' \'unsafe-eval\'; object-src \'self\'',
 

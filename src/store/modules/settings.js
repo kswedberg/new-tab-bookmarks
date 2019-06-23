@@ -33,7 +33,7 @@ const settings = {
   },
 
   actions: {
-    initialize({state, commit}) {
+    initialize({state, commit, dispatch}) {
       const storageType = getStorageType();
 
       commit('setState', {name: 'storageType', value: storageType});
@@ -42,7 +42,15 @@ const settings = {
         Object.keys(stored).forEach((name) => {
           commit('setState', {name, value: stored[name]});
         });
+        dispatch('setBodyClass');
       });
+
+
+    },
+    setBodyClass({state}, className = `Page--${state.theme}`) {
+      if (typeof document !== 'undefined') {
+        document.body.className = className;
+      }
     },
 
     handleStorageType({state, commit}, type) {

@@ -44,11 +44,24 @@ export default {
       },
     },
   },
+  watch: {
+    theme(newValue) {
+      console.log(newValue);
+      this.bodyClass(newValue);
+    },
+  },
+  methods: {
+    bodyClass(theme) {
+      document.body.className = `Page--${theme}`;
+    },
+  },
 };
 </script>
 
-<style>
-.el-switch__label.is-active {
-  color: #303133;
+<style lang="postcss">
+.Aside {
+  .el-switch__label.is-active {
+    color: #303133;
+  }
 }
 </style>

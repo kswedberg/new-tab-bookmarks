@@ -7,11 +7,12 @@ module.exports = {
   //   sourceType: 'module'
   // },
   globals: {
-     "chrome": true
-    // chrome: true
+     chrome: 'readonly',
+     browser: 'writable',
   },
   env: {
     browser: true,
+    webextensions: true,
   },
   // https://github.com/standard/standard/blob/master/docs/RULES-en.md
   extends: 'kswedberg/vue',

@@ -25,6 +25,14 @@
       <el-form-item label="URL" size="large">
         <el-input v-model="url" />
       </el-form-item>
+
+      <el-form-item label="Index">
+        <select v-model="index">
+          <option v-for="n in editing.len" :key="n" :value="n + offset">
+            {{ n + offset }}
+          </option>
+        </select>
+      </el-form-item>
       <div>
         <el-button @click="isEditing = null">Cancel</el-button>
         <el-button native-type="submit" type="primary">Update</el-button>
@@ -41,6 +49,7 @@ export default {
       parentId: '0',
       title: '',
       url: '',
+      index: 0,
     };
   },
   computed: {
@@ -49,6 +58,9 @@ export default {
     },
     editing() {
       return this.$store.state.bookmarks.editing;
+    },
+    offset() {
+      return this.editing.url ? this.editing.indexOffset - 1 : -1;
     },
     isEditing: {
       get() {
@@ -63,17 +75,20 @@ export default {
     this.parentId = `${this.editing.parentId}`;
     this.title = this.editing.title;
     this.url = this.editing.url;
+    this.index = this.editing.index;
+    console.log(this.title);
   },
   methods: {
     update() {
       const {id} = this.editing;
-      const {title, url, parentId} = this;
+      const {title, url, parentId, index} = this;
 
+      console.log(title, ':', this.editing.title);
       if (title !== this.editing.title || url !== this.editing.url) {
         this.$store.dispatch('bookmarks/update', {id, title, url});
       }
-      if (parentId !== this.editing.parentId) {
-        this.$store.dispatch('bookmarks/move', {id, parentId});
+      if (parentId !== this.editing.parentId || index !== this.editing.index) {
+        this.$store.dispatch('bookmarks/move', {id, parentId, index});
       }
 
       this.isEditing = null;

@@ -127,10 +127,9 @@ export default {
     },
 
     getCurrentFolder(id) {
-      const folder =
-        id === '0'
-          ? {id: 'All', title: ''}
-          : this.folders.find((folder) => folder.id === id);
+      const folder = id === '0' ?
+        {id: 'All', title: ''} :
+        this.folders.find((folder) => folder.id === id);
 
       return Object.assign({}, folder);
     },

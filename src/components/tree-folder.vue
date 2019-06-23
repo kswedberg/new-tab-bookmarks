@@ -1,33 +1,6 @@
 <template lang="html">
   <div class="Folder">
-    <div v-show="editing">
-      <input
-        v-model="bookmarkTitle"
-        @click.stop="noop"
-        class="Folder-input"
-        :id="did"
-        type="text"
-      >
-      <el-button-group class="ButtonGroup">
-        <el-button
-          @click.stop.prevent="rename('bookmarkTitle')"
-          type="plain"
-          size="mini"
-          icon="el-icon-circle-check"
-        />
-        <el-button
-          @click.stop.prevent="cancelEdit"
-          type="plain"
-          size="mini"
-          icon="el-icon-circle-close"
-        />
-      </el-button-group>
-    </div>
-    <label
-      v-show="!editing"
-      class="Folder-label"
-      :for="did"
-    >
+    <button @click="changeFolder" class="Folder-label" type="button">
       <span
         v-for="(label, i) in allLabels"
         :key="'label-' + i"
@@ -36,14 +9,19 @@
         {{ label }}
         <i v-if="i < allLabels.length - 1" class="el-icon-arrow-right"/>
       </span>
-
-    </label>
+    </button>
     <el-button-group class="ButtonGroup">
       <el-button
         @click.stop.prevent="openEditing"
         type="plain"
         size="mini"
         icon="el-icon-edit"
+      />
+      <el-button
+        @click.stop.prevent="openNew"
+        type="plain"
+        size="mini"
+        icon="el-icon-plus"
       />
     </el-button-group>
   </div>
@@ -110,6 +88,9 @@ export default {
     openEditing() {
       this.$store.dispatch('bookmarks/getEditing', this.id);
     },
+    openNew() {
+      this.$store.dispatch('bookmarks/getEditing', this.id);
+    },
     edit() {
       this.setEditing(true);
       // this.bookmarkTitle = this.title;
@@ -134,6 +115,17 @@ export default {
         });
       });
     },
+    changeFolder() {
+      this.$store.commit('bookmarks/setState', {
+        name: 'searchFilter',
+        value: '',
+      });
+
+      this.$store.dispatch('bookmarks/setCurrentFolderFromId', this.id)
+      .then(() => {
+        this.$store.dispatch('bookmarks/getResults');
+      });
+    },
   },
 };
 </script>
@@ -152,6 +144,7 @@ export default {
 .ButtonGroup {
   opacity: 0;
 }
+
 .Folder-input {
   font-size: 1em;
   padding: 0 3px;
@@ -166,13 +159,16 @@ export default {
 
 .Folder-label {
   font-weight: bold;
-  /* cursor: pointer; */
+  cursor: pointer;
+  padding: 0;
   height: 26px;
   line-height: 24px;
   display: inline-block;
   vertical-align: middle;
   border: 1px solid transparent;
+  background-color: transparent;
 }
+
 .Folder-labelParent {
   color: var(--muted-color);
 }

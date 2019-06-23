@@ -32,7 +32,7 @@
         {{ expanded.includes(id) ? '-' : '+' }}
       </button>
     </div>
-    <div v-show="depth < 1 || expanded.includes(id)" class="Grid">
+    <div v-show="depth < 1 || expanded.includes(id)" class="Grid" :data-folderid="id">
       <grid
         v-for="child in sortedChildren"
         :id="child.id"
@@ -183,8 +183,8 @@ export default {
 }
 .EditBtn {
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 2px;
+  bottom: 2px;
   opacity: 0;
   padding: 4px !important;
   transition: opacity 0.4s;
@@ -225,9 +225,15 @@ export default {
   margin: 10px 5px;
   padding: 6px;
   border: 1px solid var(--layout-border-color);
+  transform: scale(1);
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 0 0;
 
   &:hover {
+    background-color: var(--main-bg-gradient);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    transform: scale(1.2);
+    z-index: 2;
     .EditBtn {
       opacity: 1;
     }

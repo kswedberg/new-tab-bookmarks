@@ -14,13 +14,13 @@
         />
       </el-col>
       <el-col :span="12">
-        <el-form-item>
+        <el-form-item class="FilterScope">
+          <span class="SwitchLabel">Scope:</span>
           <el-switch
             v-model="searchAll"
             @change="updateFilter"
-            :disabled="!searchFilter"
+            active-text="All Folders"
           />
-          Include all
         </el-form-item>
       </el-col>
     </el-row>
@@ -37,12 +37,18 @@ export default {
     };
   },
   computed: {
+    currentFolder() {
+      return `"${this.$store.state.bookmarks.currentFolder.title}" Folder`;
+    },
     searchAll: {
       get() {
         return this.$store.state.bookmarks.searchAll;
       },
       set(value) {
-        this.$store.commit('bookmarks/setState', {name: 'searchAll', value});
+        this.$store.commit('bookmarks/setStateAndStore', {
+          name: 'searchAll',
+          value,
+        });
       },
     },
     searchFilter: {
@@ -52,15 +58,23 @@ export default {
       set(value) {
         this.$store.commit('bookmarks/setState', {
           name: 'searchFilter',
-          value,
+          value: value.trim(),
         });
         this.updateFilter();
       },
     },
   },
   methods: {
+    toggleScope() {
+      if (this.searchFilter) {
+        this.updateFilter();
+      }
+    },
     updateFilter() {
       clearTimeout(this.timer);
+      if (this.searchFilter.length && this.searchFilter.length < 3) {
+        return;
+      }
       this.timer = setTimeout(() => {
         this.$store.dispatch('bookmarks/getResults');
       }, 100);
@@ -70,6 +84,18 @@ export default {
 </script>
 
 <style lang="postcss">
+.FilterScope {
+  .SwitchLabel {
+    padding-right: 8px;
+    color: #777;
+  }
+  .el-switch__label {
+    white-space: nowrap;
+  }
+  .el-switch__label--right {
+    margin-left: 4px;
+  }
+}
 .Header-form {
   &,
   & .el-row,
