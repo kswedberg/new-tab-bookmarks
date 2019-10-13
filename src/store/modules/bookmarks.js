@@ -104,73 +104,64 @@ const bookmarks = {
   },
 
   actions: {
-    initialize({state, commit, dispatch}) {
-      return chromeStore.get(chromeStoreItems)
-      .then((storedItems) => {
-        Object.keys(state).forEach((name) => {
-          const value = typeof storedItems[name] === 'undefined' ? bookmarks.state[name] : storedItems[name];
+    async initialize({state, commit, dispatch}) {
+      const storedItems = await chromeStore.get(chromeStoreItems);
 
-          commit('setState', {name, value});
-        });
+      Object.keys(state).forEach((name) => {
+        const value = typeof storedItems[name] === 'undefined' ? bookmarks.state[name] : storedItems[name];
 
-        commit('setState', {name: 'currentFolder', value: Object.assign({}, bookmarks.state.defaultFolder)});
-      })
-      .then(() => {
-        dispatch('getFolders');
-        dispatch('getResults');
+        commit('setState', {name, value});
       });
+
+      commit('setState', {name: 'currentFolder', value: Object.assign({}, bookmarks.state.defaultFolder)});
+
+      await Promise.all([
+        dispatch('getFolders'),
+        dispatch('getResults'),
+      ]);
     },
 
-    getFolders({commit}) {
-      return getTree()
-      .then((nodes) => {
-        const value = buildOptions.treeNodes(nodes);
+    async getFolders({commit}) {
+      const nodes = await getTree();
+      const value = buildOptions.treeNodes(nodes);
 
-        commit('setState', {name: 'folders', value});
-      });
+      commit('setState', {name: 'folders', value});
     },
 
-    getResults({commit, getters}) {
+    async getResults({commit, getters}) {
       const folderId = getters.searchInFolder;
       const filter = getters.searchFilter;
       const filters = filter ? filter.split(/\s+/) : [];
+      const tree = await getSubTree(folderId);
+      const results = filter ? filterResults(tree, filters) : tree;
 
-      return getSubTree(folderId).then((tree) => {
-        const results = filter ? filterResults(tree, filters) : tree;
-
-        commit('setState', {name: 'results', value: results});
-      });
+      commit('setState', {name: 'results', value: results});
     },
-    getEditing({commit}, id) {
-      getBookmark(id)
-      .then(async([value]) => {
-        const [parent] = await getSubTree(value.parentId);
 
-        value.len = value.url ? parent.children.filter((item) => item.url).length : parent.children.length;
-        value.indexOffset = parent.children.length - value.len;
-        commit('setState', {name: 'editing', value});
-      });
+    async getEditing({commit}, id) {
+      const [value] = await getBookmark(id);
+      const [parent] = await getSubTree(value.parentId);
+
+      value.len = value.url ? parent.children.filter((item) => item.url).length : parent.children.length;
+      value.indexOffset = parent.children.length - value.len;
+      commit('setState', {name: 'editing', value});
     },
-    update({dispatch}, bookmark) {
+    async update({dispatch}, bookmark) {
       const {id, ...props} = bookmark;
 
-      return update(id, props)
-      .then(() => {
-        dispatch('getResults');
-      });
+      await update(id, props);
+      await dispatch('getResults');
     },
-    move({dispatch}, {id, parentId, index}) {
-      return move(id, {parentId, index})
-      .then((result) => {
-        console.log('moved', result);
-        dispatch('getResults');
-      });
+
+    async move({dispatch}, {id, parentId, index}) {
+      const result = await move(id, {parentId, index});
+
+      console.log('moved', result);
+      await dispatch('getResults');
     },
-    remove({dispatch}, id) {
-      return remove(id)
-      .then(() => {
-        dispatch('getResults');
-      });
+    async remove({dispatch}, id) {
+      await remove(id);
+      await dispatch('getResults');
     },
     setCurrentFolderFromId({state, commit}, newId) {
       const {id, title, text} = newId === '0' ?

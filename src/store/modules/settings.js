@@ -33,19 +33,18 @@ const settings = {
   },
 
   actions: {
-    initialize({state, commit, dispatch}) {
+    async initialize({state, commit, dispatch}) {
       const storageType = getStorageType();
 
       commit('setState', {name: 'storageType', value: storageType});
-      chromeStore.get(Object.keys(storedState))
-      .then((stored) => {
-        Object.keys(stored).forEach((name) => {
-          commit('setState', {name, value: stored[name]});
-        });
-        dispatch('setBodyClass');
+
+      const stored = await chromeStore.get(Object.keys(storedState));
+
+      Object.keys(stored).forEach((name) => {
+        commit('setState', {name, value: stored[name]});
       });
 
-
+      await dispatch('setBodyClass');
     },
     setBodyClass({state}, className = `Page--${state.theme}`) {
       if (typeof document !== 'undefined') {
@@ -53,29 +52,29 @@ const settings = {
       }
     },
 
-    handleStorageType({state, commit}, type) {
+    async handleStorageType({state, commit}, type) {
       commit('setStorageType', type);
 
-      if (type === 'sync') {
-        // Get synced values
-        const storedKeys = Object.keys(storedState);
-        const stateStored = {};
-
-        storedKeys.forEach((key) => {
-          stateStored[key] = state[key];
-        });
-
-        chromeStore.get(storedKeys)
-        .then((chromeStored) => {
-          const stored = Object.assign({}, stateStored, chromeStored || {});
-
-          storedKeys.forEach((name) => {
-            commit('setState', {name, value: stored[name]});
-          });
-
-          chromeStore.set(stored);
-        });
+      if (type !== 'sync') {
+        return;
       }
+
+      // Get synced values
+      const storedKeys = Object.keys(storedState);
+      const stateStored = {};
+
+      storedKeys.forEach((key) => {
+        stateStored[key] = state[key];
+      });
+
+      const chromeStored = await chromeStore.get(storedKeys);
+      const stored = Object.assign({}, stateStored, chromeStored || {});
+
+      storedKeys.forEach((name) => {
+        commit('setState', {name, value: stored[name]});
+      });
+
+      return chromeStore.set(stored);
     },
   },
 };

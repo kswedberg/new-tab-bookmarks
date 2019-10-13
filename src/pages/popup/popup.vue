@@ -67,41 +67,37 @@ export default {
     },
   },
 
-  created() {
-    this.$store
-    .dispatch('settings/initialize')
-    .then(() => {
-      return this.$store.dispatch('bookmarks/initialize');
-    })
-    .then(() => {
-      this.folderId = localStorage.getItem(lastFolderId) || this.folderId;
-    })
-    .then(() => {
-      if (this.bookmark.parentId) {
-        return;
+  async created() {
+    await this.$store.dispatch('settings/initialize');
+    await this.$store.dispatch('bookmarks/initialize');
+
+    this.folderId = localStorage.getItem(lastFolderId) || this.folderId;
+
+    if (this.bookmark.parentId) {
+      return;
+    }
+
+    chrome.tabs.query(
+      {
+        active: true,
+        currentWindow: true,
+      },
+      ([{url, title}]) => {
+        this.title = title;
+        this.url = url;
+
+        search({url})
+        .then(([bookmark = {}]) => {
+          this.bookmark = bookmark;
+          this.title = this.bookmark.title || title;
+
+          if (bookmark.parentId) {
+            this.folderId = bookmark.parentId;
+          }
+        });
       }
+    );
 
-      chrome.tabs.query(
-        {
-          active: true,
-          currentWindow: true,
-        },
-        ([{url, title}]) => {
-          this.title = title;
-          this.url = url;
-
-          search({url})
-          .then(([bookmark = {}]) => {
-            this.bookmark = bookmark;
-            this.title = this.bookmark.title || title;
-
-            if (bookmark.parentId) {
-              this.folderId = bookmark.parentId;
-            }
-          });
-        }
-      );
-    });
   },
   methods: {
     close() {
@@ -111,12 +107,11 @@ export default {
       this.folderId = value;
       localStorage.setItem(lastFolderId, value);
     },
-    addBookmark() {
+    async addBookmark() {
       const {title, url, folderId: parentId} = this;
 
-      upsert({parentId, title, url: url || null}, this.bookmark).then(
-        this.close
-      );
+      await upsert({parentId, title, url: url || null}, this.bookmark);
+      this.close();
     },
     maybeDelete() {
       if (!this.warningDelete) {
