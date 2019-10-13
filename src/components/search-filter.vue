@@ -72,7 +72,7 @@ export default {
     },
     updateFilter() {
       clearTimeout(this.timer);
-      if (this.searchFilter.length && this.searchFilter.length < 3) {
+      if (this.searchFilter.length && this.searchFilter.length < 2) {
         return;
       }
       this.timer = setTimeout(() => {
