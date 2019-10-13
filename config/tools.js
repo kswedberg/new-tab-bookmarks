@@ -2,7 +2,7 @@ const {resolve} = require('path');
 const {extract} = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-exports.htmlPage = (title, filename, chunks, template) => new HtmlWebpackPlugin({
+exports.htmlPage = ({title, filename, chunks, template}) => new HtmlWebpackPlugin({
   title,
   hash: true,
   cache: true,

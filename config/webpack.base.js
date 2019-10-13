@@ -84,14 +84,15 @@ module.exports = {
     ],
   },
   plugins: [
-    // Customize extension structure.
+    // Customize extension structure. calls HtmlWebpackPlugin()
     // htmlPage(title, filename, chunks, template)
-    htmlPage('New Tab', 'app', ['manifest', 'vendor', 'tab']),
-    htmlPage('popup', 'popup', ['manifest', 'vendor', 'popup']),
-    htmlPage('New Tab Settings', 'options', ['manifest', 'vendor', 'options']),
-    // htmlPage('background', 'background', ['manifest', 'vendor', 'background']),
+    htmlPage({title: 'New Tab', filename: 'app', chunks: ['manifest', 'vendor', 'tab']}),
+    htmlPage({title: 'popup', filename: 'popup', chunks: ['manifest', 'vendor', 'popup']}),
+    htmlPage({title: 'New Tab Settings', filename: 'options', chunks: ['manifest', 'vendor', 'options']}),
     // End customize
+
     new CopyWebpackPlugin([{from: path.join(__dirname, '..', 'static')}]),
+
     new ChromeReloadPlugin({
       port: 9090,
       manifest: path.join(__dirname, '..', 'src', 'manifest.js'),
