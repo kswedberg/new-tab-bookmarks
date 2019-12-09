@@ -130,7 +130,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style lang="scss">
 .Folder {
   position: relative;
 

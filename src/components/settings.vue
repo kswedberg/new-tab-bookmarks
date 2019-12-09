@@ -58,7 +58,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style lang="scss">
 .Aside {
   .el-switch__label.is-active {
     color: #303133;

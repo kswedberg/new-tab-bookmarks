@@ -1,10 +1,7 @@
+const browser = require('webextension-polyfill');
 
 export const getTree = () => {
-  return new Promise((resolve, reject) => {
-    chrome.bookmarks.getTree((bookmarkTreeNodes) => {
-      resolve(bookmarkTreeNodes);
-    });
-  });
+  return browser.bookmarks.getTree();
 };
 
 export const getSubTree = (id) => {
@@ -12,47 +9,34 @@ export const getSubTree = (id) => {
     return getTree();
   }
 
-  return new Promise((resolve, reject) => {
-    chrome.bookmarks.getSubTree(id, resolve);
-  });
+  return browser.bookmarks.getSubTree(id);
 };
 
 export const getBookmark = (id) => {
-  return new Promise((resolve, reject) => {
-    chrome.bookmarks.get(id, resolve);
-  });
+  return browser.bookmarks.get(id);
 };
+
 export const search = (query) => {
-  return new Promise((resolve, reject) => {
-    chrome.bookmarks.search(query, resolve);
-  });
+  return browser.bookmarks.search(query);
 };
 
 export const update = (id, props) => {
-  return new Promise((resolve, reject) => {
-    chrome.bookmarks.update(id, props, resolve);
-  });
+  return browser.bookmarks.update(id, props);
 };
 
 export const move = (id, props) => {
-  return new Promise((resolve, reject) => {
-    chrome.bookmarks.move(id, props, resolve);
-  });
+  return browser.bookmarks.move(id, props);
 };
 
 export const remove = (id) => {
-  return new Promise((resolve, reject) => {
-    chrome.bookmarks.remove(id, resolve);
-  });
+  return browser.bookmarks.remove(id);
 };
 
 export const create = (bookmark) => {
-  return new Promise((resolve, reject) => {
-    chrome.bookmarks.create(bookmark, resolve);
-  });
+  return browser.bookmarks.create(bookmark);
 };
 
-export const upsert = async(newB, oldB = {}) => {
+export const upsert = (newB, oldB = {}) => {
   const {id} =  oldB;
   const {parentId, url, title} = newB;
 
@@ -70,8 +54,6 @@ export const upsert = async(newB, oldB = {}) => {
   }
 
   return Promise.all(promises);
-
-
 };
 
 export const removeMany = (ids) => {

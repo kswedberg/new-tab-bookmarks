@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="Popup" style="min-width:400px;">
     <el-form @submit.native.prevent="addBookmark">
       <el-form-item class="Popup-folder" label="Folder">
@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-import {search, upsert, remove} from '../../ext/bookmarks.js';
+import {search, upsert, remove} from '../ext/bookmarks.js';
 
 const lastFolderId = 'lastFolderId';
 
@@ -77,7 +77,7 @@ export default {
       return;
     }
 
-    chrome.tabs.query(
+    this.$browser.tabs.query(
       {
         active: true,
         currentWindow: true,
@@ -126,7 +126,7 @@ export default {
   },
 };
 </script>
-<style lang="postcss">
+<style lang="scss">
 .Popup {
   /* text-align: center; */
   padding: 14px 10px;

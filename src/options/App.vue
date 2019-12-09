@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <el-container :class="['Page', 'Page--' + theme]">
     <el-header height="60px" class="Header">
       <h1>New Tab Settings</h1>

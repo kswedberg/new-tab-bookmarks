@@ -90,7 +90,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style lang="scss">
 ul {
   list-style-type: none;
   padding-left: 20px;

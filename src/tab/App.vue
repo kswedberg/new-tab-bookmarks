@@ -41,13 +41,13 @@
   </el-container>
 </template>
 <script>
-import {getSubTree, removeMany} from '../../ext/bookmarks.js';
-import {chromeStore} from '../../ext/storage.js';
+import {getSubTree, removeMany} from '../ext/bookmarks.js';
+import {chromeStore} from '../ext/storage.js';
 import Aside from './aside.vue';
-import TreeFolder from '../../components/tree-folder.vue';
-import Grid from '../../components/grid.vue';
-import SearchFilter from '../../components/search-filter.vue';
-import EditDialog from '../../components/edit-dialog.vue';
+import TreeFolder from '../components/tree-folder.vue';
+import Grid from '../components/grid.vue';
+import SearchFilter from '../components/search-filter.vue';
+import EditDialog from '../components/edit-dialog.vue';
 
 export default {
   components: {
@@ -200,7 +200,7 @@ export default {
   },
 };
 </script>
-<style lang="postcss">
+<style lang="scss">
 /* General CSS */
 
 .Bookmarks {

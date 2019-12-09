@@ -1,12 +1,12 @@
 const filters = {
 
-  trim: (value = '') => (typeof value === 'string' ? value.trim() : value),
+  trim: (value = '') => typeof value === 'string' && value.trim() || value,
   ltrim: (value = '') => value.replace(/^\s+/, ''),
   rtrim: (value = '') => value.replace(/\s+$/, ''),
 
-  pluralize: (value, plural, num) => (num === 1 ? value : plural),
+  pluralize: (value, plural, num) => num === 1 && value || plural,
 
-  join: (value, separator = ', ') => (Array.isArray(value) ? value.join(separator) : ''),
+  join: (value, separator = ', ') => Array.isArray(value) && value.join(separator) || '',
 
   phone: (value = '') => {
     if (/^\d{10}$/.test(value)) {

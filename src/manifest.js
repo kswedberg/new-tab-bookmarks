@@ -1,37 +1,63 @@
-/**
- * @see {@link https://developer.chrome.com/extensions/manifest}
- */
-module.exports = {
-  name: 'vue-tab-bookmarks',
+const pkg = require('../package.json');
+
+const manifest = {
+  manifest_version: 2,
+  name: 'New Tab Bookmarks (web extension)',
   description: 'New tab bookmark Chrome extension',
-  version: '1.3.0',
-  author: 'Karl Swedberg <kswedberg@gmail.com>',
-  homepage_url: 'https://karlswedberg.com',
-  // default_locale: 'en',
+  version: pkg.version,
+
   icons: {
     16: 'icons/icon16.png',
     48: 'icons/icon48.png',
     128: 'icons/icon128.png',
   },
-  /**
-   * @see {@link https://developer.chrome.com/extensions/declare_permissions}
-   */
-  permissions: [
+
+  homepage_url: 'https://karlswedberg.com',
+  short_name: 'New Tab Bkmrks',
+
+  // permissions: ['tabs', 'storage', 'http://*/*', 'https://*/*'],
+  '__chrome|opera__permissions': [
     'chrome://favicon/',
     'tabs',
     'background',
     // 'contextMenus',
     'bookmarks',
-    'storage', // https://developer.chrome.com/extensions/storage
+    'storage',
   ],
+  __firefox__permissions: [
+    'http://*/*',
+    'https://*/*',
+    'tabs',
+    'background',
+    // 'contextMenus',
+    'bookmarks',
+    'storage',
+  ],
+  // content_security_policy: 'script-src \'self\' \'unsafe-eval\'; object-src \'self\'',
+
+  '__chrome|firefox__author': 'Karl Swedberg',
+  __opera__developer: {
+    name: 'Karl Swedberg',
+  },
+
+  __firefox__applications: {
+    // gecko: {id: '{754FB1AD-CC3B-4856-B6A0-7786F8CA9D17}'},
+  },
+
+  __chrome__minimum_chrome_version: '62',
+  __opera__minimum_opera_version: '62',
   chrome_url_overrides: {
-    newtab: 'pages/app.html',
+    newtab: 'tab/tab.html',
   },
   browser_action: {
     default_icon: 'icons/icon19.png',
     default_title: 'New Tab Bookmarks',
-    default_popup: 'pages/popup.html',
+    default_popup: 'popup/popup.html',
+    '__chrome|opera__chrome_style': false,
+    __firefox__browser_style: false,
   },
+
+  '__chrome|opera__options_page': 'options/options.html',
   commands: {
     _execute_browser_action: {
       suggested_key: {
@@ -43,15 +69,24 @@ module.exports = {
       description: 'Save Bookmark',
     },
   },
-  options_page: 'pages/options.html',
-  // options_ui: {
-  //   page: 'pages/options.html',
-  //   open_in_tab: false,
-  // },
-  background: {
-    scripts: ['js/background.js'],
+  options_ui: {
+    page: 'options/options.html',
+    open_in_tab: true,
+    __chrome__chrome_style: false,
+    __firefox__browser_style: false,
   },
-  manifest_version: 2,
-  content_security_policy: 'script-src \'self\' \'unsafe-eval\'; object-src \'self\'',
 
+  // background: {
+  //   scripts: ['js/background.js'],
+  //   '__chrome|opera__persistent': false,
+  // },
+
+  // content_scripts: [
+  //   {
+  //     matches: ['http://*/*', 'https://*/*'],
+  //     js: ['js/contentScript.bundle.js'],
+  //   },
+  // ],
 };
+
+module.exports = manifest;

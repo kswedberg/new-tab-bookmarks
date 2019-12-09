@@ -1,3 +1,4 @@
+const browser = require('webextension-polyfill');
 
 const getStorageType = () => {
   try {
@@ -17,9 +18,7 @@ const chromeStore = {
     const props = Array.isArray(key) ? key : [key];
     const storeType = getStorageType();
 
-    return new Promise((resolve, reject) => {
-      chrome.storage[storeType].get(props, resolve);
-    })
+    return browser.storage[storeType].get(props)
     .then((result) => {
       if (typeof key === 'string') {
         return result[key];
@@ -32,9 +31,7 @@ const chromeStore = {
   set: (settings) => {
     const storeType = getStorageType();
 
-    return new Promise((resolve, reject) => {
-      chrome.storage[storeType].set(settings, resolve);
-    })
+    browser.storage[storeType].set(settings)
     .then(() => {
       return settings;
     });
@@ -42,24 +39,18 @@ const chromeStore = {
   getBytesInUse: (keys) => {
     const storeType = getStorageType();
 
-    return new Promise((resolve, reject) => {
-      chrome.storage[storeType].getBytesInUse(keys, resolve);
-    });
+    return browser.storage[storeType].getBytesInUse(keys);
   },
   remove: (keys) => {
     const storeType = getStorageType();
 
-    return new Promise((resolve, reject) => {
-      chrome.storage[storeType].remove(keys, resolve);
-    });
+    return browser.storage[storeType].remove(keys);
   },
 
   clear: () => {
     const storeType = getStorageType();
 
-    return new Promise((resolve, reject) => {
-      chrome.storage[storeType].remove(resolve);
-    });
+    return browser.storage[storeType].remove();
   },
 };
 

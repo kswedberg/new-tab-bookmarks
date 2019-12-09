@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style lang="scss">
 .FilterScope {
   .SwitchLabel {
     padding-right: 8px;

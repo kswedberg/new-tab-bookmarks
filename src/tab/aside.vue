@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <el-aside width="240px" class="Aside" :class="{'is-closed': asideClosed}">
     <el-container>
       <div class="Aside-content">
@@ -59,7 +59,8 @@
 </template>
 
 <script>
-import Settings from '../../components/settings.vue';
+import Settings from '../components/settings.vue';
+
 export default {
   components: {
     Settings,
@@ -124,7 +125,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style lang="scss">
 h2 {
   font-size: 18px;
 }

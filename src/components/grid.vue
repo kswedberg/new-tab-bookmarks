@@ -166,7 +166,7 @@ export default {
 };
 </script>
 
-<style lang="postcss">
+<style lang="scss">
 .Grid {
   display: flex;
   flex-wrap: wrap;
