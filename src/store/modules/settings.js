@@ -1,4 +1,5 @@
 import {chromeStore, localStore, getStorageType} from '../../ext/storage.js';
+
 const storedState = {
   theme: 'light',
   layout: 'grid',

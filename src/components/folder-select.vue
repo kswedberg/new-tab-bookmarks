@@ -35,6 +35,7 @@
 
 <script>
 import {search} from '../../ext/bookmarks.js';
+
 const lastFolderId = 'lastFolderId';
 
 export default {
@@ -76,30 +77,27 @@ export default {
     defaultInitialize() {
       //
     },
-    popupInitialize() {
+    async popupInitialize() {
       this.folderId = localStorage.getItem(lastFolderId) || this.folderId;
 
       if (this.bookmark.parentId) {
         return;
       }
 
-      chrome.tabs.query(
-        {
-          active: true,
-          currentWindow: true,
-        },
-        ([{url, title}]) => {
-          this.title = title;
-          this.url = url;
-          search({url}).then(([bookmark = {}]) => {
-            this.bookmark = bookmark;
+      const [{url, title}] = await this.$browser.tabs.query({
+        active: true,
+        currentWindow: true,
+      });
 
-            if (bookmark.parentId) {
-              this.folderId = bookmark.parentId;
-            }
-          });
-        }
-      );
+      this.title = title;
+      this.url = url;
+      const [bookmark = {}] = await search({url});
+
+      this.bookmark = bookmark;
+
+      if (bookmark.parentId) {
+        this.folderId = bookmark.parentId;
+      }
     },
     filterInitialize() {
       //

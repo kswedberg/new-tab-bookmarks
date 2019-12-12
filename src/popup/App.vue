@@ -77,26 +77,22 @@ export default {
       return;
     }
 
-    this.$browser.tabs.query(
-      {
-        active: true,
-        currentWindow: true,
-      },
-      ([{url, title}]) => {
-        this.title = title;
-        this.url = url;
+    const [{url, title}] = await this.$browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
 
-        search({url})
-        .then(([bookmark = {}]) => {
-          this.bookmark = bookmark;
-          this.title = this.bookmark.title || title;
+    this.title = title;
+    this.url = url;
 
-          if (bookmark.parentId) {
-            this.folderId = bookmark.parentId;
-          }
-        });
-      }
-    );
+    const [bookmark = {}] = await search({url});
+
+    this.bookmark = bookmark;
+    this.title = this.bookmark.title || title;
+
+    if (bookmark.parentId) {
+      this.folderId = bookmark.parentId;
+    }
 
   },
   methods: {

@@ -177,7 +177,7 @@ export default {
       this.asideClosed = !this.asideClosed;
     },
     openOptions() {
-      chrome.runtime.openOptionsPage();
+      this.$browser.runtime.openOptionsPage();
     },
     setDefault() {
       this.defaultFolder = Object.assign({}, this.currentFolder);
