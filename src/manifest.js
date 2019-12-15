@@ -2,8 +2,8 @@ const pkg = require('../package.json');
 
 const manifest = {
   manifest_version: 2,
-  name: 'New Tab Bookmarks (web extension)',
-  description: 'New tab bookmark Chrome extension',
+  name: 'New Tab Bookmarks',
+  description: 'A web browser extension that sets the new tab page to one of your bookmark folders',
   version: pkg.version,
 
   icons: {
@@ -25,10 +25,10 @@ const manifest = {
     'storage',
   ],
   __firefox__permissions: [
-    'http://*/*',
-    'https://*/*',
+    // 'http://*/*',
+    // 'https://*/*',
     'tabs',
-    'background',
+    // 'background',
     // 'contextMenus',
     'bookmarks',
     'storage',

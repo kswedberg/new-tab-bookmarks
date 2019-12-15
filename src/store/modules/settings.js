@@ -41,7 +41,7 @@ const settings = {
 
       const stored = await chromeStore.get(Object.keys(storedState));
 
-      Object.keys(stored).forEach((name) => {
+      Object.keys(stored || []).forEach((name) => {
         commit('setState', {name, value: stored[name]});
       });
 
