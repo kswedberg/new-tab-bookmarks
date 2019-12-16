@@ -20,7 +20,7 @@ const settings = {
 
   // The explicit extension ID.
   // WebExtensions do not require an ID.
-  // id: 'your-addon-id@somewhere',
+  id: process.env.FF_ID,
 
   // The release channel (listed or unlisted).
   // Ignored for new add-ons, which are always unlisted.
