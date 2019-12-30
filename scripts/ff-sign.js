@@ -5,6 +5,7 @@ const {version} = require('../package.json');
 
 const downloadDir = path.join(__dirname, '..', 'dist');
 
+
 const settings = {
   // Required arguments:
   xpiPath: path.join(downloadDir, 'firefox.xpi'),
@@ -50,6 +51,11 @@ const settings = {
 };
 
 const ffSign = async() => {
+  if (!process.env.FF_API_KEY || !process.env.FF_API_SECRET) {
+    console.error('Skipping Firefox extension signing.');
+
+    return console.error('To sign, include the FF_API_KEY and FF_API_SECRET environment variables in .env');
+  }
   try {
     const result = await signAddon(settings);
 
