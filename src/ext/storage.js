@@ -2,7 +2,7 @@ const browser = require('webextension-polyfill');
 
 const getStorageType = () => {
   try {
-    return JSON.parse(localStorage.getItem('storageType')) || 'local';
+    return JSON.parse(localStorage.getItem('storageType')) || 'sync';
   } catch (e) {
     return 'local';
   }
@@ -13,7 +13,7 @@ const getStorageType = () => {
  */
 
 // chrome.storage.local.set
-const chromeStore = {
+const syncStore = {
   get: (key) => {
     const props = Array.isArray(key) ? key : [key];
     const storeType = getStorageType();
@@ -88,4 +88,4 @@ const localStore = {
   },
 };
 
-export {chromeStore, localStore, getStorageType};
+export {syncStore, localStore, getStorageType};

@@ -6,7 +6,7 @@
         :key="'label-' + i"
         :class="{'Folder-labelParent': i < allLabels.length - 1}"
       >
-        {{ label }}
+        {{ label }} <span class="dim">({{ id }})</span>
         <i v-if="i < allLabels.length - 1" class="el-icon-arrow-right"/>
       </span>
     </button>
@@ -23,6 +23,29 @@
         size="mini"
         icon="el-icon-plus"
       />
+      <el-popover
+        v-model="isConfirmDeleteVisible"
+        @after-enter="onShowConfirmDelete"
+        title="Delete"
+        trigger="manual"
+      >
+        <el-button @click="isConfirmDeleteVisible = false" size="mini" type="primary">cancel</el-button>
+        <el-button
+          @click="removeTree"
+          ref="confirm"
+          type="primary"
+          size="mini"
+        >
+          confirm
+        </el-button>
+        <el-button
+          @click.stop.prevent="isConfirmDeleteVisible = !isConfirmDeleteVisible"
+          slot="reference"
+          type="danger"
+          size="mini"
+          icon="el-icon-delete"
+        />
+      </el-popover>
     </el-button-group>
   </div>
 </template>
@@ -54,6 +77,7 @@ export default {
   data() {
     return {
       editing: false,
+      isConfirmDeleteVisible: false,
       bookmarkTitle: '',
     };
   },
@@ -125,6 +149,15 @@ export default {
       .then(() => {
         this.$store.dispatch('bookmarks/getResults');
       });
+    },
+    async removeTree() {
+      this.isConfirmDeleteVisible = false;
+      await this.$store.dispatch('bookmarks/removeTree', this.id);
+      await this.$store.dispatch('bookmarks/getResults');
+    },
+
+    onShowConfirmDelete() {
+      this.$refs.confirm.$el.focus();
     },
   },
 };

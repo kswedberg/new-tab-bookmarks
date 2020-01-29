@@ -56,7 +56,9 @@ button {
   color: var(--text-color);
   border-color: var(--button-border-color);
 }
-
+.dim {
+  color: #bbb;
+}
 .el-select-dropdown,
 .el-select-dropdown__list,
 .el-input__inner,

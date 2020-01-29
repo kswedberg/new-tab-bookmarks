@@ -58,7 +58,7 @@ export default {
       set(value) {
         this.$store.commit('bookmarks/setState', {
           name: 'searchFilter',
-          value: value.trim(),
+          value,
         });
         this.updateFilter();
       },

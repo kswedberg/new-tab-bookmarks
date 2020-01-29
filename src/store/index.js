@@ -1,6 +1,6 @@
 import {bookmarks} from './modules/bookmarks.js';
 import {settings} from './modules/settings.js';
-import {chromeStoragePlugin} from './plugins/chromeStorage.js';
+import {syncStoragePlugin} from './plugins/syncStorage.js';
 
 const modules = {
   bookmarks,
@@ -9,5 +9,5 @@ const modules = {
 
 export const storeConfig = {
   modules,
-  plugins: [chromeStoragePlugin],
+  plugins: [syncStoragePlugin],
 };

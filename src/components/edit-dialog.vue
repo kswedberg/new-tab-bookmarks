@@ -4,6 +4,7 @@
       <el-form-item label="Folder">
         <el-select
           v-model="parentId"
+          @change="changePosition"
           clearable
           :filterable="true"
           placeholder="folder…"
@@ -28,7 +29,7 @@
 
       <el-form-item label="Index">
         <select v-model="index">
-          <option v-for="n in editing.len" :key="n" :value="n + offset">
+          <option v-for="n in len" :key="n" :value="n + offset">
             {{ n + offset }}
           </option>
         </select>
@@ -43,6 +44,8 @@
 </template>
 
 <script>
+import {getBookmarkWithPosition} from '../ext/bookmarks.js';
+
 export default {
   data() {
     return {
@@ -50,6 +53,8 @@ export default {
       title: '',
       url: '',
       index: 0,
+      indexOffset: 0,
+      len: 0,
     };
   },
   computed: {
@@ -60,7 +65,7 @@ export default {
       return this.$store.state.bookmarks.editing;
     },
     offset() {
-      return this.editing.url ? this.editing.indexOffset - 1 : -1;
+      return this.editing.url ? this.indexOffset - 1 : -1;
     },
     isEditing: {
       get() {
@@ -76,9 +81,18 @@ export default {
     this.title = this.editing.title;
     this.url = this.editing.url;
     this.index = this.editing.index;
+    this.indexOffset = this.editing.indexOffset || -1;
+    this.len = this.editing.len;
     console.log(this.title);
   },
   methods: {
+    async changePosition() {
+      const {len, indexOffset} = await getBookmarkWithPosition(this.parentId, 'parent');
+
+      console.log(len, indexOffset);
+      this.len = len;
+      this.indexOffset = indexOffset;
+    },
     update() {
       const {id} = this.editing;
       const {title, url, parentId, index} = this;

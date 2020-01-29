@@ -1,9 +1,9 @@
-import {chromeStore, localStore, getStorageType} from '../../ext/storage.js';
+import {syncStore, localStore, getStorageType} from '../../ext/storage.js';
 
 const storedState = {
   theme: 'light',
   layout: 'grid',
-  storageType: '',
+  storageType: 'sync',
 };
 
 const settings = {
@@ -19,7 +19,7 @@ const settings = {
       state[name] = value;
     },
     setStateAndStore(state, {name, value}) {
-      // set state and save to chromeStorage
+      // set state and save to syncStorage
       state[name] = value;
     },
 
@@ -39,7 +39,7 @@ const settings = {
 
       commit('setState', {name: 'storageType', value: storageType});
 
-      const stored = await chromeStore.get(Object.keys(storedState));
+      const stored = await syncStore.get(Object.keys(storedState));
 
       Object.keys(stored || []).forEach((name) => {
         commit('setState', {name, value: stored[name]});
@@ -68,14 +68,14 @@ const settings = {
         stateStored[key] = state[key];
       });
 
-      const chromeStored = await chromeStore.get(storedKeys);
-      const stored = Object.assign({}, stateStored, chromeStored || {});
+      const syncStored = await syncStore.get(storedKeys);
+      const stored = Object.assign({}, stateStored, syncStored || {});
 
       storedKeys.forEach((name) => {
         commit('setState', {name, value: stored[name]});
       });
 
-      return chromeStore.set(stored);
+      return syncStore.set(stored);
     },
   },
 };

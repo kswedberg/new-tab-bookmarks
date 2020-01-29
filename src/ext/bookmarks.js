@@ -16,6 +16,16 @@ export const getBookmark = (id) => {
   return browser.bookmarks.get(id);
 };
 
+export const getBookmarkWithPosition = async(id, isParent) => {
+  const [value] = await getBookmark(id);
+  const [parent] = await getSubTree(isParent ? id : value.parentId);
+
+  value.len = value.url ? parent.children.filter((item) => item.url).length : parent.children.length;
+  value.indexOffset = parent.children.length - value.len;
+
+  return value;
+};
+
 export const search = (query) => {
   return browser.bookmarks.search(query);
 };
@@ -30,6 +40,10 @@ export const move = (id, props) => {
 
 export const remove = (id) => {
   return browser.bookmarks.remove(id);
+};
+
+export const removeTree = (id) => {
+  return browser.bookmarks.removeTree(id);
 };
 
 export const create = (bookmark) => {

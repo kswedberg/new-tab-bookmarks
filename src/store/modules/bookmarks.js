@@ -1,5 +1,5 @@
-import {getTree, getSubTree, getBookmark, move, update, remove} from '../../ext/bookmarks.js';
-import {chromeStore} from '../../ext/storage.js';
+import {getTree, getSubTree, getBookmarkWithPosition, move, update, remove, removeTree} from '../../ext/bookmarks.js';
+import {syncStore} from '../../ext/storage.js';
 import {buildOptions} from '../../ext/build-options.js';
 
 const title2Text = (bookmark, withSpaces) => {
@@ -44,7 +44,7 @@ const filterResults = function filterResults(nodes, filters) {
   // return results;
 };
 
-const chromeStoreItems = ['defaultFolder', 'expandedFolders', 'asideClosed', 'searchAll'];
+const syncStoreItems = ['defaultFolder', 'expandedFolders', 'asideClosed', 'searchAll'];
 const bookmarks = {
   strict: true,
   namespaced: true,
@@ -74,7 +74,7 @@ const bookmarks = {
       return (state.searchAll && state.searchFilter) || state.currentFolder.id === 'All' ? '0' : state.currentFolder.id;
     },
     searchFilter(state) {
-      return (state.searchFilter || '').toLowerCase();
+      return (state.searchFilter || '').trim().toLowerCase();
     },
   },
   mutations: {
@@ -82,7 +82,7 @@ const bookmarks = {
       state[name] = value;
     },
     setStateAndStore(state, {name, value}) {
-      // set state and save to chromeStorage
+      // set state and save to syncStorage
       state[name] = value;
     },
 
@@ -105,7 +105,7 @@ const bookmarks = {
 
   actions: {
     async initialize({state, commit, dispatch}) {
-      const storedItems = await chromeStore.get(chromeStoreItems);
+      const storedItems = await syncStore.get(syncStoreItems);
 
       Object.keys(state).forEach((name) => {
         const value = typeof storedItems[name] === 'undefined' ? bookmarks.state[name] : storedItems[name];
@@ -139,11 +139,8 @@ const bookmarks = {
     },
 
     async getEditing({commit}, id) {
-      const [value] = await getBookmark(id);
-      const [parent] = await getSubTree(value.parentId);
+      const value = await getBookmarkWithPosition(id);
 
-      value.len = value.url ? parent.children.filter((item) => item.url).length : parent.children.length;
-      value.indexOffset = parent.children.length - value.len;
       commit('setState', {name: 'editing', value});
     },
     async update({dispatch}, bookmark) {
@@ -156,11 +153,14 @@ const bookmarks = {
     async move({dispatch}, {id, parentId, index}) {
       const result = await move(id, {parentId, index});
 
-      console.log('moved', result);
       await dispatch('getResults');
     },
     async remove({dispatch}, id) {
       await remove(id);
+      await dispatch('getResults');
+    },
+    async removeTree({dispatch}, id) {
+      await removeTree(id);
       await dispatch('getResults');
     },
     setCurrentFolderFromId({state, commit}, newId) {

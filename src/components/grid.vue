@@ -119,6 +119,9 @@ export default {
     titleLower() {
       return (this.title || '').toLowerCase();
     },
+    searchFilter() {
+      return this.$store.state.bookmarks.searchFilter;
+    },
     expanded: {
       get() {
         return this.$store.state.bookmarks.expandedFolders;

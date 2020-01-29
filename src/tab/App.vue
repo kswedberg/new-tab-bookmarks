@@ -15,10 +15,10 @@
 
       <el-container class="Main">
         <el-main>
-          <div v-if="results && results.length" id="bookmarks" class="Hdg Bookmarks">
-            <h3>{{ results[0] && results[0].title }}</h3>
+          <div v-if="results.length" id="bookmarks" class="Hdg Bookmarks">
+            <h3>{{ mainTitle }} <span class="dim">({{ results[0].id }})</span></h3>
             <button @click="expandAll" class="Hdg-toggleExpanded" type="button">
-              {{ expanded ? '-' : '+' }}
+              {{ expanded.length ? '-' : '+' }}
             </button>
             <div v-if="layout === 'tree'" class="Tree">
               <!--
@@ -42,7 +42,7 @@
 </template>
 <script>
 import {getSubTree, removeMany} from '../ext/bookmarks.js';
-import {chromeStore} from '../ext/storage.js';
+import {syncStore} from '../ext/storage.js';
 import Aside from './aside.vue';
 import TreeFolder from '../components/tree-folder.vue';
 import Grid from '../components/grid.vue';
@@ -72,10 +72,14 @@ export default {
   },
   computed: {
     results() {
-      return this.$store.state.bookmarks.results;
+      return this.$store.state.bookmarks.results || [];
     },
+    searchFilter() {
+      return this.$store.state.bookmarks.searchFilter;
+    },
+
     mainTitle() {
-      return this.results && this.results[0] && this.results[0].title;
+      return this.searchFilter ? `Filter: ${this.searchFilter}` : this.results[0] && this.results[0].title;
     },
     expandCollapseIcon() {
       return this.bookmarkSettings.folders.length === this.expanded.length
@@ -182,7 +186,7 @@ export default {
     setDefault() {
       this.defaultFolder = Object.assign({}, this.currentFolder);
 
-      chromeStore.set({defaultFolder: this.defaultFolder});
+      syncStore.set({defaultFolder: this.defaultFolder});
     },
     resetDefault() {
       const value = Object.assign(
