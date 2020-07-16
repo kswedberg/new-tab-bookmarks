@@ -16,7 +16,7 @@
       <el-container class="Main">
         <el-main>
           <div v-if="results.length" id="bookmarks" class="Hdg Bookmarks">
-            <h3>{{ mainTitle }} <span class="dim">({{ results[0].id }})</span></h3>
+            <h3>{{ mainTitle }} </h3>
             <button @click="expandAll" class="Hdg-toggleExpanded" type="button">
               {{ expanded.length ? '-' : '+' }}
             </button>

@@ -21,7 +21,12 @@ const filters = {
 
     return isNaN(base) ? value : base + addTo;
   },
+  date: (value, options) => {
+    const val = value || '';
+    const d = new Date(val);
 
+    return d.toLocaleDateString(undefined, options);
+  },
   // eslint-disable-next-line camelcase
   json_encode: (value, spacing) => {
     if (spacing) {

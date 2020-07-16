@@ -6,7 +6,8 @@
         :key="'label-' + i"
         :class="{'Folder-labelParent': i < allLabels.length - 1}"
       >
-        {{ label }} <span class="dim">({{ id }})</span>
+        {{ label }}
+        <!-- <span class="dim">({{ id }})</span> -->
         <i v-if="i < allLabels.length - 1" class="el-icon-arrow-right"/>
       </span>
     </button>

@@ -29,7 +29,8 @@ const filterResults = function filterResults(nodes, filters) {
     return false;
   });
 
-  return results.filter(function strip(node) {
+
+  const filteredResults = results.filter(function strip(node) {
     if (node.url) {
       return true;
     }
@@ -41,7 +42,7 @@ const filterResults = function filterResults(nodes, filters) {
     return false;
   });
 
-  // return results;
+  return filteredResults;
 };
 
 const syncStoreItems = ['defaultFolder', 'expandedFolders', 'asideClosed', 'searchAll'];
@@ -151,8 +152,7 @@ const bookmarks = {
     },
 
     async move({dispatch}, {id, parentId, index}) {
-      const result = await move(id, {parentId, index});
-
+      await move(id, {parentId, index: index || 0});
       await dispatch('getResults');
     },
     async remove({dispatch}, id) {
@@ -165,7 +165,7 @@ const bookmarks = {
     },
     setCurrentFolderFromId({state, commit}, newId) {
       const {id, title, text} = newId === '0' ?
-        {id: 'All', title: ''} :
+        {id: 'All', title: '', text: undefined} :
         state.folders.find((folder) => folder && folder.id === newId);
 
       commit('setStateAndStore', {
