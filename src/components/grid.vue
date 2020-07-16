@@ -1,23 +1,28 @@
 <template lang="html">
   <!--
   **** This is a recursive component.
-   -->
+  -->
+
+  <!-- Bookmark -->
   <div v-if="url && (!children || !children.length)" class="Grid-cell">
-    <el-button
-      @click="openEditing"
-      icon="el-icon-edit"
-      type="primary"
-      class="EditBtn"
-      size="mini"
-      round
-    />
-    <a
-      v-if="url"
-      :href="url"
-    >
-      {{ title }}
-    </a>
+    <div class="Grid-cellItem">
+      <el-button
+        @click="openEditing"
+        icon="el-icon-edit"
+        type="primary"
+        class="EditBtn"
+        size="mini"
+        round
+      />
+      <a
+        v-if="url"
+        :href="url"
+      >
+        {{ title }}
+      </a>
+    </div>
   </div>
+
   <div
     v-else-if="children && children.length"
     :class="'Level Level--' + depth"
@@ -27,7 +32,12 @@
       v-show="hasChildLink"
       class="Hdg"
     >
-      <TreeFolder :id="id" :parents="parents" :title="title"/>
+      <!-- Folder -->
+      <TreeFolder
+        :id="id"
+        :parents="parents"
+        :title="title"
+      />
       <button @click="toggleExpanded(id)" class="Hdg-toggleExpanded" type="button">
         {{ expanded.includes(id) ? '-' : '+' }}
       </button>
@@ -224,19 +234,46 @@ export default {
   align-items: stretch;
   text-align: center;
 
-  min-height: 100px;
+  min-height: calc(4em + 20px);
   margin: 10px 5px;
-  padding: 6px;
-  border: 1px solid var(--layout-border-color);
-  transform: scale(1);
-  transition: transform 0.25s, box-shadow 0.25s;
-  box-shadow: 0 0 0;
+
+  .Grid-cellItem {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    min-width: 100%;
+    padding: 6px;
+    border: 1px solid var(--layout-border-color);
+    transform: scale(1);
+    transition: transform 0.25s, box-shadow 0.25s;
+    box-shadow: 0 0 0;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /** unprefixed line-clamp not supported as of 2020-01-09 by any browsers.
+    * but when it is, it might fix buggy behavior of -webkit-line-clamp (or at least obviate the need for display/-webkit-box-orient?)
+    */
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+  }
 
   &:hover {
     background-color: var(--main-bg-gradient);
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-    transform: scale(1.2);
     z-index: 2;
+    // min-height: 100px;
+    .Grid-cellItem {
+      min-height: 100%;
+      height: auto;
+      background-color: var(--main-bg-gradient);
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+      transform: scale(1.2);
+
+      -webkit-line-clamp: unset;
+      line-clamp: unset;
+    }
+
     .EditBtn {
       opacity: 1;
     }
