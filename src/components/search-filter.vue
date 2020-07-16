@@ -1,5 +1,6 @@
 <template>
   <el-form
+    @submit.native.prevent
     :inline="true"
     :model="form"
     class="Header-form Form--inline"
@@ -9,6 +10,7 @@
         <el-input
           v-model="searchFilter"
           clearable
+          name="keyword"
           prefix-icon="el-icon-search"
           placeholder="Filter…"
         />
@@ -28,12 +30,13 @@
 </template>
 
 <script>
+import {unserialize} from 'fmjs/url.js';
+
 export default {
   data() {
     return {
       timer: 0,
       form: {},
-      keyword: '',
     };
   },
   computed: {
@@ -63,6 +66,13 @@ export default {
         this.updateFilter();
       },
     },
+  },
+  mounted() {
+    const params = unserialize();
+
+    if (params.keyword) {
+      this.searchFilter = params.keyword;
+    }
   },
   methods: {
     toggleScope() {

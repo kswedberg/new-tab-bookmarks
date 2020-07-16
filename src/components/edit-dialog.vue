@@ -34,6 +34,10 @@
           </option>
         </select>
       </el-form-item>
+      <ul>
+        <li>Date Added: {{ editing.dateAdded | date }}</li>
+        <li>ID: {{ editing.id }} / Parent ID: {{ editing.parentId }}</li>
+      </ul>
       <div>
         <el-button @click="isEditing = null">Cancel</el-button>
         <el-button native-type="submit" type="primary">Update</el-button>
@@ -83,26 +87,34 @@ export default {
     this.index = this.editing.index;
     this.indexOffset = this.editing.indexOffset || -1;
     this.len = this.editing.len;
-    console.log(this.title);
+
   },
   methods: {
     async changePosition() {
+      if (!this.parentId) {
+        return;
+      }
       const {len, indexOffset} = await getBookmarkWithPosition(this.parentId, 'parent');
 
-      console.log(len, indexOffset);
-      this.len = len;
+      this.len = len || 1;
       this.indexOffset = indexOffset;
+
+      console.log('changePosition', this.len, this.indexOffset);
     },
     update() {
-      const {id} = this.editing;
-      const {title, url, parentId, index} = this;
+      const {editing = {}, title, url, parentId} = this;
+      const {id} = editing;
 
-      console.log(title, ':', this.editing.title);
-      if (title !== this.editing.title || url !== this.editing.url) {
+      if (title !== editing.title || url !== editing.url) {
+        console.log('[edit-dialogue]', 'updating', {id, title, url});
         this.$store.dispatch('bookmarks/update', {id, title, url});
       }
-      if (parentId !== this.editing.parentId || index !== this.editing.index) {
-        this.$store.dispatch('bookmarks/move', {id, parentId, index});
+      if (parentId !== editing.parentId || this.index !== editing.index) {
+        // If index is greater than number of items in new folder,
+        // we have to change it or it'll throw an error:
+        const index = parentId !== editing.parentId && this.index > this.len ? this.len : this.index;
+
+        this.$store.dispatch('bookmarks/move', {id, parentId, index: index || 0});
       }
 
       this.isEditing = null;

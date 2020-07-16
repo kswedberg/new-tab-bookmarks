@@ -1,4 +1,3 @@
-import {getProperty} from 'fmjs/getproperty.js';
 import {syncStore} from '../../ext/storage.js';
 
 const syncStoragePlugin = (store) => {
