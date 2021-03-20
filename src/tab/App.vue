@@ -11,11 +11,14 @@
       <Aside
         @update="onAsideUpdate"
         :asideClosed="asideClosed"
+        :showDupes="showDupes"
       />
 
       <el-container class="Main">
         <el-main>
-          <div v-if="results.length" id="bookmarks" class="Hdg Bookmarks">
+          <Dupes v-if="showDupes" @refresh="refreshDupes" :dupes="dupes"/>
+
+          <div v-else-if="results.length" id="bookmarks" class="Hdg Bookmarks">
             <h3>{{ mainTitle }} </h3>
             <button @click="expandAll" class="Hdg-toggleExpanded" type="button">
               {{ expanded.length ? '-' : '+' }}
@@ -41,11 +44,12 @@
   </el-container>
 </template>
 <script>
-import {getSubTree, removeMany} from '../ext/bookmarks.js';
+import {findDupes, getSubTree, getTree, removeMany} from '../ext/bookmarks.js';
 import {syncStore} from '../ext/storage.js';
 import Aside from './aside.vue';
 import TreeFolder from '../components/tree-folder.vue';
 import Grid from '../components/grid.vue';
+import Dupes from '../components/dupes.vue';
 import SearchFilter from '../components/search-filter.vue';
 import EditDialog from '../components/edit-dialog.vue';
 
@@ -53,6 +57,7 @@ export default {
   components: {
     Aside,
     Grid,
+    Dupes,
     // TreeFolder,
     SearchFilter,
     EditDialog,
@@ -68,6 +73,8 @@ export default {
       allExpanded: false,
       dialogVisible: false,
       checkedNodes: [{}],
+      dupes: [],
+      showDupes: false,
     };
   },
   computed: {
@@ -134,6 +141,16 @@ export default {
   },
 
   methods: {
+    toggleDupes() {
+      this.showDupes = !this.showDupes;
+
+      if (this.showDupes) {
+        this.refreshDupes();
+      }
+    },
+    async refreshDupes() {
+      this.dupes = await findDupes();
+    },
     closeDialog(a) {
       if (a.type && this.checkedNodes.length) {
         removeMany(this.checkedNodes).then(() => {
@@ -159,20 +176,20 @@ export default {
           ? []
           : folders.map((item) => item.id);
     },
-    onExpandFolder({id}) {
-      this.expanded.push(id);
-      this.$store.commit('bookmarks/setStateAndStore', {
-        name: 'expandedFolders',
-        value: this.expanded,
-      });
-    },
-    onCollapseFolder({id}) {
-      this.expanded = this.expanded.filter((item) => `${item}` !== `${id}`);
-      this.$store.commit('bookmarks/setStateAndStore', {
-        name: 'expandedFolders',
-        value: this.expanded,
-      });
-    },
+    // onExpandFolder({id}) {
+    //   this.expanded.push(id);
+    //   this.$store.commit('bookmarks/setStateAndStore', {
+    //     name: 'expandedFolders',
+    //     value: this.expanded,
+    //   });
+    // },
+    // onCollapseFolder({id}) {
+    //   this.expanded = this.expanded.filter((item) => `${item}` !== `${id}`);
+    //   this.$store.commit('bookmarks/setStateAndStore', {
+    //     name: 'expandedFolders',
+    //     value: this.expanded,
+    //   });
+    // },
 
     onAsideUpdate(meth, arg) {
       this[meth](arg);

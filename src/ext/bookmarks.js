@@ -73,3 +73,75 @@ export const upsert = (newB, oldB = {}) => {
 export const removeMany = (ids) => {
   return Promise.all(ids.map(remove));
 };
+
+
+export const findDupes = async() => {
+  const tree = await getTree();
+  let parents = [];
+
+  const peelBackParents = (item) => {
+    const {parentId} = item;
+
+    while (parents.length && parents[parents.length - 1].id !== parentId) {
+      parents.pop();
+    }
+  };
+
+  const formatParents = (parents) => {
+    return parents.map(({title}) => title).join('/');
+  };
+
+
+  const traverser = (map, curr, i, arr) => {
+    peelBackParents(curr);
+
+    if (curr.children) {
+      if (curr.children.length && curr.parentId > 0) {
+        const {title, id} = curr;
+
+
+        parents.push({title, id});
+      }
+
+      return curr.children.reduce(traverser, map);
+    }
+
+
+    if (curr.url) {
+      try {
+        const url = new URL(curr.url);
+        const key = url.host + url.pathname;
+        const item = map.get(key) || [];
+
+
+        curr.parentTree = formatParents(parents);
+        curr.protocol = url.protocol;
+        curr.lower = curr.title?.toLowerCase();
+        item.push(curr);
+        map.set(key, item);
+      } catch (err) {
+        // ignore error. probably a bookmarklet or something
+      }
+
+    }
+
+    return map;
+  };
+  const treeset = tree.reduce(traverser, new Map());
+  const dupes = new Set();
+
+  for (let [key, value] of treeset) {
+    if (value.length > 1) {
+      // const items = value.map((item) => {
+      //   return Object.assign(item, {
+      //     parentTree: (item.parents || []).map(({title}) => title).join(' / '),
+      //   });
+      // });
+
+      dupes.add({id: key, items: value});
+      // console.log(key, value.length);
+    }
+  }
+
+  return [...dupes];
+};

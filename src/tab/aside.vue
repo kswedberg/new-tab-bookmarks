@@ -53,6 +53,15 @@
         <div v-show="!asideClosed" class="Aside-row">
           <Settings />
         </div>
+        <div v-show="!asideClosed" class="Aside-row">
+          <el-button
+            @click="$emit('update', 'toggleDupes')"
+            id="show-dupes"
+            icon="el-icon-scissors"
+          >
+            {{ showDupes ? `Hide dupes` : 'Show dupes' }}
+          </el-button>
+        </div>
       </div>
     </el-container>
   </el-aside>
@@ -67,6 +76,7 @@ export default {
   },
   props: {
     asideClosed: Boolean,
+    showDupes: Boolean,
   },
   computed: {
     folders() {

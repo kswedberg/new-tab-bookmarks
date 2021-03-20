@@ -1,0 +1,66 @@
+<template>
+  <div>
+    <h2>Dupes</h2>
+    <div v-for="dupe in dupes" class="dupe-group" :key="dupe.id">
+      <h3>{{ dupe.items[0].title }}</h3>
+      <el-row :gutter="20">
+        <el-col
+          v-for="(item, i) in dupe.items"
+          :key="item.id"
+          :span="Math.max(24 / dupe.items.length, 6)"
+        >
+          <div>{{ item.parentTree }}</div>
+          <div
+            :class="[i && item.title != dupe.items[i-1].title && 'alert']"
+          >
+            <el-button
+              @click="remove(item.id)"
+              ref="confirm"
+              type="danger"
+              size="mini"
+              icon="el-icon-delete"
+            />
+            {{ item.title }}
+          </div>
+          <div>
+            <a :class="[i && item.url != dupe.items[i-1].url && 'alert']" :href="item.url">{{ item.url }}</a>
+          </div>
+          <div>{{ new Date(item.dateAdded).toLocaleDateString()}}</div>
+        </el-col>
+      </el-row>
+      <div>
+        <div/>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import {remove} from '../ext/bookmarks';
+
+export default {
+  props: {
+    dupes: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+  },
+  methods: {
+    async remove(id) {
+      await remove(id);
+      this.$emit('refresh');
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.dupe-group {
+  margin: 1em 0;
+}
+.alert {
+  color: #c33;
+}
+</style>
