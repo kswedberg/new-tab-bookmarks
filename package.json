@@ -15,6 +15,7 @@
     "dev-opera": "NODE_ENV=development TARGET_BROWSER=opera webpack --watch --mode=development",
     "build-chrome": "NODE_ENV=production TARGET_BROWSER=chrome webpack --hide-modules --mode=production",
     "build-firefox": "NODE_ENV=production TARGET_BROWSER=firefox webpack --hide-modules --mode=production",
+    "sign-firefox": "node ./scripts/ff-sign.js",
     "build-opera": "NODE_ENV=production TARGET_BROWSER=opera webpack --hide-modules --mode=production",
     "build": "yarn run build-chrome && yarn run build-firefox && yarn run build-opera"
   },
