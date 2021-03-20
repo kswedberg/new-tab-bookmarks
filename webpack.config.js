@@ -122,13 +122,13 @@ const config = {
       filename: '[name].css',
     }),
 
-    new CopyWebpackPlugin([
-      {from: 'icons', to: 'icons', ignore: ['.DS_Store']},
-      {from: 'fonts', to: 'fonts', ignore: ['.DS_Store']},
+    new CopyWebpackPlugin({patterns: [
+      {from: 'icons', to: 'icons', globOptions: {dot: false}},
+      {from: 'fonts', to: 'fonts', globOptions: {dot: false}},
       {from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml},
       {from: 'options/options.html', to: 'options/options.html', transform: transformHtml},
       // {from: 'tab/tab.html', to: 'tab/tab.html', transform: transformHtml},
-    ]),
+    ]}),
     new WriteWebpackPlugin([{name: manifest.name, data: Buffer.from(manifest.content)}]),
   ],
   optimization: {
@@ -159,6 +159,7 @@ if (config.mode === 'production') {
 
 if (process.env.HMR === 'true') {
   config.plugins = (config.plugins || []).concat([
+    // @ts-ignore
     new ExtensionReloader({
       extensionPage: [
         'popup/popup.js',

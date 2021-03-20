@@ -33,7 +33,6 @@ const manifest = {
     'bookmarks',
     'storage',
   ],
-  // content_security_policy: 'script-src \'self\' \'unsafe-eval\'; object-src \'self\'',
 
   '__chrome|firefox__author': 'Karl Swedberg',
   __opera__developer: {
@@ -88,5 +87,11 @@ const manifest = {
   //   },
   // ],
 };
+
+manifest.content_security_policy = 'script-src \'self\' \'unsafe-eval\'; object-src \'self\'';
+
+if (process.env.NODE_ENV === 'development') {
+  manifest.content_security_policy = 'script-src \'self\' \'unsafe-eval\'; object-src \'self\'';
+}
 
 module.exports = manifest;

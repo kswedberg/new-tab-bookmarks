@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "checkJs": true,
+  "exclude": [".nuxt", "dist", "gitignore", "node_modules"]
+}

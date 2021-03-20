@@ -220,6 +220,7 @@ export default {
   height: 18px;
   line-height: 1;
   border-radius: 6px;
+  border: 1px solid #ccc;
   font-size: 12px;
 }
 
