@@ -1,5 +1,5 @@
 {
-  "name": "new-tab-bookmarks",
+  "name": "@kswedberg/new-tab-bookmarks",
   "version": "1.4.0",
   "description": "New Tab Bookmarks, a browser extension",
   "author": "Karl Swedberg <kswedberg@gmail.com>",
