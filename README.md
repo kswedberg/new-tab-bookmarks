@@ -1,6 +1,13 @@
-# New Tab Bookmarks
+# New Tab Bookmarks, a browser extension
 
-This is a work in progress, mostly for personal use, but feel free to use it if you think it might be helpful to you.
+This is a work in progress, mostly for personal use, but feel free to use it if you think it might be helpful to you. It uses your browser's bookmarks / favorites as the default page that appears when you open a new tab (hence the catchy name "New Tab Bookmarks"). If you have a lot of bookmarks, you can choose a specific folder whose bookmarks will appear instead of showing all of them.
+
+Other features:
+
+* Filter/search bookmarks, either all of them or just the ones in your selected folder
+* Save a new bookmark with an enhanced popup
+* Make rudimentary changes to bookmarks (move, rename, reorder, etc.)
+* Find duplicate bookmarks and list them, allowing you to delete any one you wish
 
 Some day I might decide to upload it to the Chrome web store or to the Firefox Add-ons site, but for now you'll need to install it as a "development version."
 
