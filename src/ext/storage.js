@@ -12,7 +12,7 @@ const getStorageType = () => {
  * @see {@link https://developer.chrome.com/extensions/storage}
  */
 
-// chrome.storage.local.set
+// e.g. browser.storage.sync.get, browser.storage.local.get, etc.
 const syncStore = {
   get: (key) => {
     const props = Array.isArray(key) ? key : [key];

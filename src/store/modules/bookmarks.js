@@ -1,4 +1,13 @@
-import {getTree, getSubTree, getBookmarkWithPosition, move, update, remove, removeTree} from '../../ext/bookmarks.js';
+import {
+  getTree,
+  getSubTree,
+  getBookmarkWithPosition,
+  move,
+  update,
+  remove,
+  removeTree,
+  search
+} from '../../ext/bookmarks.js';
 import {syncStore} from '../../ext/storage.js';
 import {buildOptions} from '../../ext/build-options.js';
 
@@ -114,7 +123,9 @@ const bookmarks = {
         commit('setState', {name, value});
       });
 
-      commit('setState', {name: 'currentFolder', value: Object.assign({}, bookmarks.state.defaultFolder)});
+      commit('setState', {name: 'currentFolder', value: Object.assign({}, state.defaultFolder)});
+
+      await dispatch('checkDefaultFolder');
 
       await Promise.all([
         dispatch('getFolders'),
@@ -122,6 +133,40 @@ const bookmarks = {
       ]);
     },
 
+    async checkDefaultFolder({state, commit}) {
+      const {id, title} = state.defaultFolder || {};
+      // (1) Search all bookmarks and folders for any with title matching the defaultFolder title
+      const results = await search(title);
+
+      // (2) We only need folders, so remove any that have a url property
+      const folders = results.filter(({url}) => !url);
+
+      // (3) See if one of the results has a matching id.
+      // If so, WE ARE GOOD
+      const foundId = folders.find((res) => res.id === id);
+
+      // (4) If not, we need to find the ones that match the title EXACTLY.
+      if (!foundId) {
+        const filteredByTitle = folders.filter((res) => title === res.title);
+
+        // (5) We HOPE that there is only one,
+        //     because then we can simply merge that in and pick up its id.
+        if (filteredByTitle.length === 1) {
+          const value = Object.assign({}, state.defaultFolder, filteredByTitle[0]);
+
+          commit('setStateAndStore', {name: 'defaultFolder', value});
+          commit('setState', {name: 'currentFolder', value});
+        } else {
+          const value = Object.assign({}, state.defaultFolder, {text: 'NOT FOUND'});
+
+          commit('setState', {name: 'currentFolder', value});
+          console.log('Hmmmmmm. Possible sync issue…');
+          console.log('ID of default folder does not match any folder here.');
+          console.log('Here are folders with title that matches default folder ID:');
+          console.log(filteredByTitle);
+        }
+      }
+    },
     async getFolders({commit}) {
       const nodes = await getTree();
       const value = buildOptions.treeNodes(nodes);
