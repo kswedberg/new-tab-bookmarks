@@ -103,7 +103,7 @@ export default {
       },
     },
     currentFolder() {
-      return this.$store.state.bookmarks.currentFolder;
+      return this.$store.state.bookmarks.currentFolder || {};
     },
     // currentFolder: {
     //   get() {

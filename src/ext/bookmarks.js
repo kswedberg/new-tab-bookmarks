@@ -26,7 +26,7 @@ export const getBookmarkWithPosition = async(id, isParent) => {
   return value;
 };
 
-export const search = (query) => {
+export const search = (query = '') => {
   return browser.bookmarks.search(query);
 };
 

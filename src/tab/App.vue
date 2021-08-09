@@ -134,10 +134,9 @@ export default {
     },
   },
 
-  created() {
-    this.$store.dispatch('settings/initialize').then(() => {
-      return this.$store.dispatch('bookmarks/initialize');
-    });
+  async created() {
+    await this.$store.dispatch('settings/initialize');
+    await this.$store.dispatch('bookmarks/initialize');
   },
 
   methods: {
