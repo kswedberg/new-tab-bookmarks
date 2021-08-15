@@ -59,11 +59,11 @@ const config = {
     rules: [
       {
         test: /\.vue$/,
-        loaders: 'vue-loader',
+        use: 'vue-loader',
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        use: 'babel-loader',
         exclude: /node_modules/,
       },
       {
@@ -132,9 +132,9 @@ const config = {
     new WriteWebpackPlugin([{name: manifest.name, data: Buffer.from(manifest.content)}]),
   ],
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserPlugin({
-        cache: true,
         parallel: true,
       }),
     ],
