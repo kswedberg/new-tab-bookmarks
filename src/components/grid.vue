@@ -18,6 +18,7 @@
         v-if="url"
         :href="url"
       >
+        <img style="float: left; margin-right: 3px;" :src="`chrome://favicon/${url.replace(/^(https?:\/\/[^/]+)\/.*/, '$1')}`" alt="favicon">
         {{ title }}
       </a>
     </div>
