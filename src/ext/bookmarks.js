@@ -1,4 +1,4 @@
-const browser = require('webextension-polyfill');
+import browser from 'webextension-polyfill';
 
 export const getTree = () => {
   return browser.bookmarks.getTree();

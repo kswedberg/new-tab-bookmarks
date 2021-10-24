@@ -18,19 +18,18 @@
         v-if="url"
         :href="url"
       >
-        <img style="float: left; margin-right: 3px;" :src="`chrome://favicon/${url.replace(/^(https?:\/\/[^/]+)\/.*/, '$1')}`" alt="favicon">
+        <img class="favicon" :src="`chrome://favicon/${url.replace(/^(https?:\/\/[^/]+)\/.*/, '$1')}`" alt="favicon">
         {{ title }}
       </a>
     </div>
   </div>
 
   <div
-    v-else-if="children && children.length"
+    v-else
     :class="'Level Level--' + depth"
   >
     <div
       v-if="id"
-      v-show="hasChildLink"
       class="Hdg"
     >
       <!-- Folder -->
@@ -41,9 +40,15 @@
       />
       <button @click="toggleExpanded(id)" class="Hdg-toggleExpanded" type="button">
         {{ expanded.includes(id) ? '-' : '+' }}
+        <span class="sr-only">{{ expanded.includes(id) ? 'collapse' : 'expand' }}</span>
       </button>
     </div>
-    <div v-show="depth < 1 || expanded.includes(id)" class="Grid" :data-folderid="id">
+    <div
+      v-if="children && children.length"
+      v-show="depth < 1 || expanded.includes(id)"
+      class="Grid"
+      :data-folderid="id"
+    >
       <grid
         v-for="child in sortedChildren"
         :id="child.id"
@@ -65,6 +70,9 @@ import TreeFolder from './tree-folder.vue';
 export default {
   // The name 'grid' here is being used in the template above to call this component recursively
   name: 'grid',
+  components: {
+    TreeFolder,
+  },
   props: {
     children: {
       type: Array,
@@ -74,12 +82,15 @@ export default {
     },
     title: {
       type: String,
+      default: '',
     },
     id: {
       type: String,
+      default: '',
     },
     url: {
       type: String,
+      default: '',
     },
     hidden: {
       type: Boolean,
@@ -87,6 +98,7 @@ export default {
     },
     depth: {
       type: [Number, String],
+      required: true,
     },
     parents: {
       type: Array,
@@ -94,9 +106,6 @@ export default {
         return [];
       },
     },
-  },
-  components: {
-    TreeFolder,
   },
   data() {
     return {
@@ -174,7 +183,8 @@ export default {
       });
     },
     openEditing() {
-      this.$store.dispatch('bookmarks/getEditing', this.id);
+      console.log('openEditing');
+      this.$store.dispatch('bookmarks/getEditing', {id: this.id});
     },
   },
 };
@@ -195,6 +205,12 @@ export default {
     padding-left: 10px;
   }
 }
+
+.favicon {
+  float: left;
+  margin-right: 3px;
+}
+
 .EditBtn {
   position: absolute;
   right: 2px;

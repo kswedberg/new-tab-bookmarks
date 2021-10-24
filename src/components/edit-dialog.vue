@@ -1,6 +1,6 @@
 <template>
   <el-dialog :visible.sync="isEditing">
-    <el-form @submit.native.prevent="update" class="Form Form--inline"  label-width="80px">
+    <el-form @submit.native.prevent="update" class="Form Form--inline" label-width="80px">
       <el-form-item label="Folder">
         <el-select
           v-model="parentId"
@@ -40,8 +40,8 @@
       </ul>
       <div>
         <el-button @click="isEditing = null">Cancel</el-button>
-        <el-button native-type="submit" type="primary">Update</el-button>
-        <el-button @click="remove" type="danger">Delete</el-button>
+        <el-button native-type="submit" type="primary">{{ action === 'create' ? 'Add' : 'Update' }}</el-button>
+        <el-button v-if="action !== 'create'" @click="remove" type="danger">Delete</el-button>
       </div>
     </el-form>
   </el-dialog>
@@ -59,6 +59,7 @@ export default {
       index: 0,
       indexOffset: 0,
       len: 0,
+      action: '',
     };
   },
   computed: {
@@ -87,7 +88,7 @@ export default {
     this.index = this.editing.index;
     this.indexOffset = this.editing.indexOffset || -1;
     this.len = this.editing.len;
-
+    this.action = this.editing.action;
   },
   methods: {
     async changePosition() {
@@ -101,24 +102,43 @@ export default {
 
       console.log('changePosition', this.len, this.indexOffset);
     },
-    update() {
+    async update() {
       const {editing = {}, title, url, parentId} = this;
       const {id} = editing;
+      // If index is greater than number of items in new folder,
+      // we have to change it or it'll throw an error:
+      const index = parentId !== editing.parentId && this.index > this.len ? this.len : this.index;
 
+      // Create new bookmark
+      if (this.action === 'create') {
+        // eslint-disable-next-line no-return-await
+        return await this.create({title, url, parentId, index});
+      }
+      // Update bookmark within same folder
       if (title !== editing.title || url !== editing.url) {
         console.log('[edit-dialogue]', 'updating', {id, title, url});
-        this.$store.dispatch('bookmarks/update', {id, title, url});
+        await this.$store.dispatch('bookmarks/update', {id, title, url});
       }
-      if (parentId !== editing.parentId || this.index !== editing.index) {
-        // If index is greater than number of items in new folder,
-        // we have to change it or it'll throw an error:
-        const index = parentId !== editing.parentId && this.index > this.len ? this.len : this.index;
 
-        this.$store.dispatch('bookmarks/move', {id, parentId, index: index || 0});
+      // Move bookmark to another folder
+      if (parentId !== editing.parentId || this.index !== editing.index) {
+        await this.$store.dispatch('bookmarks/move', {id, parentId, index: index || 0});
       }
 
       this.isEditing = null;
     },
+
+    async create(obj = {}) {
+      const {url, ...bookmark} = obj;
+
+      if (url) {
+        bookmark.url = url;
+      }
+
+      await this.$store.dispatch('bookmarks/create', bookmark);
+      this.isEditing = null;
+    },
+
     remove() {
       const {id} = this.editing;
 

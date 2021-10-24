@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'element-icons';
+  src: url('https://swedberg.us/fonts/element-icons.woff') format('woff'),
+    url('https://swedberg.us/fonts/element-icons.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Variables: */
 body {
   --gap: 20px;
@@ -116,4 +125,17 @@ h2 {
 a {
   color: var(--link-color);
   text-decoration: none;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
 }

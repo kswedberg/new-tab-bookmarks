@@ -2,6 +2,7 @@ import {
   getTree,
   getSubTree,
   getBookmarkWithPosition,
+  create,
   move,
   update,
   remove,
@@ -167,6 +168,7 @@ const bookmarks = {
         }
       }
     },
+
     async getFolders({commit}) {
       const nodes = await getTree();
       const value = buildOptions.treeNodes(nodes);
@@ -184,11 +186,26 @@ const bookmarks = {
       commit('setState', {name: 'results', value: results});
     },
 
-    async getEditing({commit}, id) {
-      const value = await getBookmarkWithPosition(id);
+    async getEditing({commit}, {id, action = 'update'}) {
+      const val = await getBookmarkWithPosition(id);
+      let value = val;
 
+      if (action === 'create') {
+        const {id, dateAdded, dateGroupModified, title, url, ...rest} = val;
+
+        value = rest;
+      }
+      value.action = action;
       commit('setState', {name: 'editing', value});
+
+      return value;
     },
+
+    async create({commit, dispatch}, bookmark) {
+      await create(bookmark);
+      await dispatch('getResults');
+    },
+
     async update({dispatch}, bookmark) {
       const {id, ...props} = bookmark;
 
@@ -200,14 +217,17 @@ const bookmarks = {
       await move(id, {parentId, index: index || 0});
       await dispatch('getResults');
     },
+
     async remove({dispatch}, id) {
       await remove(id);
       await dispatch('getResults');
     },
+
     async removeTree({dispatch}, id) {
       await removeTree(id);
       await dispatch('getResults');
     },
+
     setCurrentFolderFromId({state, commit}, newId) {
       const {id, title, text} = newId === '0' ?
         {id: 'All', title: '', text: undefined} :

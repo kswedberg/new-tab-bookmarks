@@ -8,7 +8,7 @@
     </el-header>
 
     <el-container>
-      <Aside
+      <PageAside
         @update="onAsideUpdate"
         :asideClosed="asideClosed"
         :showDupes="showDupes"
@@ -22,6 +22,7 @@
             <h3>{{ mainTitle }} </h3>
             <button @click="expandAll" class="Hdg-toggleExpanded" type="button">
               {{ expanded.length ? '-' : '+' }}
+              <span class="sr-only">{{ expanded.length ? 'collapse' : 'expand' }}</span>
             </button>
             <div v-if="layout === 'tree'" class="Tree">
               <!--
@@ -37,7 +38,7 @@
               />
             </div>
           </div>
-          <EditDialog v-if="this.$store.state.bookmarks.editing" />
+          <EditDialog v-if="$store.state.bookmarks.editing" />
         </el-main>
       </el-container>
     </el-container>
@@ -46,8 +47,8 @@
 <script>
 import {findDupes, getSubTree, getTree, removeMany} from '../ext/bookmarks.js';
 import {syncStore} from '../ext/storage.js';
-import Aside from './aside.vue';
-import TreeFolder from '../components/tree-folder.vue';
+import PageAside from './aside.vue';
+// import TreeFolder from '../components/tree-folder.vue';
 import Grid from '../components/grid.vue';
 import Dupes from '../components/dupes.vue';
 import SearchFilter from '../components/search-filter.vue';
@@ -55,7 +56,7 @@ import EditDialog from '../components/edit-dialog.vue';
 
 export default {
   components: {
-    Aside,
+    PageAside,
     Grid,
     Dupes,
     // TreeFolder,

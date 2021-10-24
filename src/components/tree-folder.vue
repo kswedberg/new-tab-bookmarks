@@ -13,40 +13,40 @@
     </button>
     <el-button-group class="ButtonGroup">
       <el-button
-        @click.stop.prevent="openEditing"
+        @click.stop.prevent="openDialog('update')"
         type="plain"
         size="mini"
         icon="el-icon-edit"
-      />
+      >
+        <span class="sr-only">edit</span>
+      </el-button>
       <el-button
-        @click.stop.prevent="openNew"
+        @click.stop.prevent="openDialog('create')"
         type="plain"
         size="mini"
         icon="el-icon-plus"
-      />
-      <el-popover
-        v-model="isConfirmDeleteVisible"
-        @after-enter="onShowConfirmDelete"
-        title="Delete"
-        trigger="manual"
       >
-        <el-button @click="isConfirmDeleteVisible = false" size="mini" type="primary">cancel</el-button>
+        <span class="sr-only">add</span>
+      </el-button>
+      <el-popconfirm
+        v-model="isConfirmDeleteVisible"
+        @confirm="removeTree"
+        @cancel="isConfirmDeleteVisible = false"
+        title="Delete folder and all bookmarks within it?"
+        confirm-button-text='Delete'
+        confirm-button-type="danger"
+        cancel-button-text='Cancel'
+        icon-color="#F56C6C"
+      >
+        <!-- This button triggers the popconfirm -->
         <el-button
-          @click="removeTree"
-          ref="confirm"
-          type="primary"
-          size="mini"
-        >
-          confirm
-        </el-button>
-        <el-button
-          @click.stop.prevent="isConfirmDeleteVisible = !isConfirmDeleteVisible"
           slot="reference"
+          @click.stop.prevent="isConfirmDeleteVisible = !isConfirmDeleteVisible"
           type="danger"
           size="mini"
           icon="el-icon-delete"
         />
-      </el-popover>
+      </el-popconfirm>
     </el-button-group>
   </div>
 </template>
@@ -61,6 +61,7 @@ export default {
       required: true,
     },
     title: {
+      default: '',
       type: String,
     },
     parents: {
@@ -79,7 +80,6 @@ export default {
     return {
       editing: false,
       isConfirmDeleteVisible: false,
-      bookmarkTitle: '',
     };
   },
   computed: {
@@ -87,7 +87,7 @@ export default {
       return `d-${this.id}`;
     },
     label() {
-      return this.bookmarkTitle || this.title || 'All Bookmarks';
+      return this.title || 'All Bookmarks';
     },
     allLabels() {
       return [...this.parents, this.label];
@@ -98,59 +98,23 @@ export default {
         : '';
     },
   },
-  created() {
-    this.syncTitle();
-  },
 
   methods: {
     noop: (_) => _,
-    syncTitle() {
-      this.bookmarkTitle = `${this.title}`;
-    },
-    setEditing(on) {
-      this.editing = on && this.id;
-    },
-    openEditing() {
-      this.$store.dispatch('bookmarks/getEditing', this.id);
-    },
-    openNew() {
-      this.$store.dispatch('bookmarks/getEditing', this.id);
-    },
-    edit() {
-      this.setEditing(true);
-      // this.bookmarkTitle = this.title;
-      console.log('bookmarkTitle', this.bookmarkTitle);
-      console.log('title', this.title);
-    },
-    toggleActive(type, active) {
-      this[`${type}Active`] = active;
+    async openDialog(action) {
+      await this.$store.dispatch('bookmarks/getEditing', {id: this.id, action});
     },
 
-    cancelEdit() {
-      this.syncTitle();
-      this.setEditing(false);
-    },
-
-    rename(prop) {
-      this.setEditing(false);
-      update(this.id, {title: this[prop]}).then(() => {
-        return this.$store.commit('bookmarks/updateFolder', {
-          id: this.id,
-          title: this[prop],
-        });
-      });
-    },
-    changeFolder() {
+    async changeFolder() {
       this.$store.commit('bookmarks/setState', {
         name: 'searchFilter',
         value: '',
       });
 
-      this.$store.dispatch('bookmarks/setCurrentFolderFromId', this.id)
-      .then(() => {
-        this.$store.dispatch('bookmarks/getResults');
-      });
+      await this.$store.dispatch('bookmarks/setCurrentFolderFromId', this.id);
+      await this.$store.dispatch('bookmarks/getResults');
     },
+
     async removeTree() {
       this.isConfirmDeleteVisible = false;
       await this.$store.dispatch('bookmarks/removeTree', this.id);
