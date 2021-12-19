@@ -11,20 +11,21 @@ let buildOptions = {
 
     return text + title;
   },
-  treeNodes: function(bookmarkNodes, query = '', level = 0) {
+  treeNodes: function(bookmarkNodes, query = '', level = 0, parents = []) {
     let list = [];
 
     let i;
 
     for (i = 0; i < bookmarkNodes.length; i++) {
-      list.push(...buildOptions.node(bookmarkNodes[i], query, level));
+      list.push(...buildOptions.node(bookmarkNodes[i], query, level, parents));
     }
 
     return list;
   },
 
-  node: function(bookmarkNode = {}, query, level) {
+  node: function(bookmarkNode = {}, query, level, accumulatedParents = []) {
     let items = [];
+    let parents = [];
 
     if (!bookmarkNode.children) {
       return items;
@@ -34,12 +35,17 @@ let buildOptions = {
     }
 
     bookmarkNode.level = level;
-    bookmarkNode.text = buildOptions.spaceSpace(bookmarkNode.title, level);
-
+    // bookmarkNode.text = buildOptions.spaceSpace(bookmarkNode.title, level);
+    if (level > 1) {
+      parents.push(...accumulatedParents, bookmarkNode.title);
+    } else {
+      parents = [];
+    }
+    bookmarkNode.text = parents.join(' / ');
     items.push(bookmarkNode);
 
     if (bookmarkNode.children && bookmarkNode.children.length) {
-      items.push(...buildOptions.treeNodes(bookmarkNode.children, query, level + 1));
+      items.push(...buildOptions.treeNodes(bookmarkNode.children, query, level + 1, parents));
     }
 
     return items;

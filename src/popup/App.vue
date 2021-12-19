@@ -1,10 +1,11 @@
 <template>
-  <div class="Popup" style="min-width:400px;">
+  <div class="Popup">
     <el-form @submit.native.prevent="addBookmark">
       <el-form-item class="Popup-folder" label="Folder">
         <el-select
           v-model="folderId"
           @change="folderChanged"
+          class="Select"
           clearable
           :filterable="true"
           placeholder="folder…"
@@ -124,6 +125,7 @@ export default {
 </script>
 <style lang="scss">
 .Popup {
+  min-width: 500px;
   /* text-align: center; */
   padding: 14px 10px;
   p {
@@ -134,6 +136,9 @@ export default {
   display: block;
   text-align: left;
   float: none;
+}
+.Select {
+  width: 100%;
 }
 select {
   height: 26px;

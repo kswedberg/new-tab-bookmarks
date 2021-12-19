@@ -1,10 +1,11 @@
 <template>
   <el-dialog :visible.sync="isEditing">
-    <el-form @submit.native.prevent="update" class="Form Form--inline" label-width="80px">
+    <el-form @submit.native.prevent="update" class="Form" label-width="80px">
       <el-form-item label="Folder">
         <el-select
           v-model="parentId"
           @change="changePosition"
+          class="Select"
           clearable
           :filterable="true"
           placeholder="folder…"
@@ -150,7 +151,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Form {
+.Form
+.Select {
   width: 100%;
 }
 </style>
