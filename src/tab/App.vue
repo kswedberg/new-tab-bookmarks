@@ -2,7 +2,7 @@
   <el-container :class="['Page', 'Page--' + theme]">
     <el-header height="60px" class="Header">
       <div class="Header-menu" :class="{'is-closed': asideClosed}">
-        <el-button @click="toggleAside" :icon="asideClosed ? 'el-icon-setting' : 'el-icon-circle-close'"/>
+        <el-button @click="toggleAside" :icon="asideClosed ? 'el-icon-setting' : 'el-icon-circle-close'" />
       </div>
       <SearchFilter />
     </el-header>
@@ -16,7 +16,7 @@
 
       <el-container class="Main">
         <el-main>
-          <Dupes v-if="showDupes" @refresh="refreshDupes" :dupes="dupes"/>
+          <NtbDupes v-if="showDupes" @refresh="refreshDupes" :dupes="dupes" />
 
           <div v-else-if="results.length" id="bookmarks" class="Hdg Bookmarks">
             <h3>{{ mainTitle }} </h3>
@@ -31,7 +31,7 @@
               -->
             </div>
             <div v-else>
-              <Grid
+              <ntb-grid
                 :filter="filter"
                 :depth="0"
                 :children="results[0].children"
@@ -49,16 +49,16 @@ import {findDupes, getSubTree, getTree, removeMany} from '../ext/bookmarks.js';
 import {syncStore} from '../ext/storage.js';
 import PageAside from './aside.vue';
 // import TreeFolder from '../components/tree-folder.vue';
-import Grid from '../components/grid.vue';
-import Dupes from '../components/dupes.vue';
+import NtbGrid from '../components/ntb-grid.vue';
+import NtbDupes from '../components/dupes.vue';
 import SearchFilter from '../components/search-filter.vue';
 import EditDialog from '../components/edit-dialog.vue';
 
 export default {
   components: {
     PageAside,
-    Grid,
-    Dupes,
+    NtbGrid,
+    NtbDupes,
     // TreeFolder,
     SearchFilter,
     EditDialog,

@@ -71,6 +71,7 @@
 import Settings from '../components/settings.vue';
 
 export default {
+  name: 'ntb-aside',
   components: {
     Settings,
   },

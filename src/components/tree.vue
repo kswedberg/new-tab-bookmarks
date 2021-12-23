@@ -10,9 +10,9 @@
   >
     <li>
       <div class="Hdg">
-        <TreeFolder :id="id" :title="title"/>
+        <TreeFolder :id="id" :title="title" />
       </div>
-      <tree
+      <TreeChildren
         v-for="child in children"
         :id="child.id"
         :key="'node-' + child.id"
@@ -39,30 +39,38 @@ import TreeFolder from './tree-folder.vue';
 
 export default {
   // The name 'tree' here is being used in the <template> above to call this component recursively
-  name: 'tree',
-  props: {
-    children: {
-      type: Array,
-    },
-    title: {
-      type: String,
-    },
-    id: {
-      type: String,
-    },
-    url: {
-      type: String,
-    },
-    depth: {
-      type: [Number, String],
-    },
-    parentTitle: {
-      type: String,
-    },
-  },
+  name: 'TreeChildren',
 
   components: {
     TreeFolder,
+  },
+  props: {
+    children: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    id: {
+      type: String,
+      default: '',
+    },
+    url: {
+      type: String,
+      default: '',
+    },
+    depth: {
+      type: [Number, String],
+      default: 0,
+    },
+    parentTitle: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {

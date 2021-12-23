@@ -11,7 +11,7 @@
         >
           <div>{{ item.parentTree }}</div>
           <div
-            :class="[i && item.title != dupe.items[i-1].title && 'alert']"
+            :class="[i && item.title !== dupe.items[i-1].title && 'alert']"
           >
             <el-button
               @click="remove(item.id)"
@@ -23,13 +23,13 @@
             {{ item.title }}
           </div>
           <div>
-            <a :class="[i && item.url != dupe.items[i-1].url && 'alert']" :href="item.url">{{ item.url }}</a>
+            <a :class="[i && item.url !== dupe.items[i-1].url && 'alert']" :href="item.url">{{ item.url }}</a>
           </div>
           <div>{{ new Date(item.dateAdded).toLocaleDateString()}}</div>
         </el-col>
       </el-row>
       <div>
-        <div/>
+        <div />
       </div>
     </div>
   </div>
@@ -39,6 +39,7 @@
 import {remove} from '../ext/bookmarks';
 
 export default {
+  name: 'ntb-dupes',
   props: {
     dupes: {
       type: Array,

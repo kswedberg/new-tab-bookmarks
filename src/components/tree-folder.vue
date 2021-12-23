@@ -2,13 +2,13 @@
   <div class="Folder">
     <button @click="changeFolder" class="Folder-label" type="button">
       <span
-        v-for="(label, i) in allLabels"
+        v-for="(labelPart, i) in allLabels"
         :key="'label-' + i"
         :class="{'Folder-labelParent': i < allLabels.length - 1}"
       >
-        {{ label }}
+        {{ labelPart }}
         <!-- <span class="dim">({{ id }})</span> -->
-        <i v-if="i < allLabels.length - 1" class="el-icon-arrow-right"/>
+        <i v-if="i < allLabels.length - 1" class="el-icon-arrow-right" />
       </span>
     </button>
     <el-button-group class="ButtonGroup">
@@ -33,9 +33,9 @@
         @confirm="removeTree"
         @cancel="isConfirmDeleteVisible = false"
         title="Delete folder and all bookmarks within it?"
-        confirm-button-text='Delete'
+        confirm-button-text="Delete"
         confirm-button-type="danger"
-        cancel-button-text='Cancel'
+        cancel-button-text="Cancel"
         icon-color="#F56C6C"
       >
         <!-- This button triggers the popconfirm -->
@@ -131,17 +131,19 @@ export default {
 <style lang="scss">
 .Folder {
   position: relative;
-
+  .ButtonGroup {
+    opacity: 0;
+  }
   &:hover {
     .ButtonGroup {
       opacity: 1;
     }
   }
+  .ButtonGroup:focus-within {
+    opacity: 1;
+  }
 }
 
-.ButtonGroup {
-  opacity: 0;
-}
 
 .Folder-input {
   font-size: 1em;

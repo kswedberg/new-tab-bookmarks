@@ -22,7 +22,7 @@ let buildList = {
     let item = [];
 
     if (query && !bookmarkNode.children) {
-      if ((`${bookmarkNode.title}`).toLowerCase().indexOf(query) === -1) {
+      if (`${bookmarkNode.title}`.toLowerCase().indexOf(query) === -1) {
         return '';
       }
     }

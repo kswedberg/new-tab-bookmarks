@@ -49,7 +49,7 @@
       class="Grid"
       :data-folderid="id"
     >
-      <grid
+      <ntb-grid
         v-for="child in sortedChildren"
         :id="child.id"
         :key="'node-' + child.id"
@@ -68,8 +68,8 @@ import {update} from '../ext/bookmarks.js';
 import TreeFolder from './tree-folder.vue';
 
 export default {
-  // The name 'grid' here is being used in the template above to call this component recursively
-  name: 'grid',
+  // The name 'ntb-grid' here is being used in the template above to call this component recursively
+  name: 'ntb-grid',
   components: {
     TreeFolder,
   },
@@ -236,8 +236,9 @@ export default {
   width: 18px;
   height: 18px;
   line-height: 1;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  border-radius: 3px;
+  border: 1px solid var(--layout-border-color);
+
   font-size: 12px;
 }
 
@@ -295,6 +296,10 @@ export default {
     .EditBtn {
       opacity: 1;
     }
+  }
+  .EditBtn:focus-visible {
+    opacity: 1;
+    border: 1px solid var(--layout-border-color);
   }
 }
 </style>
