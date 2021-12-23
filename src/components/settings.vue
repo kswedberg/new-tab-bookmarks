@@ -23,6 +23,7 @@
 
 <script>
 export default {
+  name: 'ntb-settings',
   computed: {
     theme: {
       get() {
@@ -61,7 +62,7 @@ export default {
 <style lang="scss">
 .Aside {
   .el-switch__label.is-active {
-    color: #303133;
+    color: var(--text-color);
   }
 }
 </style>
