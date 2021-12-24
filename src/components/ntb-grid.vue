@@ -43,9 +43,10 @@
         <span class="sr-only">{{ expanded.includes(id) ? 'collapse' : 'expand' }}</span>
       </button>
     </div>
-    <div
+    <VDraggable
       v-if="children && children.length"
       v-show="depth < 1 || expanded.includes(id)"
+      @end="onDragEnd"
       class="Grid"
       :data-folderid="id"
     >
@@ -59,19 +60,21 @@
         :children="child.children"
         :depth="depth + 1"
       />
-    </div>
+    </VDraggable>
   </div>
 </template>
 
 <script>
 import {update} from '../ext/bookmarks.js';
 import TreeFolder from './tree-folder.vue';
+import VDraggable from 'vuedraggable';
 
 export default {
   // The name 'ntb-grid' here is being used in the template above to call this component recursively
   name: 'ntb-grid',
   components: {
     TreeFolder,
+    VDraggable,
   },
   props: {
     children: {
@@ -112,6 +115,7 @@ export default {
       headingActive: false,
       linkActive: false,
       bookmarkTitle: this.title,
+      moving: {},
     };
   },
 
@@ -155,7 +159,24 @@ export default {
     },
   },
 
+  beforeMount() {
+    // this.sortedChildren = this.sortChildren();
+  },
   methods: {
+    sortChildren() {
+      const kids = [...this.children];
+
+      return kids.sort((a, b) => {
+        if (a.url && !b.url && (!a.children || !a.children.length)) {
+          return -1;
+        }
+        if (b.url && !a.url && (!b.children || !b.children.length)) {
+          return 1;
+        }
+
+        return a.index > b.index ? 1 : -1;
+      });
+    },
     toggleActive(type, active) {
       this[`${type}Active`] = active;
     },
@@ -183,8 +204,16 @@ export default {
       });
     },
     openEditing() {
-      console.log('openEditing');
       this.$store.dispatch('bookmarks/getEditing', {id: this.id});
+    },
+
+    async onDragEnd(event) {
+      const {oldIndex, newIndex} = event;
+      const {id, parentId, title} = this.sortedChildren[oldIndex];
+      const spliceIndex = this.sortedChildren[newIndex].index;
+      const index = newIndex > oldIndex ? spliceIndex + 1 : spliceIndex;
+
+      await this.$store.dispatch('bookmarks/move', {id, parentId, index});
     },
   },
 };
