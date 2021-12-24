@@ -1462,11 +1462,6 @@ ansi-colors@^4.1.1:
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-4.1.1.tgz#cbb9ae256bf750af1eab344f229aa27fe94ba348"
   integrity sha512-JoX0apGbHaUJBNl6yF+p6JAFYZ666/hhCGKN5t9QFjbJQKUU/g8MNbFDbvfrgKXvI1QpZplPOnwIo99lX/AAmA==
 
-ansi-regex@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-3.0.0.tgz#ed0317c322064f79466c02966bddb605ab37d998"
-  integrity sha1-7QMXwyIGT3lGbAKWa922Bas32Zg=
-
 ansi-regex@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-5.0.1.tgz#082cb2c89c9fe8659a311a53bd6a4dc5301db304"
@@ -1790,7 +1785,7 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-chalk@^2.0.0, chalk@^2.0.1, chalk@^2.4.2:
+chalk@^2.0.0, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
   integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
@@ -1851,11 +1846,6 @@ clone-deep@^4.0.1:
     is-plain-object "^2.0.4"
     kind-of "^6.0.2"
     shallow-clone "^3.0.0"
-
-coalescy@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/coalescy/-/coalescy-1.0.0.tgz#4b065846b836361ada6c4b4a4abf4bc1cac31bf1"
-  integrity sha1-SwZYRrg2NhrabEtKSr9LwcrDG/E=
 
 color-convert@^1.9.0:
   version "1.9.3"
@@ -2332,18 +2322,6 @@ eslint-config-kswedberg@^5.1.1:
   resolved "https://registry.yarnpkg.com/eslint-config-kswedberg/-/eslint-config-kswedberg-5.1.1.tgz#9d09f8db20c9a69d286e7dfd74670f9e5468a19c"
   integrity sha512-NAR85XyhdTGpr7MVKwT6XeoT3VzsGvLTS/3APMPls2OnehlCEcEh6X0MpRlF/c9xQWtAMUbFyOSUEWC2u/IJQw==
 
-eslint-friendly-formatter@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-friendly-formatter/-/eslint-friendly-formatter-4.0.1.tgz#27d504dc837f7caddbf201b2e84a4ee730ba3efa"
-  integrity sha1-J9UE3IN/fK3b8gGy6EpO5zC6Pvo=
-  dependencies:
-    chalk "^2.0.1"
-    coalescy "1.0.0"
-    extend "^3.0.0"
-    minimist "^1.2.0"
-    strip-ansi "^4.0.0"
-    text-table "^0.2.0"
-
 eslint-loader@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-4.0.2.tgz#386a1e21bcb613b3cf2d252a3b708023ccfb41ec"
@@ -2532,7 +2510,7 @@ exit-on-epipe@~1.0.1:
   resolved "https://registry.yarnpkg.com/exit-on-epipe/-/exit-on-epipe-1.0.1.tgz#0bdd92e87d5285d267daa8171d0eb06159689692"
   integrity sha512-h2z5mrROTxce56S+pnvAV890uu7ls7f1kEvVGJbw1OlFH3/mlJ5bkXu0KRyW94v37zzHPiUd55iLn3DA7TjWpw==
 
-extend@^3.0.0, extend@~3.0.2:
+extend@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
@@ -4274,13 +4252,6 @@ string_decoder@~1.1.1:
   integrity sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==
   dependencies:
     safe-buffer "~5.1.0"
-
-strip-ansi@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-4.0.0.tgz#a8479022eb1ac368a871389b635262c505ee368f"
-  integrity sha1-qEeQIusaw2iocTibY1JixQXuNo8=
-  dependencies:
-    ansi-regex "^3.0.0"
 
 strip-ansi@^6.0.1:
   version "6.0.1"
