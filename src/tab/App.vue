@@ -45,7 +45,7 @@
   </el-container>
 </template>
 <script>
-import {findDupes, getSubTree, getTree, removeMany} from '../ext/bookmarks.js';
+import {findDupes, removeMany} from '../ext/bookmarks.js';
 import {syncStore} from '../ext/storage.js';
 import PageAside from './aside.vue';
 // import TreeFolder from '../components/tree-folder.vue';

@@ -9,7 +9,6 @@
               <el-select
                 v-model="currentFolder.id"
                 @change="folderChanged"
-                clearable
                 :filterable="true"
                 placeholder="folder…"
                 no-match-text="no matches found"
@@ -61,6 +60,9 @@
           >
             {{ showDupes ? `Hide dupes` : 'Show dupes' }}
           </el-button>
+        </div>
+        <div v-show="!asideClosed" class="Aside-row">
+          <a href="../options/options.html">more »</a>
         </div>
       </div>
     </el-container>
