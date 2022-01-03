@@ -98,18 +98,21 @@ export default {
       }
       const {len, indexOffset} = await getBookmarkWithPosition(this.parentId, 'parent');
 
-      this.len = len || 1;
+      this.len = len || 0;
       this.indexOffset = indexOffset;
 
-      console.log('changePosition', this.len, this.indexOffset);
+      // console.log('changePosition', this.len, this.indexOffset);
     },
     async update() {
       const {editing = {}, title, url, parentId} = this;
       const {id} = editing;
       // If index is greater than number of items in new folder,
       // we have to change it or it'll throw an error:
-      const index = parentId !== editing.parentId && this.index > this.len ? this.len : this.index;
+      let index = this.index;
 
+      if (parentId !== editing.parentId && this.index > this.len) {
+        index = this.len;
+      }
       // Create new bookmark
       if (this.action === 'create') {
         // eslint-disable-next-line no-return-await
