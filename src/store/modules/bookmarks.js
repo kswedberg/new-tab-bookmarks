@@ -12,6 +12,12 @@ import {
 import {syncStore} from '../../ext/storage.js';
 import {buildOptions} from '../../ext/build-options.js';
 
+const delay = (timeout) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+};
+
 const title2Text = (bookmark, withSpaces) => {
   if (!bookmark.title) {
     return '';
@@ -204,6 +210,10 @@ const bookmarks = {
     async create({commit, dispatch}, bookmark) {
       await create(bookmark);
       await dispatch('getResults');
+
+      if (!bookmark.url) {
+        await dispatch('getFolders');
+      }
     },
 
     async update({dispatch}, bookmark) {
@@ -220,6 +230,7 @@ const bookmarks = {
 
     async remove({dispatch}, id) {
       await remove(id);
+      delay(50);
       await dispatch('getResults');
     },
 

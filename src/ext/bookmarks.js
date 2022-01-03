@@ -4,6 +4,33 @@ export const getTree = () => {
   return browser.bookmarks.getTree();
 };
 
+export const getList = async() => {
+  const bookmarks = [];
+  const getItem = function(bookmarkItem) {
+
+    if (bookmarkItem.url && bookmarkItem.url.startsWith('http')) {
+      bookmarks.push(bookmarkItem);
+    }
+
+    if (bookmarkItem.children) {
+      for (let child of bookmarkItem.children) {
+        getItem(child);
+      }
+    }
+
+  };
+
+  const tree = await browser.bookmarks.getTree();
+
+  try {
+    getItem(tree[0], 0);
+  } catch (err) {
+    console.log(`An error: ${err}`);
+  }
+
+  return bookmarks;
+};
+
 export const getSubTree = (id) => {
   if (!id || id === '0') {
     return getTree();
@@ -39,6 +66,11 @@ export const move = (id, props) => {
 };
 
 export const remove = (id) => {
+  console.log('removing bookmark:');
+  getBookmark(id).then(([bookmark]) => {
+    console.log(bookmark);
+  });
+
   return browser.bookmarks.remove(id);
 };
 
