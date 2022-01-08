@@ -4,6 +4,7 @@ const storedState = {
   theme: 'light',
   layout: 'grid',
   storageType: 'sync',
+  brokenKeepers: [],
 };
 
 const settings = {

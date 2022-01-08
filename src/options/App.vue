@@ -39,6 +39,8 @@
               placeholder="Load a JSON file"
             >
           </form>
+        </el-row>
+        <el-row>
           <div v-if="brokenFiltered.length">
             <el-button
               @click="remove"
@@ -46,7 +48,7 @@
               size="small"
               icon="el-icon-delete"
             >
-              delete {{ brokenFiltered.length }} bookmarks
+              delete {{ numberToRemove }} bookmarks
             </el-button>
           </div>
         </el-row>
@@ -109,14 +111,25 @@ export default {
       list: [],
       listString: '',
       broken: [],
-      toKeep: [],
-      keep: new Set(),
+      keepSet: new Set(),
       status: 'all',
       statuses: [],
       reader: {},
     };
   },
   computed: {
+    toKeep: {
+      get() {
+        return this.$store.state.settings.brokenKeepers || [];
+      },
+      set(value) {
+        this.$store.commit('settings/setStateAndStore', {name: 'brokenKeepers', value});
+      },
+    },
+    numberToRemove() {
+      return this.brokenFiltered.filter(({id}) => !this.toKeep.includes(id)).length;
+    },
+
     listIds() {
       return new Set(this.list.map((b) => b.id));
     },
@@ -127,6 +140,7 @@ export default {
     brokenFiltered() {
       return !this.status || this.status === 'all' ? this.borked : this.borked.filter((b) => b.status === this.status);
     },
+
     theme: {
       get() {
         return this.$store.state.settings.theme;
@@ -138,6 +152,7 @@ export default {
         });
       },
     },
+
     layout: {
       get() {
         return this.$store.state.settings.layout;
@@ -173,13 +188,15 @@ export default {
   },
 
   mounted() {
-    // on mounted, do something
     this.reader = new FileReader();
     this.reader.onload = (e) => {
       const data = JSON.parse(e.target.result);
 
       this.broken.push(...data);
       this.getStatuses();
+      this.keepSet = new Set(this.toKeep);
+
+      console.log(this.toKeep.length, this.keepSet.size);
     };
   },
 
@@ -193,13 +210,13 @@ export default {
     },
 
     keepId(id) {
-      if (this.keep.has(id)) {
-        this.keep.delete(id);
+      if (this.keepSet.has(id)) {
+        this.keepSet.delete(id);
       } else {
-        this.keep.add(id);
+        this.keepSet.add(id);
       }
 
-      this.toKeep = this.keep.size ? Array.from(this.keep) : [];
+      this.toKeep = this.keepSet.size ? Array.from(this.keepSet) : [];
     },
 
     openEditing(id) {
@@ -211,7 +228,7 @@ export default {
         await this.$store.dispatch('bookmarks/remove', `${id}`);
       } else {
         this.brokenFiltered.forEach(async(b) => {
-          if (!this.keep.has(b.id)) {
+          if (!this.keepSet.has(b.id)) {
             await this.$store.dispatch('bookmarks/remove', b.id);
           } else {
             console.log('keeping', b.id);
