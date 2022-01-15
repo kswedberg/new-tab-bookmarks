@@ -71,7 +71,7 @@ export default {
       return this.$store.state.bookmarks.editing;
     },
     offset() {
-      return this.editing.url ? this.indexOffset - 1 : -1;
+      return this.editing.url ? this.indexOffset : -1;
     },
     isEditing: {
       get() {
