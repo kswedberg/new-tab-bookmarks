@@ -296,6 +296,7 @@ export default {
     transform: scale(1);
     transition: transform 0.25s, box-shadow 0.25s;
     box-shadow: 0 0 0;
+    word-break: break-word;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;

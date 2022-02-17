@@ -228,6 +228,7 @@ export default {
   h3 {
     margin-top: 4px;
   }
+  max-width: 1000px;
 }
 .el-select-dropdown__item span {
   white-space: pre;
