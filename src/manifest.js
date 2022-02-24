@@ -42,6 +42,12 @@ const manifest = {
   __firefox__applications: {
     // gecko: {id: '{754FB1AD-CC3B-4856-B6A0-7786F8CA9D17}'},
   },
+  __firefox__browser_specific_settings: {
+    gecko: {
+      id: '{d0b772f2-a2d3-4949-9557-4bb118802fc8}',
+      strict_min_version: '42.0',
+    },
+  },
 
   __chrome__minimum_chrome_version: '62',
   __opera__minimum_opera_version: '62',
