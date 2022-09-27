@@ -1,10 +1,16 @@
-require('dotenv').config();
-const path = require('path');
-const signAddon = require('sign-addon').default;
-const {version} = require('../package.json');
+import * as dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
+import {signAddon} from 'sign-addon';
+import {isCliCall} from './is-cli-call.mjs';
 
-const downloadDir = path.join(__dirname, '..', 'dist');
+dotenv.config();
 
+const rootDir = process.cwd();
+const pkgText = fs.readFileSync(path.join(rootDir, 'package.json'), 'utf-8');
+const pkg = JSON.parse(pkgText);
+const {version} = pkg;
+const downloadDir = path.join(rootDir, 'dist');
 
 const settings = {
   // Required arguments:
@@ -76,6 +82,6 @@ const ffSign = async() => {
   }
 };
 
-if (!module.parent) {
+if (isCliCall(import.meta)) {
   ffSign();
 }
