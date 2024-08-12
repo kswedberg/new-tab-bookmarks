@@ -1,0 +1,49 @@
+{
+  "manifest_version": 2,
+  "name": "New Tab Bookmarks",
+  "description": "A web browser extension that sets the new tab page to one of your bookmark folders",
+  "version": "1.4.1",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "homepage_url": "https://karlswedberg.com",
+  "short_name": "New Tab Bkmrks",
+  "permissions": [
+    "chrome://favicon/",
+    "tabs",
+    "background",
+    "bookmarks",
+    "storage"
+  ],
+  "author": "Karl Swedberg",
+  "minimum_chrome_version": "62",
+  "chrome_url_overrides": {
+    "newtab": "tab/tab.html"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon19.png",
+    "default_title": "New Tab Bookmarks",
+    "default_popup": "popup/popup.html",
+    "chrome_style": false
+  },
+  "options_page": "options/options.html",
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S",
+        "chromeos": "Ctrl+Shift+S",
+        "linux": "Ctrl+Shift+S"
+      },
+      "description": "Save Bookmark"
+    }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true,
+    "chrome_style": false
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-inline' 'unsafe-eval'; object-src 'self'"
+}
