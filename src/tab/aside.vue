@@ -62,7 +62,7 @@
           </el-button>
         </div>
         <div v-show="!asideClosed" class="Aside-row">
-          <a href="../options/options.html">more »</a>
+          <a href="../options/options.html">more...</a>
         </div>
       </div>
     </el-container>

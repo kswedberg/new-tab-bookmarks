@@ -9,7 +9,7 @@
           :key="item.id"
           :span="Math.max(24 / dupe.items.length, 6)"
         >
-          <div>{{ item.parentTree }}</div>
+          <div class="parent-tree">{{ item.parentTree }}</div>
           <div
             :class="[i && item.title !== dupe.items[i-1].title && 'alert']"
           >

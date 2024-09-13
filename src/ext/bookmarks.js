@@ -123,7 +123,17 @@ export const findDupes = async() => {
     return parents.map(({title}) => title).join('/');
   };
 
+  const skipUrls = (url) => {
+    const skip = [
+      'https://developer.apple.com/library/safari',
+      'https://formkit.com/playground',
+      'https://www.youtube.com/watch',
+      'https://files.bamfhealth.com/app/',
+      'https://bamfhealth.egnyte.com/app/',
+    ];
 
+    return skip.some((prefix) => url.startsWith(prefix));
+  };
   const traverser = (map, curr, i, arr) => {
     peelBackParents(curr);
 
@@ -138,8 +148,7 @@ export const findDupes = async() => {
       return curr.children.reduce(traverser, map);
     }
 
-
-    if (curr.url) {
+    if (curr.url && !skipUrls(curr.url)) {
       try {
         const url = new URL(curr.url);
         const key = url.host + url.pathname;

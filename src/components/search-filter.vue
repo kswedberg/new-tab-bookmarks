@@ -12,7 +12,7 @@
           clearable
           name="keyword"
           prefix-icon="el-icon-search"
-          placeholder="Filter…"
+          placeholder="Filter..."
         />
       </el-col>
       <el-col :span="12">
