@@ -17,7 +17,8 @@
     "build-firefox": "NODE_ENV=production TARGET_BROWSER=firefox webpack --mode=production",
     "sign-firefox": "node ./scripts/ff-sign.mjs",
     "build-opera": "NODE_ENV=production TARGET_BROWSER=opera webpack --mode=production",
-    "build": "yarn run build-chrome && yarn run build-firefox && yarn run build-opera"
+    "build": "yarn run build-chrome && yarn run build-firefox && yarn run build-opera",
+    "orion": "node ./scripts/chrome2orion.mjs"
   },
   "dependencies": {
     "element-theme-chalk": "^2.15.6",
