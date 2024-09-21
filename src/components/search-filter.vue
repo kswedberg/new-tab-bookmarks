@@ -5,8 +5,8 @@
     :model="form"
     class="Header-form Form--inline"
   >
-    <el-row :gutter="10">
-      <el-col :span="12">
+    <div class="search-form flex">
+      <div>
         <el-input
           v-model="searchFilter"
           clearable
@@ -14,8 +14,8 @@
           prefix-icon="el-icon-search"
           placeholder="Filter..."
         />
-      </el-col>
-      <el-col :span="12">
+      </div>
+      <div>
         <el-form-item class="FilterScope">
           <span class="SwitchLabel">Scope:</span>
           <el-switch
@@ -24,8 +24,8 @@
             active-text="All Folders"
           />
         </el-form-item>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
   </el-form>
 </template>
 
@@ -108,9 +108,11 @@ export default {
 }
 .Header-form {
   &,
-  & .el-row,
   & .el-form-item {
     margin-bottom: 0;
   }
+}
+.search-form {
+  gap: 12px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row class="StorageType">
+    <div class="row StorageType">
       <h2>Chrome Sync</h2>
       <el-switch
         v-model="storageType"
@@ -10,14 +10,14 @@
         inactive-color="#aaa"
         active-text="Share settings across devices"
       />
-    </el-row>
-    <el-row>
+    </div>
+    <div class="row">
       <h2>Theme</h2>
       <el-radio-group v-model="theme">
         <el-radio-button label="light">Light</el-radio-button>
         <el-radio-button label="dark">Dark</el-radio-button>
       </el-radio-group>
-    </el-row>
+    </div>
   </div>
 </template>
 

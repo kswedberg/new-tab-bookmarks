@@ -1,10 +1,10 @@
 <template>
-  <el-container :class="['Page', 'Page--' + theme]">
-    <el-header height="60px" class="Header">
+  <div :class="['flex flex-col Page', 'Page--' + theme]">
+    <header class="Header Header--settings flex">
       <h1>New Tab Settings</h1>
-    </el-header>
-    <el-container>
-      <el-main>
+    </header>
+    <div class="Page-body flex">
+      <main class="Main">
         <el-row class="StorageType">
           <h2>Chrome Sync</h2>
           <el-switch
@@ -93,9 +93,9 @@
         </el-row>
 
         <EditDialog v-if="$store.state.bookmarks.editing" />
-      </el-main>
-    </el-container>
-  </el-container>
+      </main>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -263,5 +263,8 @@ export default {
   color: #55dd66;
   background-color: #efe;
   font-weight: bold;
+}
+.Header--settings {
+  padding-left: 32px;
 }
 </style>

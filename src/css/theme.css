@@ -12,6 +12,13 @@
 /* nothing needed here anymore */
 }
 
+html,
+html *,
+html *::before,
+html *::after {
+  box-sizing: border-box;
+}
+
 /* Variables: */
 body {
   --gap: 20px;
@@ -124,19 +131,19 @@ body * {
   --aside-transition: width 0.5s;
 }
 
-main.el-main {
+main.Main {
   background-color: var(--main-bg);
   background-image: radial-gradient(ellipse at 50% 10%, var(--main-bg-gradient), var(--header-bg) 80%);
   color: var(--text-color);
   padding-left: 32px;
 }
 
-header.el-header {
+header {
   background-color: var(--header-bg);
   border-bottom: 1px solid var(--layout-border-color);
   color: var(--text-color);
 }
-.el-row {
+.row {
   margin-bottom: var(--gap);
 }
 
@@ -150,12 +157,23 @@ div.el-tree {
 
 h2 {
   font-weight: normal;
+  margin-top: 0;
 }
 
 a {
   color: var(--link-color);
   text-decoration: none;
 }
+
+.flex {
+  display: flex;
+  min-width: 0;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
 
 .sr-only {
   border: 0;

@@ -1,48 +1,46 @@
 <template lang="html">
-  <el-container :class="['Page', 'Page--' + theme]">
-    <el-header height="60px" class="Header">
+  <div :class="['flex', 'flex-col', 'Page', 'Page--' + theme]">
+    <header class="Header flex">
       <div class="Header-menu" :class="{'is-closed': asideClosed}">
         <el-button @click="toggleAside" :icon="asideClosed ? 'el-icon-setting' : 'el-icon-circle-close'" />
       </div>
       <SearchFilter />
-    </el-header>
+    </header>
 
-    <el-container>
+    <div class="Page-body flex">
       <PageAside
         @update="onAsideUpdate"
         :asideClosed="asideClosed"
         :showDupes="showDupes"
       />
 
-      <el-container class="Main">
-        <el-main>
-          <NtbDupes v-if="showDupes" @refresh="refreshDupes" :dupes="dupes" />
+      <main class="Main el-main">
+        <NtbDupes v-if="showDupes" @refresh="refreshDupes" :dupes="dupes" />
 
-          <div v-else-if="results.length" id="bookmarks" class="Hdg Bookmarks">
-            <h3>{{ mainTitle }} </h3>
-            <button @click="expandAll" class="Hdg-toggleExpanded" type="button">
-              {{ expanded.length ? '-' : '+' }}
-              <span class="sr-only">{{ expanded.length ? 'collapse' : 'expand' }}</span>
-            </button>
-            <div v-if="layout === 'tree'" class="Tree">
-              <!--
+        <div v-else-if="results.length" id="bookmarks" class="Hdg Bookmarks">
+          <h3>{{ mainTitle }} </h3>
+          <button @click="expandAll" class="Hdg-toggleExpanded" type="button">
+            {{ expanded.length ? '-' : '+' }}
+            <span class="sr-only">{{ expanded.length ? 'collapse' : 'expand' }}</span>
+          </button>
+          <div v-if="layout === 'tree'" class="Tree">
+            <!--
                 Add bosket here:
                 https://elbywan.github.io/bosket/vue/index.html
               -->
-            </div>
-            <div v-else>
-              <ntb-grid
-                :filter="filter"
-                :depth="0"
-                :children="results[0].children"
-              />
-            </div>
           </div>
-          <EditDialog v-if="$store.state.bookmarks.editing" />
-        </el-main>
-      </el-container>
-    </el-container>
-  </el-container>
+          <div v-else>
+            <ntb-grid
+              :filter="filter"
+              :depth="0"
+              :children="results[0].children"
+            />
+          </div>
+        </div>
+        <EditDialog v-if="$store.state.bookmarks.editing" />
+      </main>
+    </div>
+  </div>
 </template>
 <script>
 import {findDupes, removeMany} from '../ext/bookmarks.js';
@@ -221,7 +219,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style>
 /* General CSS */
 
 .Bookmarks {
@@ -251,12 +249,21 @@ export default {
 }
 
 .Header {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
   padding: 0;
+  align-items: center;
+  height: 60px;
+  background-color: var(--aside-bg);
 }
 
 .Header-menu {
   width: 240px;
-  padding: 10px 20px 9px 10px;
+  padding: 9px 20px 10px 10px;
+  height: 100%;
   display: inline-block;
   vertical-align: top;
   transition: var(--aside-transition);
@@ -271,7 +278,11 @@ export default {
 }
 
 .Header-form {
-  padding: 10px 20px;
+  padding-inline: 10px;
+}
+
+.Page-body {
+  padding-top: 60px;
 }
 .Form--inline {
   display: inline-block;

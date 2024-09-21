@@ -1,13 +1,16 @@
 <template>
-  <div>
+  <div class="dupes-container">
     <h2>Dupes</h2>
     <div v-for="dupe in dupes" class="dupe-group" :key="dupe.id">
       <h3>{{ dupe.items[0].title }}</h3>
-      <el-row :gutter="20">
-        <el-col
+      <div class="flex dupe-items">
+        <div
           v-for="(item, i) in dupe.items"
           :key="item.id"
-          :span="Math.max(24 / dupe.items.length, 6)"
+          :style="{
+            flexBasis: `${Math.max(100 / dupe.items.length, 25)}%`,
+          }"
+          :data-span="Math.max(24 / dupe.items.length, 6)"
         >
           <div class="parent-tree">{{ item.parentTree }}</div>
           <div
@@ -26,8 +29,8 @@
             <a :class="[i && item.url !== dupe.items[i-1].url && 'alert']" :href="item.url">{{ item.url }}</a>
           </div>
           <div>{{ new Date(item.dateAdded).toLocaleDateString()}}</div>
-        </el-col>
-      </el-row>
+        </div>
+      </div>
       <div>
         <div />
       </div>
@@ -58,8 +61,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dupes-container {
+  margin-left: -12px;
+}
 .dupe-group {
-  margin: 1em 0;
+  padding: 10px;
+  margin-inline: -10px;
+  &:nth-child(even) {
+    background-color: var(--aside-bg);
+  }
+}
+.dupe-items {
+  gap: 20px;
+
+  & > div {
+    flex-grow: 0;
+  }
+
+  a {
+    line-break: anywhere;
+  }
 }
 .alert {
   color: #c33;
