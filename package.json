@@ -13,7 +13,7 @@
     "dev": "NODE_ENV=development TARGET_BROWSER=chrome webpack --watch --mode=development",
     "dev-firefox": "NODE_ENV=development TARGET_BROWSER=firefox webpack --watch --mode=development",
     "dev-opera": "NODE_ENV=development TARGET_BROWSER=opera webpack --watch --mode=development",
-    "build-chrome": "NODE_ENV=production TARGET_BROWSER=chrome webpack --mode=production",
+    "build-chrome": "NODE_ENV=production TARGET_BROWSER=chrome webpack --mode=production && yarn run orion",
     "build-firefox": "NODE_ENV=production TARGET_BROWSER=firefox webpack --mode=production",
     "sign-firefox": "node ./scripts/ff-sign.mjs",
     "build-opera": "NODE_ENV=production TARGET_BROWSER=opera webpack --mode=production",

@@ -12,7 +12,7 @@ const run = async() => {
   const tabFile = path.join(process.cwd(), 'orion/tab/tab.html');
   const css = await fs.readFile(chromeFiles.css, opts);
   const js = await fs.readFile(chromeFiles.js, opts);
-
+  const jsCleaned = js.replace(/chrome:\/\//g, 'orion://');
   const html = [
     '<!DOCTYPE html>',
     '<html lang="en-US">',
@@ -23,16 +23,17 @@ const run = async() => {
     `  ${css}`,
     '  </style>',
     '</head>',
-    '<body>',
+    '<body class="orion">',
     '  <div id="app"></div>',
     '  <script id="t-script">',
-    `  ${js}`,
+    `  ${jsCleaned}`,
     '  </script>',
     '</body>',
     '</html>',
   ].join('\n');
 
   await fs.writeFile(tabFile, html);
+  console.log('Updated Orion build');
 };
 
 run();

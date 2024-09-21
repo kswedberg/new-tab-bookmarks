@@ -148,14 +148,19 @@ export const findDupes = async() => {
       return curr.children.reduce(traverser, map);
     }
 
-    if (curr.url && !skipUrls(curr.url)) {
+    if (curr.url) {
       try {
         const url = new URL(curr.url);
         const key = url.host + url.pathname;
-        const item = map.get(key) || [];
+        const existing = map.get(key);
+
+        if (skipUrls(url.href) && existing) {
+          return map;
+        }
+        const item = existing || [];
 
 
-        curr.parentTree = formatParents(parents);
+        curr.parentTree = formatParents(parents, existing);
         curr.protocol = url.protocol;
         curr.lower = curr.title?.toLowerCase();
         item.push(curr);

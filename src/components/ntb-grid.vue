@@ -18,7 +18,12 @@
         v-if="url"
         :href="url"
       >
-        <img class="favicon" :src="`chrome://favicon/${url.replace(/^(https?:\/\/[^/]+)\/.*/, '$1')}`" alt="favicon">
+        <img
+          v-if="imgLoaded"
+          class="favicon"
+          :src="imgUrl"
+          alt="favicon"
+        >
         {{ title }}
       </a>
     </div>
@@ -116,6 +121,8 @@ export default {
       linkActive: false,
       bookmarkTitle: this.title,
       moving: {},
+      img: null,
+      imgLoaded: false,
     };
   },
 
@@ -146,6 +153,7 @@ export default {
     searchFilter() {
       return this.$store.state.bookmarks.searchFilter;
     },
+
     expanded: {
       get() {
         return this.$store.state.bookmarks.expandedFolders;
@@ -157,12 +165,25 @@ export default {
         });
       },
     },
+    imgUrl() {
+      return `chrome://favicon/${this.url.replace(/^(https?:\/\/[^/]+)\/.*/, '$1')}`;
+    },
   },
 
   beforeMount() {
+    this.img = new Image();
+    this.img.addEventListener('load', this.onImgLoaded, false);
+    this.img.src = this.imgUrl;
     // this.sortedChildren = this.sortChildren();
   },
+  beforeDestroy() {
+    this.img.removeEventListener('load', this.onImgLoaded, false);
+    this.img = null;
+  },
   methods: {
+    onImgLoaded() {
+      this.imgLoaded = true;
+    },
     sortChildren() {
       const kids = [...this.children];
 
@@ -225,7 +246,8 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   /* margin-left: -10px; */
-  margin-right: -10px;
+  gap: 10px;
+  font-size: 12px;
 }
 
 .Level {
@@ -237,7 +259,10 @@ export default {
 
 .favicon {
   float: left;
-  margin-right: 3px;
+  margin-right: 6px;
+  margin-top: -3px;
+  width: 16px;
+  height: 16px;
 }
 
 .EditBtn {
@@ -280,10 +305,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: stretch;
-  text-align: center;
 
-  min-height: calc(4em + 20px);
-  margin: 10px 5px;
+  min-height: calc(4lh + 11px);
 
   .Grid-cellItem {
     position: absolute;
@@ -292,10 +315,12 @@ export default {
     height: 100%;
     min-width: 100%;
     padding: 6px;
-    border: 1px solid var(--layout-border-color);
+    border-radius: 4px;
+    background-color: var(--item-bg);
+    border: 1px solid var(--item-border-color);
     transform: scale(1);
     transition: transform 0.25s, box-shadow 0.25s;
-    box-shadow: 0 0 0;
+    box-shadow: none;
     word-break: break-word;
 
     display: -webkit-box;

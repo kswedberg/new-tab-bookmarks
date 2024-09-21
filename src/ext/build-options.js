@@ -1,4 +1,4 @@
-let buildOptions = {
+const buildOptions = {
   spaceSpace: function(title, folderLevel) {
     let spaces = '  ';
     let text = '';

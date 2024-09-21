@@ -53,7 +53,10 @@ export default {
   },
   methods: {
     bodyClass(theme) {
-      document.body.className = `Page--${theme}`;
+      let className = document.body.className.replace(/\s*Page--\w+\s*/, '');
+
+      className += ` Page--${theme}`;
+      document.body.className = className;
     },
   },
 };

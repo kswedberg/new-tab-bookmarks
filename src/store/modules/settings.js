@@ -49,7 +49,12 @@ const settings = {
       await dispatch('setBodyClass');
     },
     setBodyClass({state}, className = `Page--${state.theme}`) {
-      if (typeof document !== 'undefined') {
+      if (typeof document === 'undefined') {
+        return;
+      }
+      if (document.body.className) {
+        document.body.className += ` ${className}`;
+      } else {
         document.body.className = className;
       }
     },

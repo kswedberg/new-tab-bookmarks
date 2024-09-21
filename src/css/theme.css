@@ -7,6 +7,11 @@
   font-display: swap;
 }
 
+/* ORION ONLY */
+.orion {
+/* nothing needed here anymore */
+}
+
 /* Variables: */
 body {
   --gap: 20px;
@@ -20,6 +25,8 @@ body {
   --main-bg-gradient: #fff;
   --hover-bg: #f5f7fa;
   --layout-border-color: #efefef;
+  --item-border-color: #bebebe;
+  --item-bg: #f3f3f3;
   --text-color: #343436;
   --link-color: #233499;
   --muted-color: #aaabad;
