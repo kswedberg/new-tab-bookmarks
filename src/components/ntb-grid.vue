@@ -247,7 +247,7 @@ export default {
   flex-direction: row;
   /* margin-left: -10px; */
   gap: 10px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .Level {

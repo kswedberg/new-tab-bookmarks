@@ -12,13 +12,6 @@
 /* nothing needed here anymore */
 }
 
-html,
-html *,
-html *::before,
-html *::after {
-  box-sizing: border-box;
-}
-
 /* Variables: */
 body {
   --gap: 20px;
@@ -48,10 +41,21 @@ body {
   --main-bg-gradient: #2c3032;
   --hover-bg: #121418;
   --layout-border-color: #404040;
+  --item-border-color: #707174;
+  --item-bg: #18191b;
+
   --text-color: #f7f7f9;
   --link-color: #c2d1ff;
   --muted-color: #707174;
   --button-border-color: #333;
+}
+
+
+html,
+html *,
+html *::before,
+html *::after {
+  box-sizing: border-box;
 }
 
 /* Styles */
@@ -71,6 +75,9 @@ h6,
 p,
 div {
   color: var(--text-color);
+}
+button {
+  font-size: 100%;
 }
 .el-button--default,
 .el-radio-button__inner,
