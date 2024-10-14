@@ -7,11 +7,6 @@
   font-display: swap;
 }
 
-/* ORION ONLY */
-.orion {
-/* nothing needed here anymore */
-}
-
 /* Variables: */
 body {
   --gap: 20px;
@@ -26,9 +21,15 @@ body {
   --hover-bg: #f5f7fa;
   --layout-border-color: #efefef;
   --item-border-color: #bebebe;
-  --item-bg: #f3f3f3;
-  --text-color: #343436;
+  --item-bg: #f3f3f6;
+  --text-color: #243436;
+  --text-emphasis: #090910;
   --link-color: #233499;
+  --primary: #0b66d4;
+  --primary-hover: #233499;
+  --danger: #f56c6c;
+  --danger-hover: #d83737;
+  --info: #f3f3f6;
   --muted-color: #aaabad;
   --button-border-color: #bababa;
 }
@@ -45,7 +46,12 @@ body {
   --item-bg: #18191b;
 
   --text-color: #f7f7f9;
+  --text-emphasis: #fff;
   --link-color: #c2d1ff;
+  --primary: #0b66d4;
+  --primary-hover: #233499;
+  --danger: #f56c6c;
+  --danger-hover: #d83737;
   --muted-color: #707174;
   --button-border-color: #333;
 }
@@ -117,6 +123,7 @@ input {
 
 .Popup,
 .el-dialog,
+dialog,
 .el-button--plain {
   background-color: var(--aside-bg);
   color: var(--text-color);
@@ -171,7 +178,9 @@ a {
   color: var(--link-color);
   text-decoration: none;
 }
-
+.inline-flex {
+  display: inline-flex;
+}
 .flex {
   display: flex;
   min-width: 0;
@@ -180,7 +189,9 @@ a {
 .flex-col {
   flex-direction: column;
 }
-
+.items-center {
+  align-items: center;
+}
 
 .sr-only {
   border: 0;

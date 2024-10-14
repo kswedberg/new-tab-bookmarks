@@ -1,35 +1,36 @@
 <template>
-  <div :class="['flex flex-col Page', 'Page--' + theme]">
+  <div :class="['flex flex-col Page']">
     <header class="Header Header--settings flex">
       <h1>New Tab Settings</h1>
     </header>
-    <div class="Page-body flex">
+    <div class="Page-body Page-body--options">
       <main class="Main">
-        <el-row class="StorageType">
+        <div class="row StorageType">
           <h2>Chrome Sync</h2>
-          <el-switch
+          <ntb-switch
             v-model="storageType"
+            id="storage-switch"
             active-value="sync"
             inactive-value="local"
             active-color="#13ce66"
             inactive-color="#aaa"
             active-text="Share settings across devices"
           />
-        </el-row>
-        <el-row>
+        </div>
+        <div class="row">
           <h2>Theme</h2>
           <el-radio-group v-model="theme">
             <el-radio-button label="light">Light</el-radio-button>
             <el-radio-button label="dark">Dark</el-radio-button>
           </el-radio-group>
-        </el-row>
+        </div>
 
-        <el-row>
+        <div class="row">
           <h2>Shallow list of all {{ list.length }} bookmarks</h2>
           <el-input type="textarea" rows="10" :value="listString" />
-        </el-row>
+        </div>
 
-        <el-row>
+        <div class="row">
           <h2>Broken bookmarks <span>({{brokenFiltered.length}})</span></h2>
           <form>
             <input
@@ -39,20 +40,20 @@
               placeholder="Load a JSON file"
             >
           </form>
-        </el-row>
-        <el-row>
+        </div>
+        <div class="row">
           <div v-if="brokenFiltered.length">
-            <el-button
+            <ntb-button
               @click="remove"
               type="danger"
               size="small"
-              icon="el-icon-delete"
+              icon="delete"
             >
               delete {{ numberToRemove }} bookmarks
-            </el-button>
+            </ntb-button>
           </div>
-        </el-row>
-        <el-row>
+        </div>
+        <div class="row">
           <el-radio-group v-model="status">
             <el-radio-button label="all" />
             <el-radio-button v-for="stat in statuses" :key="stat" :label="stat">{{ stat }}</el-radio-button>
@@ -63,26 +64,26 @@
               :key="broke.id"
               :class="[toKeep.includes(broke.id) && 'keep']"
             >
-              <el-button
+              <ntb-button
                 @click="remove(broke.id)"
                 type="danger"
                 size="small"
-                icon="el-icon-delete"
+                icon="delete"
               />
               <a :href="broke.url">
                 {{ broke.title}}
               </a>
-              <el-button
+              <ntb-button
                 @click="openEditing(broke.id)"
-                icon="el-icon-edit"
+                icon="edit"
                 type="primary"
                 class="EditBtn"
                 size="mini"
                 round
               />
-              <el-button
+              <ntb-button
                 @click="keepId(broke.id)"
-                icon="el-icon-check"
+                icon="check"
                 size="mini"
                 type="success"
                 plain
@@ -90,7 +91,7 @@
               />
             </li>
           </ul>
-        </el-row>
+        </div>
 
         <EditDialog v-if="$store.state.bookmarks.editing" />
       </main>
@@ -101,10 +102,14 @@
 <script>
 import {getList} from '../ext/bookmarks.js';
 import EditDialog from '../components/edit-dialog.vue';
+import NtbButton from '../components/ntb-button.vue';
+import NtbSwitch from '../components/ntb-switch.vue';
 
 export default {
   components: {
     EditDialog,
+    NtbButton,
+    NtbSwitch,
   },
   data: () => {
     return {
@@ -115,6 +120,7 @@ export default {
       status: 'all',
       statuses: [],
       reader: {},
+      test: 'local',
     };
   },
   computed: {
@@ -266,5 +272,8 @@ export default {
 }
 .Header--settings {
   padding-left: 32px;
+}
+.Page-body--options .Main {
+  padding: 32px;
 }
 </style>

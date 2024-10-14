@@ -39,10 +39,17 @@
         <li>Date Added: {{ editing.dateAdded | date }}</li>
         <li>ID: {{ editing.id }} / Parent ID: {{ editing.parentId }}</li>
       </ul>
-      <div>
-        <el-button @click="isEditing = null">Cancel</el-button>
-        <el-button native-type="submit" type="primary">{{ action === 'create' ? 'Add' : 'Update' }}</el-button>
-        <el-button v-if="action !== 'create'" @click="remove" type="danger">Delete</el-button>
+      <div class="action-row">
+        <ntb-button @click="isEditing = null">Cancel</ntb-button>
+        <ntb-button type="submit" color="primary">{{ action === 'create' ? 'Add' : 'Update' }}</ntb-button>
+        <ntb-button
+          v-if="action !== 'create'"
+          @click="remove"
+          class="del"
+          color="danger"
+        >
+          Delete
+        </ntb-button>
       </div>
     </el-form>
   </el-dialog>
@@ -50,8 +57,12 @@
 
 <script>
 import {getBookmarkWithPosition} from '../ext/bookmarks.js';
+import NtbButton from '../components/ntb-button.vue';
 
 export default {
+  components: {
+    NtbButton,
+  },
   data() {
     return {
       parentId: '0',
@@ -157,5 +168,12 @@ export default {
 .Form
 .Select {
   width: 100%;
+}
+.del {
+  margin-left: auto;
+}
+.action-row {
+  display: flex;
+  gap: 0.5rem;
 }
 </style>

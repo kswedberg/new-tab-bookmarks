@@ -1,8 +1,13 @@
-<template lang="html">
+<template>
   <div :class="['flex', 'flex-col', 'Page', 'Page--' + theme]">
+    <svg-sprite />
     <header class="Header flex">
       <div class="Header-menu" :class="{'is-closed': asideClosed}">
-        <el-button @click="toggleAside" :icon="asideClosed ? 'el-icon-setting' : 'el-icon-circle-close'" />
+        <ntb-button
+          @click="toggleAside"
+          :icon="asideClosed ? 'settings' : 'close-circle'"
+          :text="asideClosed ? 'Settings' : 'Close settings'"
+        />
       </div>
       <SearchFilter />
     </header>
@@ -51,15 +56,19 @@ import NtbGrid from '../components/ntb-grid.vue';
 import NtbDupes from '../components/dupes.vue';
 import SearchFilter from '../components/search-filter.vue';
 import EditDialog from '../components/edit-dialog.vue';
+import SvgSprite from '../components/svg-sprite.vue';
+import NtbButton from '../components/ntb-button.vue';
 
 export default {
   components: {
+    NtbButton,
     PageAside,
     NtbGrid,
     NtbDupes,
     // TreeFolder,
     SearchFilter,
     EditDialog,
+    SvgSprite,
   },
   data: () => {
     return {
@@ -89,8 +98,8 @@ export default {
     },
     expandCollapseIcon() {
       return this.bookmarkSettings.folders.length === this.expanded.length
-        ? 'el-icon-minus'
-        : 'el-icon-plus';
+        ? 'icon-minus'
+        : 'icon-plus';
     },
     bookmarkSettings() {
       return this.$store.state.bookmarks;
@@ -139,6 +148,9 @@ export default {
   },
 
   methods: {
+    logMe() {
+      console.log('AAAAAAA');
+    },
     toggleDupes() {
       this.showDupes = !this.showDupes;
 

@@ -16,12 +16,12 @@
           <div
             :class="[i && item.title !== dupe.items[i-1].title && 'alert']"
           >
-            <el-button
-              @click="remove(item.id)"
-              ref="confirm"
-              type="danger"
+            <ntb-button
+              @click="() => remove(item.id)"
+              color="danger"
               size="mini"
-              icon="el-icon-delete"
+              icon="delete"
+              aria-label="delete"
             />
             {{ item.title }}
           </div>

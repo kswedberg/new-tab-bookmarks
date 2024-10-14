@@ -8,26 +8,24 @@
       >
         {{ labelPart }}
         <!-- <span class="dim">({{ id }})</span> -->
-        <i v-if="i < allLabels.length - 1" class="el-icon-arrow-right" />
+        <i v-if="i < allLabels.length - 1" class="icon-arrow-right" />
       </span>
     </button>
-    <el-button-group class="ButtonGroup">
-      <el-button
-        @click.stop.prevent="openDialog('update')"
-        type="plain"
+    <ntb-button-group class="ButtonGroup">
+      <ntb-button
+        @click="() => openDialog('update')"
+        color="plain"
         size="mini"
-        icon="el-icon-edit"
-      >
-        <span class="sr-only">edit</span>
-      </el-button>
-      <el-button
-        @click.stop.prevent="openDialog('create')"
-        type="plain"
+        icon="edit"
+        text="edit"
+      />
+      <ntb-button
+        @click.stop="() => openDialog('create')"
+        color="plain"
         size="mini"
-        icon="el-icon-plus"
-      >
-        <span class="sr-only">add</span>
-      </el-button>
+        icon="plus"
+        text="add"
+      />
       <el-popconfirm
         v-model="isConfirmDeleteVisible"
         @confirm="removeTree"
@@ -39,22 +37,29 @@
         icon-color="#F56C6C"
       >
         <!-- This button triggers the popconfirm -->
-        <el-button
+        <ntb-button
           slot="reference"
           @click.stop.prevent="isConfirmDeleteVisible = !isConfirmDeleteVisible"
-          type="danger"
+          color="danger"
           size="mini"
-          icon="el-icon-delete"
+          icon="delete"
+          text="Delete"
         />
       </el-popconfirm>
-    </el-button-group>
+    </ntb-button-group>
   </div>
 </template>
 
 <script>
 import {update} from '../ext/bookmarks.js';
+import NtbButton from '../components/ntb-button.vue';
+import NtbButtonGroup from '../components/ntb-button-group.vue';
 
 export default {
+  components: {
+    NtbButton,
+    NtbButtonGroup,
+  },
   props: {
     id: {
       type: String,
@@ -94,14 +99,18 @@ export default {
     },
     labelParent() {
       return this.parentTitle
-        ? `${this.parentTitle} <i class="el-icon-arrow-right"></i>`
+        ? `${this.parentTitle} <i class="icon-arrow-right"></i>`
         : '';
     },
   },
 
   methods: {
     noop: (_) => _,
+    logMe() {
+      console.log('logging!');
+    },
     async openDialog(action) {
+      console.log({id: this.id, action});
       await this.$store.dispatch('bookmarks/getEditing', {id: this.id, action});
     },
 
@@ -172,7 +181,5 @@ export default {
 .Folder-labelParent {
   color: var(--muted-color);
 }
-.ButtonGroup {
-  display: inline-block;
-}
+
 </style>

@@ -8,6 +8,7 @@
     "lint": "eslint --ext .js,.vue src",
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
+    "watch-chrome": "NODE_ENV=production TARGET_BROWSER=chrome webpack --mode=production --watch",
     "//build:dev": "NODE_ENV=development webpack --hide-modules",
     "//dev": "NODE_ENV=development HMR=true TARGET_BROWSER=chrome webpack --watch",
     "dev": "NODE_ENV=development TARGET_BROWSER=chrome webpack --watch --mode=development",

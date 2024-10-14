@@ -31,7 +31,7 @@
           :title="defaultFolder.text ? `Reset folder to ${defaultFolder.text.trim()}` : ''"
           :disabled="foldersMatch"
           :class="{'is-textHidden': asideClosed}"
-          icon="el-icon-back"
+          icon="back"
         >
           Reset to "{{ defaultFolder.text | trim }}"
         </el-button>
@@ -43,7 +43,7 @@
           :title="currentFolder && currentFolder.text ? `Set ${currentFolder.text.trim()} as default folder` : ''"
           :disabled="foldersMatch"
           :class="{'is-textHidden': asideClosed}"
-          icon="el-icon-check"
+          icon="check"
         >
           Set "{{ currentFolder.text | trim }}" as default
         </el-button>
@@ -55,7 +55,7 @@
         <el-button
           @click="$emit('update', 'toggleDupes')"
           id="show-dupes"
-          icon="el-icon-scissors"
+          icon="scissors"
         >
           {{ showDupes ? `Hide dupes` : 'Show dupes' }}
         </el-button>

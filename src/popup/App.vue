@@ -30,14 +30,14 @@
         <el-input v-model="url" />
       </el-form-item>
       <div>
-        <el-button @click="close">Cancel</el-button>
-        <el-button native-type="submit" type="primary">{{ buttonText }}</el-button>
-        <el-button
+        <ntb-button @click="close">Cancel</ntb-button>
+        <ntb-button type="submit" color="primary">{{ buttonText }}</ntb-button>
+        <ntb-button
           v-if="bookmark.id"
           @click="maybeDelete"
-          :type="warningDelete ? 'danger' : 'info'"
-          :icon="warningDelete ? 'el-icon-question' : 'el-icon-delete'"
-          circle
+          :color="warningDelete ? 'danger' : 'info'"
+          :icon="warningDelete ? 'question' : 'delete'"
+          round
         />
       </div>
     </el-form>
@@ -45,10 +45,14 @@
 </template>
 <script>
 import {search, upsert, remove} from '../ext/bookmarks.js';
+import NtbButton from '../components/ntb-button.vue';
 
 const lastFolderId = 'lastFolderId';
 
 export default {
+  components: {
+    NtbButton,
+  },
   data() {
     return {
       folderId: '',

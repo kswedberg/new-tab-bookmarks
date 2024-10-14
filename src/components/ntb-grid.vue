@@ -6,12 +6,13 @@
   <!-- Bookmark -->
   <div v-if="url && (!children || !children.length)" class="Grid-cell">
     <div class="Grid-cellItem">
-      <el-button
+      <ntb-button
         @click="openEditing"
-        icon="el-icon-edit"
-        type="primary"
+        icon="edit"
+        color="primary"
         class="EditBtn"
         size="mini"
+        aria-label="edit"
         round
       />
       <a
@@ -36,8 +37,8 @@
     <div
       v-if="id"
       class="Hdg"
+      slot="header"
     >
-      <!-- Folder -->
       <TreeFolder
         :id="id"
         :parents="parents"
