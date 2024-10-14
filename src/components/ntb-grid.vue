@@ -74,6 +74,7 @@
 import {update} from '../ext/bookmarks.js';
 import TreeFolder from './tree-folder.vue';
 import VDraggable from 'vuedraggable';
+import NtbButton from './ntb-button.vue';
 
 export default {
   // The name 'ntb-grid' here is being used in the template above to call this component recursively
@@ -81,6 +82,7 @@ export default {
   components: {
     TreeFolder,
     VDraggable,
+    NtbButton,
   },
   props: {
     children: {
