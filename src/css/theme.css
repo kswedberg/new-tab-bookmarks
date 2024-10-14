@@ -72,6 +72,27 @@ body {
     'Helvetica Neue', sans-serif;
 }
 
+.Page {
+  background-color: var(--aside-bg);
+  box-sizing: border-box;
+  min-height: 100vh;
+  --collapsed-width: 86px;
+  --aside-transition: width 0.5s;
+}
+
+main.Main {
+  background-color: var(--main-bg);
+  background-image: radial-gradient(ellipse at 50% 10%, var(--main-bg-gradient), var(--header-bg) 80%);
+  color: var(--text-color);
+  padding-left: 32px;
+}
+
+header {
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--layout-border-color);
+  color: var(--text-color);
+}
+
 h1,
 h2,
 h3,
@@ -116,47 +137,12 @@ input {
   color: var(--text-color);
   border-color: var(--button-border-color);
 }
-.el-popper.el-popper[x-placement^='bottom'] .popper__arrow,
-.el-popper.el-popper[x-placement^='bottom'] .popper__arrow::after {
-  border-bottom-color: var(--main-bg);
-}
 
-.Popup,
-.el-dialog,
-dialog,
-.el-button--plain {
-  background-color: var(--aside-bg);
-  color: var(--text-color);
-}
-.el-switch__label,
+
 .el-form-item__label {
   color: var(--text-color);
 }
-body,
-body * {
-  box-sizing: border-box;
-}
 
-.Page {
-  background-color: var(--aside-bg);
-  box-sizing: border-box;
-  min-height: 100vh;
-  --collapsed-width: 86px;
-  --aside-transition: width 0.5s;
-}
-
-main.Main {
-  background-color: var(--main-bg);
-  background-image: radial-gradient(ellipse at 50% 10%, var(--main-bg-gradient), var(--header-bg) 80%);
-  color: var(--text-color);
-  padding-left: 32px;
-}
-
-header {
-  background-color: var(--header-bg);
-  border-bottom: 1px solid var(--layout-border-color);
-  color: var(--text-color);
-}
 .row {
   margin-bottom: var(--gap);
 }
@@ -204,4 +190,51 @@ a {
   padding: 0;
   position: absolute;
   white-space: nowrap;
+}
+
+/* dialogs and popups */
+
+.el-popper.el-popper[x-placement^='bottom'] .popper__arrow,
+.el-popper.el-popper[x-placement^='bottom'] .popper__arrow::after {
+  border-bottom-color: var(--main-bg);
+}
+
+.Popup,
+.el-dialog,
+dialog,
+.el-button--plain {
+  background-color: var(--aside-bg);
+  color: var(--text-color);
+}
+
+dialog {
+  --duration: 0.34s;
+
+  transition:
+    translate var(--duration) ease-out,
+    scale var(--duration) ease-out,
+    opacity var(--duration) ease-out,
+    display var(--duration) ease-out allow-discrete;
+
+  &[open] {
+    translate: 0 0;
+    scale: 1;
+    opacity: 1;
+
+    @starting-style {
+      translate: 0 -50%;
+      scale: .85;
+      opacity: 0;
+    }
+  }
+
+  &:not([open]) {
+    translate: 0 -8vh;
+    scale: .85;
+      opacity: 0;
+  }
+}
+
+::backdrop {
+  background: none;
 }
