@@ -25,7 +25,7 @@
         </el-form>
       </div>
       <div class="Aside-row" :class="{'is-transparent': foldersMatch}">
-        <el-button
+        <ntb-button
           @click="$emit('update', 'resetDefault')"
           id="view-default"
           :title="defaultFolder.text ? `Reset folder to ${defaultFolder.text.trim()}` : ''"
@@ -34,10 +34,10 @@
           icon="back"
         >
           Reset to "{{ defaultFolder.text | trim }}"
-        </el-button>
+        </ntb-button>
       </div>
       <div class="Aside-row" :class="{'is-transparent': foldersMatch}">
-        <el-button
+        <ntb-button
           @click="setDefaultToCurrent"
           id="view-save-default"
           :title="currentFolder && currentFolder.text ? `Set ${currentFolder.text.trim()} as default folder` : ''"
@@ -46,19 +46,19 @@
           icon="check"
         >
           Set "{{ currentFolder.text | trim }}" as default
-        </el-button>
+        </ntb-button>
       </div>
       <div v-show="!asideClosed" class="Aside-row">
         <Settings />
       </div>
       <div v-show="!asideClosed" class="Aside-row">
-        <el-button
+        <ntb-button
           @click="$emit('update', 'toggleDupes')"
           id="show-dupes"
           icon="scissors"
         >
           {{ showDupes ? `Hide dupes` : 'Show dupes' }}
-        </el-button>
+        </ntb-button>
       </div>
       <div v-show="!asideClosed" class="Aside-row">
         <a href="../options/options.html">more...</a>
@@ -69,11 +69,13 @@
 
 <script>
 import Settings from '../components/settings.vue';
+import NtbButton from '../components/ntb-button.vue';
 
 export default {
   name: 'ntb-aside',
   components: {
     Settings,
+    NtbButton,
   },
   props: {
     asideClosed: Boolean,
