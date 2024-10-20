@@ -1,7 +1,6 @@
 import {syncStore, localStore, getStorageType} from '../../ext/storage.js';
 
 const storedState = {
-  theme: 'light',
   layout: 'grid',
   storageType: 'sync',
   brokenKeepers: [],
@@ -35,7 +34,7 @@ const settings = {
   },
 
   actions: {
-    async initialize({state, commit, dispatch}) {
+    async initialize({commit}) {
       const storageType = getStorageType();
 
       commit('setState', {name: 'storageType', value: storageType});
@@ -45,18 +44,6 @@ const settings = {
       Object.keys(stored || []).forEach((name) => {
         commit('setState', {name, value: stored[name]});
       });
-
-      await dispatch('setBodyClass');
-    },
-    setBodyClass({state}, className = `Page--${state.theme}`) {
-      if (typeof document === 'undefined') {
-        return;
-      }
-      if (document.body.className) {
-        document.body.className += ` ${className}`;
-      } else {
-        document.body.className = className;
-      }
     },
 
     async handleStorageType({state, commit}, type) {

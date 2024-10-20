@@ -17,13 +17,6 @@
             active-text="Share settings across devices"
           />
         </div>
-        <div class="row">
-          <h2>Theme</h2>
-          <el-radio-group v-model="theme">
-            <el-radio-button label="light">Light</el-radio-button>
-            <el-radio-button label="dark">Dark</el-radio-button>
-          </el-radio-group>
-        </div>
 
         <div class="row">
           <h2>Shallow list of all {{ list.length }} bookmarks</h2>
@@ -145,18 +138,6 @@ export default {
     },
     brokenFiltered() {
       return !this.status || this.status === 'all' ? this.borked : this.borked.filter((b) => b.status === this.status);
-    },
-
-    theme: {
-      get() {
-        return this.$store.state.settings.theme;
-      },
-      set(value) {
-        this.$store.commit('settings/setStateAndStore', {
-          name: 'theme',
-          value,
-        });
-      },
     },
 
     layout: {

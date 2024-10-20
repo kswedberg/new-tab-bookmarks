@@ -1,32 +1,34 @@
 <template>
-  <el-form
-    @submit.native.prevent
-    :inline="true"
-    :model="form"
+  <form
+    @submit.prevent
     class="Header-form Form--inline"
   >
-    <div class="search-form flex">
+    <div class="search-form flex items-center">
       <div>
-        <el-input
+        <input
           v-model="searchFilter"
-          clearable
+          type="search"
           name="keyword"
-          prefix-icon="el-icon-search"
+          autocorrect="off"
+          autocomplete="off"
           placeholder="Filter..."
-        />
+        >
       </div>
       <div>
-        <el-form-item class="FilterScope">
+        <div class="FilterScope toggle-checkbox">
           <span class="SwitchLabel">Scope:</span>
-          <el-switch
+          <input
             v-model="searchAll"
             @change="updateFilter"
-            active-text="All Folders"
-          />
-        </el-form-item>
+            id="search-all"
+            type="checkbox"
+            active-text=""
+          >
+          <label for="search-all">All Folders</label>
+        </div>
       </div>
     </div>
-  </el-form>
+  </form>
 </template>
 
 <script>

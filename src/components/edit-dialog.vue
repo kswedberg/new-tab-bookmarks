@@ -1,10 +1,12 @@
 <template>
   <el-dialog :visible.sync="isEditing">
-    <el-form @submit.native.prevent="update" class="Form" label-width="80px">
-      <el-form-item label="Folder">
+    <form @submit.prevent="update" class="Form">
+      <div class="form-item">
+        <label for="update-folder">Folder</label>
         <el-select
           v-model="parentId"
           @change="changePosition"
+          id="update-folder"
           class="Select"
           clearable
           :filterable="true"
@@ -20,21 +22,24 @@
             :value="item.id"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="Title" size="large">
-        <el-input v-model="title" />
-      </el-form-item>
-      <el-form-item label="URL" size="large">
-        <el-input v-model="url" />
-      </el-form-item>
+      </div>
+      <div class="form-item">
+        <label for="edit-title">Title</label>
+        <input v-model="title" id="edit-title" type="text">
+      </div>
+      <div class="form-item">
+        <label for="edit-url">URL</label>
+        <input v-model="url" id="edit-url" type="text">
+      </div>
 
-      <el-form-item label="Index">
+      <div class="form-item">
+        <label for="edit-index">Index</label>
         <select v-model="index">
           <option v-for="n in len" :key="n" :value="n + offset">
             {{ n + offset }}
           </option>
         </select>
-      </el-form-item>
+      </div>
       <ul>
         <li>Date Added: {{ editing.dateAdded | date }}</li>
         <li>ID: {{ editing.id }} / Parent ID: {{ editing.parentId }}</li>
@@ -51,7 +56,7 @@
           Delete
         </ntb-button>
       </div>
-    </el-form>
+    </form>
   </el-dialog>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['flex', 'flex-col', 'Page', 'Page--' + theme]">
+  <div :class="['flex', 'flex-col', 'Page']">
     <svg-sprite />
     <header class="Header flex">
       <div class="Header-menu" :class="{'is-closed': asideClosed}">
@@ -108,9 +108,6 @@ export default {
       return this.searchAll
         ? '0'
         : this.$store.state.bookmarks.currentFolder.id;
-    },
-    theme() {
-      return this.$store.state.settings.theme;
     },
     layout() {
       return this.$store.state.settings.layout;
