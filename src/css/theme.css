@@ -29,11 +29,15 @@
   --danger: #f56c6c;
   --danger-hover: #d83737;
   --info: light-dark(#f3f3f6, #707174);
-  --muted-color: light-dark(#aaabad, );
+  --muted-color: light-dark(#aaabad, #707273);
   --button-border-color: light-dark(#bababa, #333);
 }
 
 /* Styles */
+
+html {
+  font-size: 16px;
+}
 
 html,
 html *,
@@ -103,7 +107,8 @@ a {
   & > label {
     white-space: nowrap;
   }
-  input {
+  input,
+  select {
     width: 100%;
     &:focus {
       outline: 1px solid var(--primary);
@@ -115,18 +120,25 @@ input,
 textarea,
 select,
 button {
-  font-family: inherit;
-  font-size: inherit;
+  font: inherit;
 }
-
-input:where([type="search"],[type="text"]) {
+textarea {
+  display: block;
+}
+input:not([type="button"], [type="radio"], [type="checkbox"]),
+textarea {
   appearance: none;
+  padding: 4px;
+  border: 1px solid var(--item-border-color);
+  border-radius: 4px;
+}
+input:not([type="button"], [type="radio"], [type="checkbox"]) {
   padding-block: 4px;
   padding-inline-start: 15px;
   height: 40px;
-  border: 1px solid var(--item-border-color);
-  border-radius: 4px;
-
+}
+select {
+  height: 40px;
 }
 
 /* buttons */
@@ -151,10 +163,7 @@ button {
 }
 
 /* selects */
-.el-select-dropdown,
-.el-select-dropdown__list,
-.el-input__inner,
-.el-radio-button__inner,
+select
 input {
   background-color: var(--main-bg);
   color: var(--text-color);
@@ -166,10 +175,6 @@ input {
   color: var(--text-color);
 }
 
-
-.toggle-checkbox {
-
-}
 /* MISCELLANEOUS & UTILITIES */
 .row {
   margin-bottom: var(--gap);
@@ -229,6 +234,10 @@ dialog,
 }
 
 dialog {
+  position: fixed;
+  top: 50%;
+  transform: translate(0, -50%);
+  z-index: 1001;
   --duration: 0.34s;
 
   transition:

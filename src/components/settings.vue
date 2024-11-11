@@ -6,29 +6,35 @@
       inactive-value="local"
       active-color="#13ce66"
       inactive-color="#aaa" -->
-      <input
+      <ntb-switch
         v-model="storageType"
-        id="settings-storage-sync"
-        type="checkbox"
-      >
-      <label for="settings-storage-sync">Share settings across devices</label>
+        id="storage-switch"
+        active-value="sync"
+        inactive-value="local"
+        active-color="#13ce66"
+        inactive-color="#aaa"
+        active-text="Share settings across devices"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import NtbSwitch from '../components/ntb-switch.vue';
+
 export default {
   name: 'ntb-settings',
+  components: {
+    NtbSwitch,
+  },
   computed: {
 
     storageType: {
       get() {
-        return this.$store.state.settings.storageType === 'sync';
+        return this.$store.state.settings.storageType;
       },
       set(value) {
-        const type = value ? 'sync' : 'local';
-
-        this.$store.dispatch('settings/handleStorageType', type);
+        this.$store.dispatch('settings/handleStorageType', value);
       },
     },
   },

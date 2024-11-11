@@ -42,7 +42,8 @@
             />
           </div>
         </div>
-        <EditDialog v-if="$store.state.bookmarks.editing" />
+        <EditDialog />
+        <RemoveFolderDialog />
       </main>
     </div>
   </div>
@@ -56,6 +57,7 @@ import NtbGrid from '../components/ntb-grid.vue';
 import NtbDupes from '../components/dupes.vue';
 import SearchFilter from '../components/search-filter.vue';
 import EditDialog from '../components/edit-dialog.vue';
+import RemoveFolderDialog from '../components/remove-folder-dialog.vue';
 import SvgSprite from '../components/svg-sprite.vue';
 import NtbButton from '../components/ntb-button.vue';
 
@@ -68,6 +70,7 @@ export default {
     // TreeFolder,
     SearchFilter,
     EditDialog,
+    RemoveFolderDialog,
     SvgSprite,
   },
   data: () => {

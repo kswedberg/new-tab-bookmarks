@@ -17,10 +17,14 @@
             active-text="Share settings across devices"
           />
         </div>
-
         <div class="row">
-          <h2>Shallow list of all {{ list.length }} bookmarks</h2>
-          <el-input type="textarea" rows="10" :value="listString" />
+          <label for="shallow-bookmarks">Shallow list of all {{ list.length }} bookmarks</label>
+          <textarea
+            class="ta-wide"
+            id="shallow-bookmarks"
+            rows="10"
+            :value="listString"
+          />
         </div>
 
         <div class="row">
@@ -47,10 +51,21 @@
           </div>
         </div>
         <div class="row">
-          <el-radio-group v-model="status">
-            <el-radio-button label="all" />
-            <el-radio-button v-for="stat in statuses" :key="stat" :label="stat">{{ stat }}</el-radio-button>
-          </el-radio-group>
+          <div v-if="statuses.length">
+            <div>
+              <input id="status-all" type="radio" value="all">
+              <label for="status-all">All</label>
+            </div>
+            <div v-for="stat in statuses" :key="stat">
+              <input
+                :id="`status-${stat}`"
+                type="radio"
+                :value="stat"
+                :aria-label="stat"
+              >
+              <label :for="`status-${stat}`">{{ stat }}</label>
+            </div>
+          </div>
           <ul v-if="brokenFiltered.length">
             <li
               v-for="broke in brokenFiltered"
@@ -86,7 +101,7 @@
           </ul>
         </div>
 
-        <EditDialog v-if="$store.state.bookmarks.editing" />
+        <EditDialog />
       </main>
     </div>
   </div>
@@ -242,7 +257,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .el-switch__label.is-active {
   color: #303133;
 }
@@ -251,6 +266,13 @@ export default {
   background-color: #efe;
   font-weight: bold;
 }
+.Main {
+  font-size: 1rem;
+}
+.ta-wide {
+  width: 100%;
+}
+
 .Header--settings {
   padding-left: 32px;
 }

@@ -227,8 +227,12 @@ export default {
         value: this.expanded,
       });
     },
-    openEditing() {
+    async openEditing() {
       this.$store.dispatch('bookmarks/getEditing', {id: this.id});
+      const dialog = document.getElementById('edit-dialog');
+
+      await this.$nextTick();
+      dialog.showModal();
     },
 
     async onDragEnd(event) {

@@ -1,27 +1,22 @@
 <template>
-  <el-dialog :visible.sync="isEditing">
+  <dialog ref="dialog" id="edit-dialog" class="dialog">
     <form @submit.prevent="update" class="Form">
       <div class="form-item">
         <label for="update-folder">Folder</label>
-        <el-select
+        <select
           v-model="parentId"
           @change="changePosition"
           id="update-folder"
           class="Select"
-          clearable
-          :filterable="true"
-          placeholder="folder…"
-          no-match-text="no matches found"
-          no-data-text="no data"
         >
-          <el-option
+          <option
             v-for="item in foldersWithText"
             :key="item.text + item.id"
             name="change-folder"
             :label="item.text"
             :value="item.id"
           />
-        </el-select>
+        </select>
       </div>
       <div class="form-item">
         <label for="edit-title">Title</label>
@@ -32,7 +27,7 @@
         <input v-model="url" id="edit-url" type="text">
       </div>
 
-      <div class="form-item">
+      <div class="">
         <label for="edit-index">Index</label>
         <select v-model="index">
           <option v-for="n in len" :key="n" :value="n + offset">
@@ -45,7 +40,7 @@
         <li>ID: {{ editing.id }} / Parent ID: {{ editing.parentId }}</li>
       </ul>
       <div class="action-row">
-        <ntb-button @click="isEditing = null">Cancel</ntb-button>
+        <ntb-button @click="close">Cancel</ntb-button>
         <ntb-button type="submit" color="primary">{{ action === 'create' ? 'Add' : 'Update' }}</ntb-button>
         <ntb-button
           v-if="action !== 'create'"
@@ -57,7 +52,7 @@
         </ntb-button>
       </div>
     </form>
-  </el-dialog>
+  </dialog>
 </template>
 
 <script>
@@ -84,30 +79,32 @@ export default {
       return this.$store.getters['bookmarks/foldersWithText'];
     },
     editing() {
-      return this.$store.state.bookmarks.editing;
+      return this.$store.state.bookmarks.editing || {};
     },
     offset() {
       return this.editing.url ? this.indexOffset : -1;
     },
-    isEditing: {
-      get() {
-        return !!this.editing;
-      },
-      set(value) {
-        this.$store.commit('bookmarks/setState', {name: 'editing', value});
-      },
+    isEditing() {
+      return !!this.$store.state.bookmarks.editing;
     },
   },
-  created() {
-    this.parentId = `${this.editing.parentId}`;
-    this.title = this.editing.title;
-    this.url = this.editing.url;
-    this.index = this.editing.index;
-    this.indexOffset = this.editing.indexOffset || -1;
-    this.len = this.editing.len;
-    this.action = this.editing.action;
+  watch: {
+    isEditing(value) {
+      if (value) {
+        this.updateValues();
+      }
+    },
   },
   methods: {
+    updateValues() {
+      this.parentId = `${this.editing.parentId}`;
+      this.title = this.editing.title;
+      this.url = this.editing.url;
+      this.index = this.editing.index;
+      this.indexOffset = this.editing.indexOffset || -1;
+      this.len = this.editing.len;
+      this.action = this.editing.action;
+    },
     async changePosition() {
       if (!this.parentId) {
         return;
@@ -118,6 +115,10 @@ export default {
       this.indexOffset = indexOffset;
 
       // console.log('changePosition', this.len, this.indexOffset);
+    },
+    close() {
+      this.$refs.dialog.close();
+      this.$store.commit('bookmarks/setState', {name: 'editing', value: null});
     },
     async update() {
       const {editing = {}, title, url, parentId} = this;
@@ -145,7 +146,7 @@ export default {
         await this.$store.dispatch('bookmarks/move', {id, parentId, index: index || 0});
       }
 
-      this.isEditing = null;
+      this.close();
     },
 
     async create(obj = {}) {
@@ -156,14 +157,14 @@ export default {
       }
 
       await this.$store.dispatch('bookmarks/create', bookmark);
-      this.isEditing = null;
+      this.close();
     },
 
     remove() {
       const {id} = this.editing;
 
       this.$store.dispatch('bookmarks/remove', id);
-      this.isEditing = null;
+      this.close();
     },
   },
 };

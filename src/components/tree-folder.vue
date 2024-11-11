@@ -26,32 +26,19 @@
         icon="plus"
         text="add"
       />
-      <el-popconfirm
-        v-model="isConfirmDeleteVisible"
-        @confirm="removeTree"
-        @cancel="isConfirmDeleteVisible = false"
-        title="Delete folder and all bookmarks within it?"
-        confirm-button-text="Delete"
-        confirm-button-type="danger"
-        cancel-button-text="Cancel"
-        icon-color="#F56C6C"
+      <ntb-button
+        @click.stop="() => openRemoveDialog()"
+        color="danger"
+        size="mini"
+        text="delete"
       >
-        <!-- This button triggers the popconfirm -->
-        <ntb-button
-          slot="reference"
-          @click.stop.prevent="isConfirmDeleteVisible = !isConfirmDeleteVisible"
-          color="danger"
-          size="mini"
-          icon="delete"
-          text="Delete"
-        />
-      </el-popconfirm>
+        x
+      </ntb-button>
     </ntb-button-group>
   </div>
 </template>
 
 <script>
-import {update} from '../ext/bookmarks.js';
 import NtbButton from '../components/ntb-button.vue';
 import NtbButtonGroup from '../components/ntb-button-group.vue';
 
@@ -110,10 +97,21 @@ export default {
       console.log('logging!');
     },
     async openDialog(action) {
-      console.log({id: this.id, action});
       await this.$store.dispatch('bookmarks/getEditing', {id: this.id, action});
-    },
+      const dialog = document.getElementById('edit-dialog');
 
+      await this.$nextTick();
+      dialog.showModal();
+    },
+    async openRemoveDialog() {
+      const value = {id: this.id, action: 'removeTree', title: this.title};
+
+      this.$store.commit('bookmarks/setState', {name: 'editing', value});
+      const dialog = document.getElementById('remove-folder-dialog');
+
+      await this.$nextTick();
+      dialog.showModal();
+    },
     async changeFolder() {
       this.$store.commit('bookmarks/setState', {
         name: 'searchFilter',
@@ -124,11 +122,11 @@ export default {
       await this.$store.dispatch('bookmarks/getResults');
     },
 
-    async removeTree() {
-      this.isConfirmDeleteVisible = false;
-      await this.$store.dispatch('bookmarks/removeTree', this.id);
-      await this.$store.dispatch('bookmarks/getResults');
-    },
+    // async removeTree() {
+    //   this.isConfirmDeleteVisible = false;
+    //   await this.$store.dispatch('bookmarks/removeTree', this.id);
+    //   await this.$store.dispatch('bookmarks/getResults');
+    // },
 
     onShowConfirmDelete() {
       this.$refs.confirm.$el.focus();
@@ -152,7 +150,6 @@ export default {
     opacity: 1;
   }
 }
-
 
 .Folder-input {
   font-size: 1em;
@@ -180,6 +177,9 @@ export default {
 
 .Folder-labelParent {
   color: var(--muted-color);
+  &::after {
+    content: ' > ';
+  }
 }
 
 </style>

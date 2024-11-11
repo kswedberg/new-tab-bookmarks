@@ -1,28 +1,10 @@
 <template>
   <div>
-    <el-select
-      v-if="stylized"
-      v-model="folderId"
-      @change="folderChanged"
-      clearable
-      :filterable="true"
-      placeholder="folder…"
-      no-match-text="no matches found"
-      no-data-text="no data"
-    >
-      <el-option
-        v-for="item in foldersWithText"
-        :key="item.id + item.text"
-        name="change-folder"
-        :label="item.text"
-        :value="item.id"
-      />
-    </el-select>
     <select
-      v-else
       v-model="folderId"
       @change="folderChanged($event.target.value)"
     >
+      <option value="">folder…</option>
       <option
         v-for="item in foldersWithText"
         :key="'plain-' + item.id + item.text"

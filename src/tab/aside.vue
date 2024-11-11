@@ -2,27 +2,23 @@
   <aside class="Aside" :class="{'is-closed': asideClosed}">
     <section class="Aside-content">
       <div class="Aside-row">
-        <el-form class="Form Form--inline">
-          <el-form-item :class="{'is-visuallyHidden': asideClosed}">
+        <form @submit.prevent class="Form Form--inline">
+          <div :class="['form-item', 'is-visuallyHidden' && asideClosed]">
             <h2>Default Folder</h2>
-            <el-select
+            <select
               v-model="currentFolder.id"
               @change="folderChanged"
-              :filterable="true"
-              placeholder="folder…"
-              no-match-text="no matches found"
-              no-data-text="no data"
             >
-              <el-option
+              <option
                 v-for="item in foldersWithText"
                 :key="item.id + item.text"
                 name="change-folder"
                 :label="item.text"
                 :value="item.id"
               />
-            </el-select>
-          </el-form-item>
-        </el-form>
+            </select>
+          </div>
+        </form>
       </div>
       <div class="Aside-row" :class="{'is-transparent': foldersMatch}">
         <ntb-button
@@ -128,8 +124,9 @@ export default {
       this.defaultFolder = Object.assign({}, this.currentFolder);
     },
 
-    folderChanged(id) {
-      this.$store.dispatch('bookmarks/setCurrentFolderFromId', id)
+    folderChanged(event) {
+      // console.log(event.target.value);
+      this.$store.dispatch('bookmarks/setCurrentFolderFromId', event.target.value)
       .then(() => {
         this.$store.dispatch('bookmarks/getResults');
       });

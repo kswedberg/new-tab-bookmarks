@@ -1,34 +1,34 @@
 <template>
   <div class="Popup">
-    <el-form @submit.native.prevent="addBookmark">
-      <el-form-item class="Popup-folder" label="Folder">
-        <el-select
+    <form @submit.prevent="addBookmark">
+      <div class="Popup-folder">
+        <label for="edit-folder-id">Folder</label>
+        <select
           v-model="folderId"
           @change="folderChanged"
           class="Select"
-          clearable
-          :filterable="true"
-          placeholder="folder…"
-          no-match-text="no matches found"
-          no-data-text="no data"
+          id="edit-folder-id"
         >
-          <el-option
+          <option value="">Folder…</option>
+          <option
             v-for="item in foldersWithText"
             :key="item.id + item.text"
             name="change-folder"
             :label="item.text"
             :value="item.id"
           />
-        </el-select>
-      </el-form-item>
+        </select>
+      </div>
 
 
-      <el-form-item label="Title">
-        <el-input v-model="title" />
-      </el-form-item>
-      <el-form-item label="URL">
-        <el-input v-model="url" />
-      </el-form-item>
+      <div class="form-item">
+        <label for="popup-title">Title</label>
+        <input v-model="title" type="text" id="popup-title">
+      </div>
+      <div class="form-item">
+        <label for="popup-url">URL</label>
+        <input v-model="url" id="popup-url">
+      </div>
       <div>
         <ntb-button @click="close">Cancel</ntb-button>
         <ntb-button type="submit" color="primary">{{ buttonText }}</ntb-button>
@@ -40,7 +40,7 @@
           round
         />
       </div>
-    </el-form>
+    </form>
   </div>
 </template>
 <script>
@@ -76,7 +76,9 @@ export default {
     await this.$store.dispatch('settings/initialize');
     await this.$store.dispatch('bookmarks/initialize');
 
+    console.log(lastFolderId, this.folderId);
     this.folderId = localStorage.getItem(lastFolderId) || this.folderId;
+    console.log(this.folderId);
 
     if (this.bookmark.parentId) {
       return;
@@ -104,9 +106,9 @@ export default {
     close() {
       window.close();
     },
-    folderChanged(value) {
-      this.folderId = value;
-      localStorage.setItem(lastFolderId, value);
+    async folderChanged() {
+      await this.$nextTick();
+      localStorage.setItem(lastFolderId, this.folderId);
     },
     async addBookmark() {
       const {title, url, folderId: parentId} = this;
@@ -127,7 +129,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style scoped>
 .Popup {
   min-width: 500px;
   /* text-align: center; */
@@ -136,11 +138,10 @@ export default {
     text-align: left;
   }
 }
-.Popup-folder label {
-  display: block;
-  text-align: left;
-  float: none;
+.Popup-folder {
+  margin-block-end: 1rem;
 }
+
 .Select {
   width: 100%;
 }
