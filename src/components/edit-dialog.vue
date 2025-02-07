@@ -170,7 +170,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .Form
 .Select {
   width: 100%;

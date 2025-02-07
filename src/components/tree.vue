@@ -98,7 +98,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 ul {
   list-style-type: none;
   padding-left: 20px;

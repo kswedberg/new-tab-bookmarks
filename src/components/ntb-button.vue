@@ -54,7 +54,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style>
 .ntb-button {
   appearance: none;
   display: inline-flex;

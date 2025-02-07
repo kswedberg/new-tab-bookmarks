@@ -95,7 +95,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .FilterScope {
   .SwitchLabel {
     padding-right: 8px;

@@ -122,7 +122,7 @@ export default {
 
       const {checked, activeColor, inactiveColor} = this;
 
-      console.log(this.color, {checked, activeColor, inactiveColor});
+      console.log('hello', this.color, {checked, activeColor, inactiveColor});
     },
     switchValue() {
       if (!this.switchDisabled) {
@@ -133,7 +133,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 /* Based on https://css-tricks.com/custom-styling-form-inputs-with-modern-css-features/ */
 
 .ntb-switch {
@@ -165,7 +165,7 @@ export default {
     --bg: var(--active);
     --bdc: var(--active);
     --ab: var(--active-inner);
-    // --x: 17px;
+    /* --x: 17px; */
     /* --duration-opacity: 0.3s;
     --duration-transform: 0.6s;
     --transform-easing: cubic-bezier(0.2, 0.85, 0.32, 1.2); */

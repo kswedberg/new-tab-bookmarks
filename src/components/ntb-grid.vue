@@ -247,7 +247,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .Grid {
   display: flex;
   flex-wrap: wrap;
@@ -343,7 +343,7 @@ export default {
   &:hover {
     background-color: var(--main-bg-gradient);
     z-index: 2;
-    // min-height: 100px;
+    /* min-height: 100px; */
     .Grid-cellItem {
       min-height: 100%;
       height: auto;

@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .dupes-container {
   margin-left: -12px;
 }

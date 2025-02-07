@@ -22,9 +22,6 @@
     "orion": "node ./scripts/chrome2orion.mjs"
   },
   "dependencies": {
-    "element-theme-chalk": "^2.15.6",
-    "element-theme-default": "^1.4.13",
-    "element-ui": "^2.15.6",
     "fmjs": "^5.10.1",
     "vue": "^2.6.14",
     "vuedraggable": "^2.24.3",

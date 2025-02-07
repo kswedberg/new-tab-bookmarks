@@ -8,7 +8,7 @@
       >
         {{ labelPart }}
         <!-- <span class="dim">({{ id }})</span> -->
-        <i v-if="i < allLabels.length - 1" class="icon-arrow-right" />
+        <ntb-icon v-if="i < allLabels.length - 1" icon="chevron-right" />
       </span>
     </button>
     <ntb-button-group class="ButtonGroup">
@@ -31,9 +31,8 @@
         color="danger"
         size="mini"
         text="delete"
-      >
-        x
-      </ntb-button>
+        icon="delete"
+      />
     </ntb-button-group>
   </div>
 </template>
@@ -41,11 +40,13 @@
 <script>
 import NtbButton from '../components/ntb-button.vue';
 import NtbButtonGroup from '../components/ntb-button-group.vue';
+import NtbIcon from '../components/ntb-icon.vue';
 
 export default {
   components: {
     NtbButton,
     NtbButtonGroup,
+    NtbIcon,
   },
   props: {
     id: {
@@ -85,9 +86,9 @@ export default {
       return [...this.parents, this.label];
     },
     labelParent() {
-      return this.parentTitle
-        ? `${this.parentTitle} <i class="icon-arrow-right"></i>`
-        : '';
+      return this.parentTitle ?
+        `${this.parentTitle} <i class="icon-arrow-right"></i>` :
+        '';
     },
   },
 
@@ -135,7 +136,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .Folder {
   position: relative;
   .ButtonGroup {
@@ -169,17 +170,16 @@ export default {
   padding: 0;
   height: 26px;
   line-height: 24px;
-  display: inline-block;
-  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
   border: 1px solid transparent;
   background-color: transparent;
 }
 
 .Folder-labelParent {
+  display: inline-flex;
+  align-items: center;
   color: var(--muted-color);
-  &::after {
-    content: ' > ';
-  }
 }
 
 </style>
